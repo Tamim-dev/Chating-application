@@ -1,8 +1,19 @@
+import {
+  createBrowserRouter,
+  RouterProvider,
+  Route,
+  createRoutesFromElements,
+  Link,
+} from "react-router-dom";
+import Resgistration from "./pages/Resgistration";
+
+
+const router = createBrowserRouter(
+  createRoutesFromElements(<Route path="/" element={<Resgistration />}></Route>)
+);
 function App() {
     return (
-        <>
-            <h1>Tamim</h1>
-        </>
+      <RouterProvider router={router} />
     );
 }
 

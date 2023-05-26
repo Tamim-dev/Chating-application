@@ -1,0 +1,66 @@
+*{
+  margin: 0;
+  padding: 0;
+}
+
+.regisContainer{
+  width: 84%;
+  margin-left: auto;
+  margin-top: 35px;
+}
+
+.registrationImg{
+  width: 100%;
+  height: 100vh;
+  object-fit: cover;
+}
+
+.hadingText{
+  font-family: 'Nunito', sans-serif;
+  font-size: 34.4px;
+  font-weight: 700;
+  color: #11175D;
+}
+
+.hadingtitle{
+  color: #000000;
+  font-family: 'Nunito', sans-serif;
+  font-size: 20.64px;
+  margin-top: 13px;
+  margin-bottom: 40px;
+}
+
+.textfield{
+  margin-top: 34px;
+}
+
+.textfield .MuiTextField-root{
+  width: 368px;
+}
+
+.singupbtn{
+  width: 368px;
+  height: 67px;
+  background: #5F35F5;
+  border-radius: 50px;
+  border: 0;
+  color: white;
+  font-family: 'Nunito', sans-serif;
+  font-weight: 600;
+  font-size: 20px;
+  margin-top: 70px;
+}
+
+.alreadyAccount{
+  font-family: 'Nunito', sans-serif;
+  color: #03014C;
+  margin-top: 35px;
+  margin-left: 60px;
+}
+
+.alreadyAccountA{
+  color: #EA6C00;
+  font-family: 'Nunito', sans-serif;
+  font-weight: 600;
+  text-decoration: none;
+}
