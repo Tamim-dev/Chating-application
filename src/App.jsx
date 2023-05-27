@@ -6,10 +6,16 @@ import {
   Link,
 } from "react-router-dom";
 import Resgistration from "./pages/Resgistration";
+import Login from "./pages/Login";
 
 
 const router = createBrowserRouter(
-  createRoutesFromElements(<Route path="/" element={<Resgistration />}></Route>)
+  createRoutesFromElements(
+    <Route>
+    <Route path="/" element={<Resgistration />}></Route>
+    <Route path="/login" element={<Login />}></Route>
+    </Route>
+  )
 );
 function App() {
     return (

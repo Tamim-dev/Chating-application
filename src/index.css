@@ -48,7 +48,7 @@
   font-family: 'Nunito', sans-serif;
   font-weight: 600;
   font-size: 20px;
-  margin-top: 70px;
+  margin-top: 55px;
 }
 
 .alreadyAccount{
@@ -63,4 +63,8 @@
   font-family: 'Nunito', sans-serif;
   font-weight: 600;
   text-decoration: none;
+}
+
+.googleimg{
+  margin-top: 30px;
 }
