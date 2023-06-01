@@ -4,7 +4,11 @@ import Image from "../components/layout/Image";
 import registrationimg from "../assets/registrationimg.png";
 import HadingText from "../components/layout/HadingText";
 import { useNavigate, Link } from "react-router-dom";
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import {
+    getAuth,
+    createUserWithEmailAndPassword,
+    sendEmailVerification,
+} from "firebase/auth";
 import LoadingButton from "@mui/lab/LoadingButton";
 
 let initialValue = {
@@ -16,9 +20,10 @@ let initialValue = {
 };
 
 const Resgistration = () => {
-    const auth = getAuth();
     let [values, setValues] = useState(initialValue);
+    const auth = getAuth();
     let navigate = useNavigate();
+
 
     let handleValues = (e) => {
         setValues({
@@ -27,8 +32,12 @@ const Resgistration = () => {
         });
     };
 
-    let handleClcik = () => {
+    let handleClick = () => {
         let { email, fullname, password } = values;
+
+        if(!email){
+            
+        }
 
         setValues({
             ...values,
@@ -36,13 +45,16 @@ const Resgistration = () => {
         });
 
         createUserWithEmailAndPassword(auth, email, password).then((user) => {
+            sendEmailVerification(auth.currentUser).then(() => {
+                console.log("email gece");
+            });
             setValues({
                 email: "",
                 fullname: "",
                 password: "",
                 Loading: false,
             });
-            navigate("/Login");
+            // navigate("/Login");
         });
     };
 
@@ -96,14 +108,16 @@ const Resgistration = () => {
                             Sign up
                         </LoadingButton>
                     ) : (
-                        <button onClick={handleClcik} className="singupbtn">
+                        <button onClick={handleClick} className="singupbtn">
                             Sign up
                         </button>
                     )}
 
                     <h4 className="alreadyAccount">
                         Already have an account ?{" "}
-                        <Link to={"/Login"} className="alreadyAccountA">Sign In</Link>
+                        <Link to={"/Login"} className="alreadyAccountA">
+                            Sign In
+                        </Link>
                     </h4>
                 </div>
             </Grid>
