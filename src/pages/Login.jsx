@@ -4,6 +4,7 @@ import Image from "../components/layout/Image";
 import loginimg from "../assets/loginimg.jpg";
 import googleimg from "../assets/Google.png";
 import HadingText from "../components/layout/HadingText";
+import { Link } from "react-router-dom";
 
 const Login = () => {
     return (
@@ -31,9 +32,9 @@ const Login = () => {
                     <button className="singupbtn">Login to Continue</button>
                     <h4 className="alreadyAccount">
                         Don't have an account ?{" "}
-                        <a className="alreadyAccountA" href="#">
+                        <Link to={"/"} className="alreadyAccountA">
                             Sign up
-                        </a>
+                        </Link>
                     </h4>
                 </div>
             </Grid>
