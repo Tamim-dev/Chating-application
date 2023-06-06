@@ -12,6 +12,7 @@ import {
     GoogleAuthProvider,
 } from "firebase/auth";
 import LoadingButton from "@mui/lab/LoadingButton";
+import { VscEyeClosed, VscEye } from "react-icons/vsc";
 
 let initialValue = {
     email: "",
@@ -78,16 +79,26 @@ const Login = () => {
                             variant="standard"
                         />
                     </div>
-                    <div className="textfield">
+                    <div className="textfield passtextfield">
                         <TextField
                             onChange={handleValues}
                             name="password"
+                            type={values.eye ? "text" : "password"}
                             value={values.password}
                             id="standard-basic"
                             label="Password"
                             variant="standard"
                         />
+                        <div
+                            onClick={() =>
+                                setValues({ ...values, eye: !values.eye })
+                            }
+                            className="eye"
+                        >
+                            {values.eye ? <VscEye /> : <VscEyeClosed />}
+                        </div>
                     </div>
+
                     {values.Loading ? (
                         <LoadingButton
                             className="loadingbtn"

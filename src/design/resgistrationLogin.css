@@ -1,0 +1,85 @@
+.regisContainer {
+    width: 84%;
+    margin-left: auto;
+    margin-top: 35px;
+}
+
+.registrationImg {
+    width: 80%;
+    height: 100vh;
+    object-fit: cover;
+}
+
+.hadingText {
+    font-family: "Nunito", sans-serif;
+    font-size: 34.4px;
+    font-weight: 700;
+    color: #11175d;
+}
+
+.hadingtitle {
+    color: #000000;
+    font-family: "Nunito", sans-serif;
+    font-size: 20.64px;
+    margin-top: 13px;
+    margin-bottom: 40px;
+}
+
+.textfield {
+    margin-top: 34px;
+}
+
+.textfield .MuiTextField-root {
+    width: 368px;
+}
+
+.singupbtn {
+    width: 368px;
+    height: 67px;
+    background: #5f35f5;
+    border-radius: 50px;
+    border: 0;
+    color: white;
+    font-family: "Nunito", sans-serif;
+    font-weight: 600;
+    font-size: 20px;
+    margin-top: 55px;
+}
+
+.alreadyAccount {
+    font-family: "Nunito", sans-serif;
+    color: #03014c;
+    margin-top: 35px;
+    margin-left: 60px;
+}
+
+.alreadyAccountA {
+    color: #ea6c00;
+    font-family: "Nunito", sans-serif;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.eye {
+    position: absolute;
+    top: 18px;
+    right: 204px;
+}
+.passtextfield {
+    position: relative;
+}
+
+.googleimg {
+    margin-top: 30px;
+}
+
+.loadingbtn {
+    width: 368px;
+    height: 67px;
+    border-radius: 50px !important;
+    border: 1px solid #000000 !important;
+    font-family: "Nunito", sans-serif;
+    font-weight: 600;
+    font-size: 20px;
+    margin-top: 55px !important;
+}

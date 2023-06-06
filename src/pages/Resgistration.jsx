@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import resgistrationLogin from "../design/resgistrationLogin.css";
 import { Grid, TextField, Alert } from "@mui/material";
 import Image from "../components/layout/Image";
 import registrationimg from "../assets/registrationimg.png";
@@ -39,7 +40,7 @@ const Resgistration = () => {
         if (!email) {
             setValues({
                 ...values,
-                error: "Enter your email",
+                error: "Enter your Email",
             });
             return;
         }
@@ -47,7 +48,7 @@ const Resgistration = () => {
         if (!fullname) {
             setValues({
                 ...values,
-                error: "Enter your fullname",
+                error: "Enter your Fullname",
             });
             return;
         }
@@ -55,7 +56,7 @@ const Resgistration = () => {
         if (!password) {
             setValues({
                 ...values,
-                error: "Enter your password",
+                error: "Enter your Password",
             });
             return;
         }
@@ -75,7 +76,7 @@ const Resgistration = () => {
                 password: "",
                 Loading: false,
             });
-            // navigate("/Login");
+            navigate("/Login");
         });
     };
 
@@ -98,7 +99,7 @@ const Resgistration = () => {
                             label="Email Address"
                             variant="outlined"
                         />
-                        {values.error.includes("email") && (
+                        {values.error.includes("Email") && (
                             <Alert severity="error">{values.error}</Alert>
                         )}
                     </div>
@@ -111,7 +112,7 @@ const Resgistration = () => {
                             label="Full name"
                             variant="outlined"
                         />
-                        {values.error.includes("name") && (
+                        {values.error.includes("Fullname") && (
                             <Alert severity="error">{values.error}</Alert>
                         )}
                     </div>
@@ -119,7 +120,7 @@ const Resgistration = () => {
                         <TextField
                             onChange={handleValues}
                             name="password"
-                            type={values.eye ? "text" :"password"}
+                            type={values.eye ? "text" : "password"}
                             value={values.password}
                             id="outlined-basic"
                             label="Password"
@@ -133,7 +134,7 @@ const Resgistration = () => {
                         >
                             {values.eye ? <VscEye /> : <VscEyeClosed />}
                         </div>
-                        {values.error.includes("password") && (
+                        {values.error.includes("Password") && (
                             <Alert severity="error">{values.error}</Alert>
                         )}
                     </div>
