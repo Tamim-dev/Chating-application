@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Grid, TextField } from "@mui/material";
+import { Alert, Grid, TextField } from "@mui/material";
 import Image from "../components/layout/Image";
 import loginimg from "../assets/loginimg.jpg";
 import googleimg from "../assets/Google.png";
@@ -35,6 +35,21 @@ const Login = () => {
 
     let handleClick = () => {
         let { email, password } = values;
+
+        if(!email){
+            setValues({
+                ...values,
+                error: "Enter your email",
+            });
+            return;
+        }
+        if(!password){
+            setValues({
+                ...values,
+                error: "Enter your password",
+            });
+            return;
+        }
 
         setValues({
             ...values,
@@ -78,6 +93,7 @@ const Login = () => {
                             label="Email Addres"
                             variant="standard"
                         />
+                        {values.error.includes("email") && <Alert severity="error">Enter your email</Alert>}
                     </div>
                     <div className="textfield passtextfield">
                         <TextField
@@ -89,6 +105,7 @@ const Login = () => {
                             label="Password"
                             variant="standard"
                         />
+                        {values.error.includes("password") && <Alert severity="error">Enter your password</Alert>}
                         <div
                             onClick={() =>
                                 setValues({ ...values, eye: !values.eye })

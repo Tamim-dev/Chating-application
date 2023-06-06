@@ -91,41 +91,69 @@ const Resgistration = () => {
                         </p>
                     </div>
                     <div className="textfield">
-                        <TextField
-                            onChange={handleValues}
-                            name="email"
-                            value={values.email}
-                            id="outlined-basic"
-                            label="Email Address"
-                            variant="outlined"
-                        />
-                        {values.error.includes("Email") && (
-                            <Alert severity="error">{values.error}</Alert>
+                        {values.error.includes("Email") ? (
+                            <TextField
+                                onChange={handleValues}
+                                name="email"
+                                error
+                                id="outlined-error"
+                                label="Email Address"
+                                helperText="Enter your email"
+                            />
+                        ) : (
+                            <TextField
+                                onChange={handleValues}
+                                name="email"
+                                value={values.email}
+                                id="outlined-basic"
+                                label="Email Address"
+                                variant="outlined"
+                            />
                         )}
                     </div>
                     <div className="textfield">
-                        <TextField
-                            onChange={handleValues}
-                            name="fullname"
-                            value={values.fullname}
-                            id="outlined-basic"
-                            label="Full name"
-                            variant="outlined"
-                        />
-                        {values.error.includes("Fullname") && (
-                            <Alert severity="error">{values.error}</Alert>
+                        {values.error.includes("Fullname") ? (
+                            <TextField
+                                onChange={handleValues}
+                                name="fullname"
+                                error
+                                id="outlined-error"
+                                label="Full name"
+                                helperText="Enter your Fullname"
+                            />
+                        ) : (
+                            <TextField
+                                onChange={handleValues}
+                                name="fullname"
+                                value={values.fullname}
+                                id="outlined-basic"
+                                label="Full name"
+                                variant="outlined"
+                            />
                         )}
                     </div>
                     <div className="textfield passtextfield">
-                        <TextField
-                            onChange={handleValues}
-                            name="password"
-                            type={values.eye ? "text" : "password"}
-                            value={values.password}
-                            id="outlined-basic"
-                            label="Password"
-                            variant="outlined"
-                        />
+                       
+                        {values.error.includes("Fullname") ? (
+                            <TextField
+                                onChange={handleValues}
+                                name="password"
+                                error
+                                id="outlined-error"
+                                label="Password"
+                                helperText="Enter your Fullname"
+                            />
+                        ) : (
+                            <TextField
+                                onChange={handleValues}
+                                name="password"
+                                value={values.password}
+                                type={values.eye ? "text" : "password"}
+                                id="outlined-basic"
+                                label="Password"
+                                variant="outlined"
+                            />
+                        )}
                         <div
                             onClick={() =>
                                 setValues({ ...values, eye: !values.eye })
@@ -134,9 +162,6 @@ const Resgistration = () => {
                         >
                             {values.eye ? <VscEye /> : <VscEyeClosed />}
                         </div>
-                        {values.error.includes("Password") && (
-                            <Alert severity="error">{values.error}</Alert>
-                        )}
                     </div>
                     {values.Loading ? (
                         <LoadingButton
