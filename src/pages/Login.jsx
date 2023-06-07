@@ -4,7 +4,7 @@ import Image from "../components/layout/Image";
 import loginimg from "../assets/loginimg.jpg";
 import googleimg from "../assets/Google.png";
 import HadingText from "../components/layout/HadingText";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
     getAuth,
     signInWithEmailAndPassword,
@@ -25,6 +25,7 @@ const Login = () => {
     const auth = getAuth();
     const provider = new GoogleAuthProvider();
     let [values, setValues] = useState(initialValue);
+    let navigate = useNavigate();
 
     let handleValues = (e) => {
         setValues({
@@ -62,7 +63,7 @@ const Login = () => {
                 password: "",
                 Loading: false,
             });
-            console.log(user);
+            navigate("/Home")
         });
     };
 
