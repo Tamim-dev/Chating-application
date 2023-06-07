@@ -37,14 +37,14 @@ const Login = () => {
     let handleClick = () => {
         let { email, password } = values;
 
-        if(!email){
+        if (!email) {
             setValues({
                 ...values,
                 error: "Enter your email",
             });
             return;
         }
-        if(!password){
+        if (!password) {
             setValues({
                 ...values,
                 error: "Enter your password",
@@ -57,14 +57,34 @@ const Login = () => {
             Loading: true,
         });
 
-        signInWithEmailAndPassword(auth, email, password).then((user) => {
-            setValues({
-                email: "",
-                password: "",
-                Loading: false,
+        signInWithEmailAndPassword(auth, email, password)
+            .then((user) => {
+                setValues({
+                    email: "",
+                    password: "",
+                    Loading: false,
+                });
+                navigate("/Home");
+            })
+            .catch((error) => {
+                if (error.code) {
+                    setValues({
+                        ...values,
+                        password: "",
+                        Loading: false,
+                    });
+                    console.log("one");
+                }
+                if (error) {
+                    setValues({
+                        ...values,
+                        email:"",
+                        password: "",
+                        Loading: false,
+                    });
+                    console.log("two");
+                }
             });
-            navigate("/Home")
-        });
     };
 
     let handleGoogleLogin = () => {
@@ -94,7 +114,9 @@ const Login = () => {
                             label="Email Addres"
                             variant="standard"
                         />
-                        {values.error.includes("email") && <Alert severity="error">Enter your email</Alert>}
+                        {values.error.includes("email") && (
+                            <Alert severity="error">Enter your email</Alert>
+                        )}
                     </div>
                     <div className="textfield passtextfield">
                         <TextField
@@ -106,7 +128,9 @@ const Login = () => {
                             label="Password"
                             variant="standard"
                         />
-                        {values.error.includes("password") && <Alert severity="error">Enter your password</Alert>}
+                        {values.error.includes("password") && (
+                            <Alert severity="error">Enter your password</Alert>
+                        )}
                         <div
                             onClick={() =>
                                 setValues({ ...values, eye: !values.eye })
@@ -136,6 +160,20 @@ const Login = () => {
                             Sign up
                         </Link>
                     </h4>
+                    <Alert
+                        style={{ marginTop: "20px", width: "60%" }}
+                        severity="warning"
+                    >
+                        Forgot password{" "}
+                        <strong>
+                            <Link
+                                to={"/forgotpassword"}
+                                style={{ textDecoration: "none" }}
+                            >
+                                Click here
+                            </Link>
+                        </strong>
+                    </Alert>
                 </div>
             </Grid>
             <Grid item xs={6}>

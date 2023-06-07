@@ -86,3 +86,35 @@
 .alerterror{
     width: 60%;
 }
+
+.forgotpassword{
+    background: #5f35f5;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.forgotpassword .box{
+    background: #fff;
+    padding: 45px;
+    border-radius: 10px;
+    position: relative;
+}
+
+.forgotpassword .box .MuiFormControl-root {
+    width: 100%;
+    margin: 45px 0 55px 0;
+}
+
+.forgotpassword .box .forgottitle{
+    font-family: "Nunito", sans-serif;
+    font-size: 34.4px;
+    font-weight: 700;
+    color: #11175d;
+}
+
+.forgotpassword .box .alertforgotpassword{
+    position: absolute;
+    top: 196px;
+}

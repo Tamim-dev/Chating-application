@@ -67,9 +67,9 @@ const Resgistration = () => {
         });
 
         createUserWithEmailAndPassword(auth, email, password).then((user) => {
-            sendEmailVerification(auth.currentUser).then(() => {
-                console.log("email gece");
-            });
+            // sendEmailVerification(auth.currentUser).then(() => {
+            //     console.log("email gece");
+            // });
             setValues({
                 email: "",
                 fullname: "",
