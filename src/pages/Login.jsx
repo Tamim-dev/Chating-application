@@ -13,6 +13,7 @@ import {
 } from "firebase/auth";
 import LoadingButton from "@mui/lab/LoadingButton";
 import { VscEyeClosed, VscEye } from "react-icons/vsc";
+import { toast } from "react-toastify";
 
 let initialValue = {
     email: "",
@@ -23,15 +24,19 @@ let initialValue = {
 
 const Login = () => {
     const auth = getAuth();
+    const notify = (mas) => toast(mas);
     const provider = new GoogleAuthProvider();
     let [values, setValues] = useState(initialValue);
+    let [errorCheck, setErrorCheck] = useState(false);
     let navigate = useNavigate();
 
     let handleValues = (e) => {
         setValues({
             ...values,
             [e.target.name]: e.target.value,
+            error: "",
         });
+        setErrorCheck(false);
     };
 
     let handleClick = () => {
@@ -59,31 +64,25 @@ const Login = () => {
 
         signInWithEmailAndPassword(auth, email, password)
             .then((user) => {
+                if (user.user.emailVerified) {
+                    notify("Login successfull");
+                    navigate("/chating/home");
+                } else {
+                    notify("Please verify for email");
+                    setValues({
+                        email: "",
+                        password: "",
+                        Loading: false,
+                    });
+                }
+            })
+            .catch((error) => {
                 setValues({
-                    email: "",
+                    ...values,
                     password: "",
                     Loading: false,
                 });
-                navigate("/Home");
-            })
-            .catch((error) => {
-                if (error.code) {
-                    setValues({
-                        ...values,
-                        password: "",
-                        Loading: false,
-                    });
-                    console.log("one");
-                }
-                if (error) {
-                    setValues({
-                        ...values,
-                        email:"",
-                        password: "",
-                        Loading: false,
-                    });
-                    console.log("two");
-                }
+                setErrorCheck(error.code);
             });
     };
 
@@ -94,7 +93,7 @@ const Login = () => {
     };
 
     return (
-        <Grid container spacing={2}>
+        <Grid container spacing={0}>
             <Grid item xs={6}>
                 <div className="regisContainer">
                     <div>
@@ -114,10 +113,21 @@ const Login = () => {
                             label="Email Addres"
                             variant="standard"
                         />
-                        {values.error.includes("email") && (
-                            <Alert severity="error">Enter your email</Alert>
+                        {values.error?.includes("email") && (
+                            <Alert className="alerterror" severity="error">
+                                Enter your email
+                            </Alert>
                         )}
                     </div>
+                    {errorCheck ? (
+                        <Alert className="alerterror" severity="error">
+                            {errorCheck?.includes("auth/user-not-found") &&
+                                "user-not-found"}
+                        </Alert>
+                    ) : (
+                        ""
+                    )}
+
                     <div className="textfield passtextfield">
                         <TextField
                             onChange={handleValues}
@@ -128,8 +138,18 @@ const Login = () => {
                             label="Password"
                             variant="standard"
                         />
-                        {values.error.includes("password") && (
-                            <Alert severity="error">Enter your password</Alert>
+                        {values.error?.includes("password") && (
+                            <Alert className="alerterror" severity="error">
+                                Enter your password
+                            </Alert>
+                        )}
+                        {errorCheck ? (
+                            <Alert className="alerterror" severity="error">
+                                {errorCheck?.includes("auth/wrong-password") &&
+                                    "wrong password"}
+                            </Alert>
+                        ) : (
+                            ""
                         )}
                         <div
                             onClick={() =>

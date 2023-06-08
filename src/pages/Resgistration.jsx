@@ -53,10 +53,12 @@ const Resgistration = () => {
             return;
         }
 
-        if (!password) {
+        let pattern = /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,16}$/;
+
+        if (!password || !pattern.test(password)) {
             setValues({
                 ...values,
-                error: "Enter your Password",
+                error: "Enter an password includes capital lower symbol number",
             });
             return;
         }
@@ -67,21 +69,19 @@ const Resgistration = () => {
         });
 
         createUserWithEmailAndPassword(auth, email, password).then((user) => {
-            // sendEmailVerification(auth.currentUser).then(() => {
-            //     console.log("email gece");
-            // });
+            sendEmailVerification(auth.currentUser).then(() => {});
             setValues({
                 email: "",
                 fullname: "",
                 password: "",
                 Loading: false,
             });
-            navigate("/Login");
+            navigate("/login");
         });
     };
 
     return (
-        <Grid container spacing={2}>
+        <Grid container spacing={0}>
             <Grid item xs={6}>
                 <div className="regisContainer">
                     <div>
@@ -115,7 +115,9 @@ const Resgistration = () => {
                             variant="outlined"
                         />
                         {values.error.includes("Fullname") && (
-                            <Alert className="alerterror" severity="error">{values.error}</Alert>
+                            <Alert className="alerterror" severity="error">
+                                {values.error}
+                            </Alert>
                         )}
                     </div>
                     <div className="textfield passtextfield">
@@ -136,8 +138,10 @@ const Resgistration = () => {
                         >
                             {values.eye ? <VscEye /> : <VscEyeClosed />}
                         </div>
-                        {values.error.includes("Password") && (
-                            <Alert className="alerterror" severity="error">{values.error}</Alert>
+                        {values.error.includes("password") && (
+                            <Alert className="alerterror" severity="error">
+                                {values.error}
+                            </Alert>
                         )}
                     </div>
                     {values.Loading ? (
