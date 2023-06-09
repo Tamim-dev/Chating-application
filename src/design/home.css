@@ -1,0 +1,36 @@
+.box {
+    padding: 15px;
+    box-sizing: border-box;
+    margin-top: 10px;
+    overflow-y: scroll;
+    width: 100%;
+    height: 250px;
+    background: rgb(255, 255, 255);
+    border-radius: 20px;
+    -webkit-box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.43);
+    -moz-box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.43);
+    box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.43);
+    font-family: "Poppins", sans-serif;
+}
+
+.groupheading {
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.list {
+    display: flex;
+    justify-content: space-between;
+    margin: 15px 0;
+    border-bottom: 1px solid rgba(0, 0, 0,.25);
+    padding-bottom: 13px;
+}
+
+.list:last-child{
+    border-bottom: 0;
+}
+
+.imgprofile {
+    width: 70px;
+    height: 70px;
+}
