@@ -119,13 +119,11 @@ const Login = () => {
                             </Alert>
                         )}
                     </div>
-                    {errorCheck ? (
+                    {errorCheck &&
+                    errorCheck?.includes("auth/user-not-found") && (
                         <Alert className="alerterror" severity="error">
-                            {errorCheck?.includes("auth/user-not-found") &&
-                                "user-not-found"}
+                            user-not-found
                         </Alert>
-                    ) : (
-                        ""
                     )}
 
                     <div className="textfield passtextfield">
@@ -143,13 +141,11 @@ const Login = () => {
                                 Enter your password
                             </Alert>
                         )}
-                        {errorCheck ? (
+                        {errorCheck &&
+                        errorCheck?.includes("auth/wrong-password") && (
                             <Alert className="alerterror" severity="error">
-                                {errorCheck?.includes("auth/wrong-password") &&
-                                    "wrong password"}
+                                wrong password
                             </Alert>
-                        ) : (
-                            ""
                         )}
                         <div
                             onClick={() =>
