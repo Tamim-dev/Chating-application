@@ -100,7 +100,7 @@ const Login = () => {
                         <HadingText title="Login to your account!" />
                     </div>
                     <Image
-                        onClick={handleGoogleLogin}
+                        onClick={handleGoogleLogin }
                         className="googleimg"
                         imgsrc={googleimg}
                     />
