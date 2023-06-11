@@ -9,7 +9,9 @@ import {
     getAuth,
     createUserWithEmailAndPassword,
     sendEmailVerification,
+    updateProfile,
 } from "firebase/auth";
+import { getDatabase, push, ref, set } from "firebase/database";
 import LoadingButton from "@mui/lab/LoadingButton";
 import { VscEyeClosed, VscEye } from "react-icons/vsc";
 
@@ -25,12 +27,14 @@ let initialValue = {
 const Resgistration = () => {
     let [values, setValues] = useState(initialValue);
     const auth = getAuth();
+    const db = getDatabase();
     let navigate = useNavigate();
 
     let handleValues = (e) => {
         setValues({
             ...values,
             [e.target.name]: e.target.value,
+            error: "",
         });
     };
 
@@ -69,13 +73,18 @@ const Resgistration = () => {
         });
 
         createUserWithEmailAndPassword(auth, email, password).then((user) => {
-            sendEmailVerification(auth.currentUser).then(() => {});
-            setValues({
-                email: "",
-                fullname: "",
-                password: "",
-                Loading: false,
+            updateProfile(auth.currentUser, {
+                displayName: values.fullname,
+                photoURL: "https://i.ibb.co/QkwmM1v/Png-Item-1468479.png",
+            }).then(() => {
+                sendEmailVerification(auth.currentUser).then(() => {});
+                set(push(ref(db, 'users/')), {
+                    username: values.fullname,
+                    email: values.email,
+                    profile_picture : user.user.photoURL
+                  });
             });
+
             navigate("/login");
         });
     };

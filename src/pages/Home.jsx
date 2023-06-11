@@ -9,6 +9,7 @@ import Userlist from "../components/homeLayout/Userlist";
 import Blockedusers from "../components/homeLayout/Blockedusers";
 
 const Home = () => {
+    
     return (
         <Grid container spacing={2}>
             <Grid item xs={4}>
@@ -16,12 +17,12 @@ const Home = () => {
                 <Friendrequest />
             </Grid>
             <Grid item xs={4}>
-                <Friends/>
-                <Mygroups/>
+                <Friends />
+                <Mygroups />
             </Grid>
             <Grid item xs={4}>
-                <Userlist/>
-                <Blockedusers/>
+                <Userlist />
+                <Blockedusers />
             </Grid>
         </Grid>
     );
