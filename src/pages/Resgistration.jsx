@@ -14,6 +14,7 @@ import {
 import { getDatabase, push, ref, set } from "firebase/database";
 import LoadingButton from "@mui/lab/LoadingButton";
 import { VscEyeClosed, VscEye } from "react-icons/vsc";
+import { toast } from 'react-toastify';
 
 let initialValue = {
     email: "",
@@ -29,6 +30,26 @@ const Resgistration = () => {
     const auth = getAuth();
     const db = getDatabase();
     let navigate = useNavigate();
+    const notify = (mas) => toast.warn(mas,{
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+        });
+    const notifytoo = (mas) => toast.success(mas,{
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "dark",
+            });
 
     let handleValues = (e) => {
         setValues({
@@ -40,6 +61,7 @@ const Resgistration = () => {
 
     let handleClick = () => {
         let { email, fullname, password } = values;
+
 
         if (!email) {
             setValues({
@@ -73,20 +95,46 @@ const Resgistration = () => {
         });
 
         createUserWithEmailAndPassword(auth, email, password).then((user) => {
+            console.log(user);
             updateProfile(auth.currentUser, {
                 displayName: values.fullname,
                 photoURL: "https://i.ibb.co/QkwmM1v/Png-Item-1468479.png",
             }).then(() => {
-                sendEmailVerification(auth.currentUser).then(() => {});
-                set(push(ref(db, 'users/')), {
-                    username: values.fullname,
-                    email: values.email,
-                    profile_picture : user.user.photoURL
-                  });
+                sendEmailVerification(auth.currentUser).then(() => {
+                    set(ref(db, "users/" + user.user.uid), {
+                        username: values.fullname,
+                        email: values.email,
+                        profile_picture: user.user.photoURL,
+                    });
+                });
             });
-
+            notifytoo("Resgistration successfull")
             navigate("/login");
-        });
+        })
+        .catch((error) => {
+            const errorCode = error.code;
+            console.log(errorCode);
+            if(errorCode.includes("auth/invalid-email")){
+                notify("Invalid email")
+                setValues({
+                    ...values,
+                    loading:false,
+                    email:"",
+                    fullname:"",
+                    password:"",
+                })
+            }
+            if(errorCode.includes("auth/email-already-in-use")){
+                notify("email already in use")
+                setValues({
+                    ...values,
+                    loading:false,
+                    email:"",
+                    fullname:"",
+                    password:"",
+                })
+            }
+          })
     };
 
     return (

@@ -24,11 +24,31 @@ let initialValue = {
 
 const Login = () => {
     const auth = getAuth();
-    const notify = (mas) => toast(mas);
     const provider = new GoogleAuthProvider();
     let [values, setValues] = useState(initialValue);
-    let [errorCheck, setErrorCheck] = useState(false);
     let navigate = useNavigate();
+    const notify = (mas) =>
+        toast.success(mas, {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "dark",
+        });
+    const notifytoo = (mas) =>
+        toast.warn(mas, {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "dark",
+        });
 
     let handleValues = (e) => {
         setValues({
@@ -36,7 +56,6 @@ const Login = () => {
             [e.target.name]: e.target.value,
             error: "",
         });
-        setErrorCheck(false);
     };
 
     let handleClick = () => {
@@ -68,7 +87,7 @@ const Login = () => {
                     notify("Login successfull");
                     navigate("/chating/home");
                 } else {
-                    notify("Please verify for email");
+                    notifytoo("Please verify for email");
                     setValues({
                         email: "",
                         password: "",
@@ -77,12 +96,37 @@ const Login = () => {
                 }
             })
             .catch((error) => {
+                if (error.code.includes("auth/invalid-email")) {
+                    setValues({
+                        ...values,
+                        email: "",
+                        password: "",
+                        Loading: false,
+                    });
+                    notifytoo("Invalid email");
+                }
+                if (error.code.includes("too-many-requests")) {
+                    notifytoo("too many requests,please try again later");
+                }
                 setValues({
                     ...values,
                     password: "",
                     Loading: false,
                 });
-                setErrorCheck(error.code);
+                if (error.code.includes("auth/user-not-found")) {
+                    setValues({
+                        ...values,
+                        email: "",
+                        password: "",
+                        error: "user not found",
+                    });
+                }
+                if (error.code.includes("auth/wrong-password")) {
+                    setValues({
+                        ...values,
+                        error: "wrong",
+                    });
+                }
             });
     };
 
@@ -100,7 +144,7 @@ const Login = () => {
                         <HadingText title="Login to your account!" />
                     </div>
                     <Image
-                        onClick={handleGoogleLogin }
+                        onClick={handleGoogleLogin}
                         className="googleimg"
                         imgsrc={googleimg}
                     />
@@ -119,10 +163,9 @@ const Login = () => {
                             </Alert>
                         )}
                     </div>
-                    {errorCheck &&
-                    errorCheck?.includes("auth/user-not-found") && (
+                    {values.error && values.error?.includes("user") && (
                         <Alert className="alerterror" severity="error">
-                            user-not-found
+                            user not found
                         </Alert>
                     )}
 
@@ -141,8 +184,7 @@ const Login = () => {
                                 Enter your password
                             </Alert>
                         )}
-                        {errorCheck &&
-                        errorCheck?.includes("auth/wrong-password") && (
+                        {values.error && values.error?.includes("wrong") && (
                             <Alert className="alerterror" severity="error">
                                 wrong password
                             </Alert>
