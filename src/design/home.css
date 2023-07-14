@@ -34,7 +34,6 @@
 
 .list {
     display: flex;
-    justify-content: space-between;
     margin: 15px 0;
     border-bottom: 1px solid rgba(0, 0, 0, 0.25);
     padding-bottom: 10px;
@@ -58,6 +57,12 @@
     background: #5f35f5 !important;
     box-shadow: none !important;
 }
+.btncolorerror{
+  background: rgba(245, 29, 29, 0.821) !important;
+}
+.btncolorsuccess{
+  background: rgb(35, 163, 3) !important;
+}
 
 /* width */
 .box::-webkit-scrollbar {
@@ -80,3 +85,29 @@
   .box::-webkit-scrollbar-thumb:hover {
     background: #461be2; 
   }
+
+  .profileImg{
+    width: 20%;
+    display: flex;
+    align-items: center;
+  }
+  .profileName{
+    width: 60%;
+  }
+  .profileBtn{
+    width: 20%;
+    display: flex;
+    align-items: center;
+  }
+
+  .nofrientmassage{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 80%;
+  }
+  .btnflex {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}

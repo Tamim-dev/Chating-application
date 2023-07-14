@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import resgistrationLogin from "../design/resgistrationLogin.css";
 import { Grid, TextField, Alert } from "@mui/material";
 import Image from "../components/layout/Image";
@@ -15,6 +15,8 @@ import { getDatabase, push, ref, set } from "firebase/database";
 import LoadingButton from "@mui/lab/LoadingButton";
 import { VscEyeClosed, VscEye } from "react-icons/vsc";
 import { toast } from 'react-toastify';
+import { useSelector } from 'react-redux'
+import { userData } from "../components/slices/users/userSlice";
 
 let initialValue = {
     email: "",
@@ -30,6 +32,15 @@ const Resgistration = () => {
     const auth = getAuth();
     const db = getDatabase();
     let navigate = useNavigate();
+
+    let loginUser = useSelector((state)=>state.loggedUser.loginUser)
+
+    useEffect(()=>{
+        if(loginUser != null){
+            navigate("/chating/home")
+        }
+    },[])
+
     const notify = (mas) => toast.warn(mas,{
         position: "top-right",
         autoClose: 5000,
@@ -50,6 +61,10 @@ const Resgistration = () => {
             progress: undefined,
             theme: "dark",
             });
+
+
+    
+
 
     let handleValues = (e) => {
         setValues({

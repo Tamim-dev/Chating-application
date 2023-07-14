@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Alert, Grid, TextField } from "@mui/material";
 import Image from "../components/layout/Image";
 import loginimg from "../assets/loginimg.jpg";
@@ -14,6 +14,8 @@ import {
 import LoadingButton from "@mui/lab/LoadingButton";
 import { VscEyeClosed, VscEye } from "react-icons/vsc";
 import { toast } from "react-toastify";
+import { useDispatch,useSelector } from 'react-redux'
+import { userData } from "../components/slices/users/userSlice";
 
 let initialValue = {
     email: "",
@@ -22,11 +24,23 @@ let initialValue = {
     Loading: false,
 };
 
+
+
 const Login = () => {
     const auth = getAuth();
     const provider = new GoogleAuthProvider();
     let [values, setValues] = useState(initialValue);
     let navigate = useNavigate();
+    const dispatch = useDispatch()
+    let loginUser = useSelector((state)=>state.loggedUser.loginUser)
+
+useEffect(()=>{
+    if(loginUser != null){
+        navigate("/chating/home")
+    }
+},[])
+
+
     const notify = (mas) =>
         toast.success(mas, {
             position: "top-right",
@@ -84,6 +98,8 @@ const Login = () => {
         signInWithEmailAndPassword(auth, email, password)
             .then((user) => {
                 if (user.user.emailVerified) {
+                    dispatch(userData(user.user))
+                    localStorage.setItem("user",JSON.stringify(user.user))
                     notify("Login successfull");
                     navigate("/chating/home");
                 } else {

@@ -10,16 +10,24 @@ import { FiLogOut, FiSettings } from "react-icons/fi";
 import { getAuth, signOut } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 import Button from "@mui/material/Button";
+import { useDispatch,useSelector } from 'react-redux'
+import { userData } from "../components/slices/users/userSlice";
 
 const RotLayOut = () => {
     const auth = getAuth();
     let navigate = useNavigate();
     let location = useLocation();
+    const dispatch = useDispatch()
+    let loginUser = useSelector((state)=>state.loggedUser.loginUser)
+    
     let handelClick =()=>{
         signOut(auth).then(() => {
-          navigate("/login")
+            localStorage.removeItem("user")
+            dispatch(userData(null))
+            navigate("/login")
         })
       }
+
     return (
         <>
             <Grid container spacing={2}>
@@ -27,6 +35,7 @@ const RotLayOut = () => {
                     <div className="navber">
                         <div className="navcontainer">
                             <img src={profile} />
+                            <div className="displayname">{loginUser.displayName}</div>
                             <ul>
                                 <ol>
                                     <Link

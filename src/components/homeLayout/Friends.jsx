@@ -10,98 +10,14 @@ const Friends = () => {
                 <h3 className="groupheading">Friends</h3>
             </div>
             <div className="list">
-                <div>
+                <div className="profileImg">
                     <Image className="imgprofile" imgsrc={profile} />
                 </div>
-                <div>
+                <div className="profileName">
                     <h3>Friends Reunion</h3>
                     <p>Hi Guys, Wassup!</p>
                 </div>
-                <div>
-                    <p className="time">Today, 8:56pm</p>
-                </div>
-            </div>
-            <div className="list">
-                <div>
-                    <Image className="imgprofile" imgsrc={profile} />
-                </div>
-                <div>
-                    <h3>Friends Reunion</h3>
-                    <p>Hi Guys, Wassup!</p>
-                </div>
-                <div>
-                    <p className="time">Today, 8:56pm</p>
-                </div>
-            </div>
-            <div className="list">
-                <div>
-                    <Image className="imgprofile" imgsrc={profile} />
-                </div>
-                <div>
-                    <h3>Friends Reunion</h3>
-                    <p>Hi Guys, Wassup!</p>
-                </div>
-                <div>
-                    <p className="time">Today, 8:56pm</p>
-                </div>
-            </div>
-            <div className="list">
-                <div>
-                    <Image className="imgprofile" imgsrc={profile} />
-                </div>
-                <div>
-                    <h3>Friends Reunion</h3>
-                    <p>Hi Guys, Wassup!</p>
-                </div>
-                <div>
-                    <p className="time">Today, 8:56pm</p>
-                </div>
-            </div>
-            <div className="list">
-                <div>
-                    <Image className="imgprofile" imgsrc={profile} />
-                </div>
-                <div>
-                    <h3>Friends Reunion</h3>
-                    <p>Hi Guys, Wassup!</p>
-                </div>
-                <div>
-                    <p className="time">Today, 8:56pm</p>
-                </div>
-            </div>
-            <div className="list">
-                <div>
-                    <Image className="imgprofile" imgsrc={profile} />
-                </div>
-                <div>
-                    <h3>Friends Reunion</h3>
-                    <p>Hi Guys, Wassup!</p>
-                </div>
-                <div>
-                    <p className="time">Today, 8:56pm</p>
-                </div>
-            </div>
-            <div className="list">
-                <div>
-                    <Image className="imgprofile" imgsrc={profile} />
-                </div>
-                <div>
-                    <h3>Friends Reunion</h3>
-                    <p>Hi Guys, Wassup!</p>
-                </div>
-                <div>
-                    <p className="time">Today, 8:56pm</p>
-                </div>
-            </div>
-            <div className="list">
-                <div>
-                    <Image className="imgprofile" imgsrc={profile} />
-                </div>
-                <div>
-                    <h3>Friends Reunion</h3>
-                    <p>Hi Guys, Wassup!</p>
-                </div>
-                <div>
+                <div className="profileBtn">
                     <p className="time">Today, 8:56pm</p>
                 </div>
             </div>

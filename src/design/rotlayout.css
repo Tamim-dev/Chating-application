@@ -26,13 +26,14 @@
     display: inline-block;
     color:aliceblue;
     font-size: 30px;
-    margin: 36px 0;
+    margin: 30px 0;
+    cursor: pointer;
 }
 .active{
     display: inline-block;
     color: #5F35F5;
     font-size: 30px;
-    margin: 36px 0;
+    margin: 20px 0;
     position: relative;
     z-index: 2;
 }
@@ -57,4 +58,12 @@
     content: "";
     background:#5F35F5;
     border-radius: 10px 0 0 10px;
+}
+
+.displayname{
+    font-family: "Poppins", sans-serif;
+    font-size: 16px;
+    color: #fff;
+    font-weight: 500;
+    margin: 20px 0;
 }
