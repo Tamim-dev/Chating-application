@@ -147,8 +147,8 @@ useEffect(()=>{
     };
 
     let handleGoogleLogin = () => {
-        signInWithPopup(auth, provider).then((result) => {
-            console.log(result);
+        signInWithPopup(auth, provider).then(() => {
+            navigate("/")
         });
     };
 
