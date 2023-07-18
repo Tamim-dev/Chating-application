@@ -86,11 +86,11 @@
     background: #461be2; 
   }
 
-  .profileImg{
-    width: 20%;
+  .profileImg {
     display: flex;
     align-items: center;
-  }
+    margin-right: 8px;
+}
   .profileName{
     width: 60%;
   }
@@ -110,4 +110,11 @@
     display: flex;
     align-items: center;
     gap: 5px;
+}
+
+.friendsBtn {
+  width: 39%;
+  display: flex;
+  align-items: center;
+  gap: 3px;
 }
