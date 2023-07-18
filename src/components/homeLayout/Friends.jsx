@@ -32,6 +32,11 @@ const Friends = () => {
             setFriends(arr);
         });
     }, []);
+
+    let handelUnfriend= (item)=>{
+        remove(ref(db, "friends/" + item.id));
+    }
+
     return (
         <div className="box">
             <div className="heading">
@@ -52,6 +57,7 @@ const Friends = () => {
                     </div>
                     <div className="friendsBtn">
                         <Button
+                            onClick={()=>handelUnfriend(item)}
                             className="btncolor"
                             size="small"
                             variant="contained"

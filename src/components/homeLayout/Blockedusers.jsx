@@ -10,112 +10,14 @@ const Blockedusers = () => {
                 <h3 className="groupheading">Blocked Users</h3>
             </div>
             <div className="list">
-                <div>
+                <div className="profileImg">
                     <Image className="imgprofile" imgsrc={profile} />
                 </div>
-                <div>
+                <div className="profileName">
                     <h3>Friends Reunion</h3>
                     <p>Hi Guys, Wassup!</p>
                 </div>
-                <div>
-                    <Button className="btncolor" size="small" variant="contained">
-                    unblock
-                    </Button>
-                </div>
-            </div>
-            <div className="list">
-                <div>
-                    <Image className="imgprofile" imgsrc={profile} />
-                </div>
-                <div>
-                    <h3>Friends Reunion</h3>
-                    <p>Hi Guys, Wassup!</p>
-                </div>
-                <div>
-                    <Button className="btncolor" size="small" variant="contained">
-                    unblock
-                    </Button>
-                </div>
-            </div>
-            <div className="list">
-                <div>
-                    <Image className="imgprofile" imgsrc={profile} />
-                </div>
-                <div>
-                    <h3>Friends Reunion</h3>
-                    <p>Hi Guys, Wassup!</p>
-                </div>
-                <div>
-                    <Button className="btncolor" size="small" variant="contained">
-                    unblock
-                    </Button>
-                </div>
-            </div>
-            <div className="list">
-                <div>
-                    <Image className="imgprofile" imgsrc={profile} />
-                </div>
-                <div>
-                    <h3>Friends Reunion</h3>
-                    <p>Hi Guys, Wassup!</p>
-                </div>
-                <div>
-                    <Button className="btncolor" size="small" variant="contained">
-                    unblock
-                    </Button>
-                </div>
-            </div>
-            <div className="list">
-                <div>
-                    <Image className="imgprofile" imgsrc={profile} />
-                </div>
-                <div>
-                    <h3>Friends Reunion</h3>
-                    <p>Hi Guys, Wassup!</p>
-                </div>
-                <div>
-                    <Button className="btncolor" size="small" variant="contained">
-                    unblock
-                    </Button>
-                </div>
-            </div>
-            <div className="list">
-                <div>
-                    <Image className="imgprofile" imgsrc={profile} />
-                </div>
-                <div>
-                    <h3>Friends Reunion</h3>
-                    <p>Hi Guys, Wassup!</p>
-                </div>
-                <div>
-                    <Button className="btncolor" size="small" variant="contained">
-                    unblock
-                    </Button>
-                </div>
-            </div>
-            <div className="list">
-                <div>
-                    <Image className="imgprofile" imgsrc={profile} />
-                </div>
-                <div>
-                    <h3>Friends Reunion</h3>
-                    <p>Hi Guys, Wassup!</p>
-                </div>
-                <div>
-                    <Button className="btncolor" size="small" variant="contained">
-                    unblock
-                    </Button>
-                </div>
-            </div>
-            <div className="list">
-                <div>
-                    <Image className="imgprofile" imgsrc={profile} />
-                </div>
-                <div>
-                    <h3>Friends Reunion</h3>
-                    <p>Hi Guys, Wassup!</p>
-                </div>
-                <div>
+                <div className="profileBtn">
                     <Button className="btncolor" size="small" variant="contained">
                     unblock
                     </Button>
