@@ -17,14 +17,15 @@ const Userlist = () => {
     let [userList, setUserList] = useState([]);
     let [friendRequest, setFriendRequest] = useState([]);
     let [friends, setFriends] = useState([]);
+    let [block, setblock] = useState([]);
     const db = getDatabase();
     const auth = getAuth();
 
     let userData = useSelector((state) => state.loggedUser.loginUser);
 
     useEffect(() => {
-        const usersRef = ref(db, "friendrequest/");
-        onValue(usersRef, (snapshot) => {
+
+        onValue(ref(db, "friendrequest/"), (snapshot) => {
             let arr = [];
             snapshot.forEach((item) => {
                 arr.push(item.val().receiverid + item.val().senderid);
@@ -39,11 +40,8 @@ const Userlist = () => {
             });
             setFriends(arr);
         });
-    }, []);
 
-    useEffect(() => {
-        const usersRef = ref(db, "users/");
-        onValue(usersRef, (snapshot) => {
+        onValue(ref(db, "users/"), (snapshot) => {
             let arr = [];
             snapshot.forEach((item) => {
                 if (userData.uid != item.key) {
@@ -52,7 +50,18 @@ const Userlist = () => {
             });
             setUserList(arr);
         });
+        onValue(ref(db, "block/"), (snapshot) => {
+            let arr = [];
+            snapshot.forEach((item) => {
+                if (userData.uid != item.key) {
+                    arr.push(item.val().blockById + item.val().blockId);
+                }
+            });
+            setblock(arr);
+        });
+
     }, []);
+
 
     let handelFriendrequest = (item) => {
         set(ref(db, "friendrequest/" + item.id), {
@@ -116,6 +125,16 @@ const Userlist = () => {
                             >
                                 Friend
                             </Button>
+                        ) : block.includes(
+                            auth.currentUser.uid + item.id
+                        ) || block.includes (item.id + auth.currentUser.uid) ? (
+                          <Button
+                              className="btncolorerror"
+                              size="small"
+                              variant="contained"
+                          >
+                              Block
+                          </Button>
                         ) : (
                             <Button
                                 onClick={() => handelFriendrequest(item)}

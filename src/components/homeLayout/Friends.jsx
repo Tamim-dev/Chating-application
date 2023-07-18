@@ -33,6 +33,31 @@ const Friends = () => {
         });
     }, []);
 
+    let handelBlcok = (item)=>{
+        if(userData.uid == item.senderid){
+            set(push(ref(db, "block")),{
+                blockId : item.receiverid,
+                blockName: item.receivername,
+                blockById : item.senderid,
+                blockByName : item.sendername,
+            }).then(()=>{
+                remove(ref(db, "friends/" + item.id));
+            })
+            
+        }else{
+            set(push(ref(db, "block")),{
+                blockId : item.senderid,
+                blockName: item.sendername,
+                blockById : item.receiverid,
+                blockByName : item.receivername,
+        }).then(()=>{
+            remove(ref(db, "friends/" + item.id));
+        })
+        
+        }
+        
+    }
+
     let handelUnfriend= (item)=>{
         remove(ref(db, "friends/" + item.id));
     }
@@ -65,6 +90,7 @@ const Friends = () => {
                             Unfriend
                         </Button>
                         <Button
+                            onClick={()=>handelBlcok(item)}
                             className="btncolorerror"
                             size="small"
                             variant="contained"
