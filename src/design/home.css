@@ -118,3 +118,16 @@
   align-items: center;
   gap: 3px;
 }
+
+.groupbtn{
+  margin-top: 15px !important;
+}
+
+.grouppopupname{
+  font-family: "Poppins", sans-serif;
+  margin-bottom: 10px;
+}
+
+.css-i1aem3{
+  width: 240px !important;
+}
