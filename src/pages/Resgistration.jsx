@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import resgistrationLogin from "../design/resgistrationLogin.css";
 import { Grid, TextField, Alert } from "@mui/material";
 import Image from "../components/layout/Image";
@@ -14,8 +14,8 @@ import {
 import { getDatabase, push, ref, set } from "firebase/database";
 import LoadingButton from "@mui/lab/LoadingButton";
 import { VscEyeClosed, VscEye } from "react-icons/vsc";
-import { toast } from 'react-toastify';
-import { useSelector } from 'react-redux'
+import { toast } from "react-toastify";
+import { useSelector } from "react-redux";
 import { userData } from "../components/slices/users/userSlice";
 
 let initialValue = {
@@ -33,25 +33,18 @@ const Resgistration = () => {
     const db = getDatabase();
     let navigate = useNavigate();
 
-    let loginUser = useSelector((state)=>state.loggedUser.loginUser)
+    let loginUser = useSelector((state) => state.loggedUser.loginUser);
 
-    useEffect(()=>{
-        if(loginUser != null){
-            navigate("/chating/home")
+    
+    useEffect(() => {
+        if (loginUser != null) {
+            navigate("/chating/home");
         }
-    },[])
+    }, []);
+    
 
-    const notify = (mas) => toast.warn(mas,{
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "dark",
-        });
-    const notifytoo = (mas) => toast.success(mas,{
+    const notify = (mas) =>
+        toast.warn(mas, {
             position: "top-right",
             autoClose: 5000,
             hideProgressBar: false,
@@ -60,8 +53,18 @@ const Resgistration = () => {
             draggable: true,
             progress: undefined,
             theme: "dark",
-            });
-
+        });
+    const notifytoo = (mas) =>
+        toast.success(mas, {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "dark",
+        });
 
     let handleValues = (e) => {
         setValues({
@@ -73,7 +76,6 @@ const Resgistration = () => {
 
     let handleClick = () => {
         let { email, fullname, password } = values;
-
 
         if (!email) {
             setValues({
@@ -113,47 +115,53 @@ const Resgistration = () => {
             Loading: true,
         });
 
-        createUserWithEmailAndPassword(auth, email, password).then((user) => {
-            console.log(user);
-            updateProfile(auth.currentUser, {
-                displayName: values.fullname,
-                photoURL: "https://i.ibb.co/QkwmM1v/Png-Item-1468479.png",
-            }).then(() => {
-                sendEmailVerification(auth.currentUser).then(() => {
+        createUserWithEmailAndPassword(auth, email, password)
+            .then((user) => {
+                console.log(user);
+                updateProfile(auth.currentUser, {
+                    displayName: values.fullname,
+                    photoURL: "https://i.ibb.co/QkwmM1v/Png-Item-1468479.png",
+                }).then(() => {
+                    // sendEmailVerification(auth.currentUser).then(() => {
+                    //     set(ref(db, "users/" + user.user.uid), {
+                    //         username: values.fullname,
+                    //         email: values.email,
+                    //         profile_picture: user.user.photoURL,
+                    //     });
+                    // });
                     set(ref(db, "users/" + user.user.uid), {
                         username: values.fullname,
                         email: values.email,
                         profile_picture: user.user.photoURL,
                     });
                 });
+                notifytoo("Resgistration successfull");
+                navigate("/login");
+            })
+            .catch((error) => {
+                const errorCode = error.code;
+                console.log(errorCode);
+                if (errorCode.includes("auth/invalid-email")) {
+                    notify("Invalid email");
+                    setValues({
+                        ...values,
+                        loading: false,
+                        email: "",
+                        fullname: "",
+                        password: "",
+                    });
+                }
+                if (errorCode.includes("auth/email-already-in-use")) {
+                    notify("email already in use");
+                    setValues({
+                        ...values,
+                        loading: false,
+                        email: "",
+                        fullname: "",
+                        password: "",
+                    });
+                }
             });
-            notifytoo("Resgistration successfull")
-            navigate("/login");
-        })
-        .catch((error) => {
-            const errorCode = error.code;
-            console.log(errorCode);
-            if(errorCode.includes("auth/invalid-email")){
-                notify("Invalid email")
-                setValues({
-                    ...values,
-                    loading:false,
-                    email:"",
-                    fullname:"",
-                    password:"",
-                })
-            }
-            if(errorCode.includes("auth/email-already-in-use")){
-                notify("email already in use")
-                setValues({
-                    ...values,
-                    loading:false,
-                    email:"",
-                    fullname:"",
-                    password:"",
-                })
-            }
-          })
     };
 
     return (

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Link, Outlet, useLocation } from "react-router-dom";
 import { Grid } from "@mui/material";
 import rotlayout from "../design/rotlayout.css";
@@ -19,6 +19,7 @@ const RotLayOut = () => {
     let location = useLocation();
     const dispatch = useDispatch();
     let loginUser = useSelector((state) => state.loggedUser.loginUser);
+
 
     let handelClick = () => {
         signOut(auth).then(() => {
