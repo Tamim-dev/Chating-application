@@ -61,12 +61,9 @@
 }
 
 .eye {
-    position: absolute;
-    top: 22px;
-    right: 215px;
-}
-.passtextfield {
     position: relative;
+    top: -37px;
+    left: 331px;
 }
 
 .googleimg {

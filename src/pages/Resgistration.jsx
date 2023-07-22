@@ -63,9 +63,6 @@ const Resgistration = () => {
             });
 
 
-    
-
-
     let handleValues = (e) => {
         setValues({
             ...values,
@@ -94,12 +91,19 @@ const Resgistration = () => {
             return;
         }
 
-        let pattern = /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,16}$/;
+        // let pattern = /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,16}$/;
 
-        if (!password || !pattern.test(password)) {
+        // if (!password || !pattern.test(password)) {
+        //     setValues({
+        //         ...values,
+        //         error: "Enter an password includes capital lower symbol number",
+        //     });
+        //     return;
+        // }
+        if (!password) {
             setValues({
                 ...values,
-                error: "Enter an password includes capital lower symbol number",
+                error: "Enter an password",
             });
             return;
         }

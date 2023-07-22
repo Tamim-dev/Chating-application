@@ -10,23 +10,23 @@ import { FiLogOut, FiSettings } from "react-icons/fi";
 import { getAuth, signOut } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 import Button from "@mui/material/Button";
-import { useDispatch,useSelector } from 'react-redux'
+import { useDispatch, useSelector } from "react-redux";
 import { userData } from "../components/slices/users/userSlice";
 
 const RotLayOut = () => {
     const auth = getAuth();
     let navigate = useNavigate();
     let location = useLocation();
-    const dispatch = useDispatch()
-    let loginUser = useSelector((state)=>state.loggedUser.loginUser)
-    
-    let handelClick =()=>{
+    const dispatch = useDispatch();
+    let loginUser = useSelector((state) => state.loggedUser.loginUser);
+
+    let handelClick = () => {
         signOut(auth).then(() => {
-            localStorage.removeItem("user")
-            dispatch(userData(null))
-            navigate("/login")
-        })
-      }
+            localStorage.removeItem("user");
+            dispatch(userData(null));
+            navigate("/login");
+        });
+    };
 
     return (
         <>
@@ -34,64 +34,74 @@ const RotLayOut = () => {
                 <Grid item xs={1}>
                     <div className="navber">
                         <div className="navcontainer">
-                            <img src={profile} />
-                            <div className="displayname">{loginUser.displayName}</div>
-                            <ul>
-                                <ol>
-                                    <Link
-                                        to={"/chating/home"}
-                                        className={
-                                            location.pathname == "/chating/home"
-                                                ? "active"
-                                                : "icon"
-                                        }
-                                    >
-                                        <AiOutlineHome />
-                                    </Link>
-                                </ol>
-                                <ol>
-                                    <Link
-                                        to={"/chating/messages"}
-                                        className={
-                                            location.pathname ==
-                                            "/chating/messages"
-                                                ? "active"
-                                                : "icon"
-                                        }
-                                    >
-                                        <BsFillChatDotsFill />
-                                    </Link>
-                                </ol>
-                                <ol>
-                                    <Link
-                                        to={"/chating/notification"}
-                                        className={
-                                            location.pathname ==
-                                            "/chating/notification"
-                                                ? "active"
-                                                : "icon"
-                                        }
-                                    >
-                                        <MdOutlineNotificationsActive />
-                                    </Link>
-                                </ol>
-                                <ol>
-                                    <Link
-                                        to={"/chating/settings"}
-                                        className={
-                                            location.pathname ==
-                                            "/chating/settings"
-                                                ? "active"
-                                                : "icon"
-                                        }
-                                    >
-                                        <FiSettings />
-                                    </Link>
-                                </ol>
-                                <ol>
-                                    <FiLogOut onClick={handelClick}  className="icon" />
-                                </ol>
-                            </ul>
+                            <div className="routimg">
+                                <img src={profile} />
+                            </div>
+                            <div className="displayname">
+                                {loginUser.displayName}
+                            </div>
+                            <div className="routul">
+                                <ul>
+                                    <ol>
+                                        <Link
+                                            to={"/chating/home"}
+                                            className={
+                                                location.pathname ==
+                                                "/chating/home"
+                                                    ? "active"
+                                                    : "icon"
+                                            }
+                                        >
+                                            <AiOutlineHome />
+                                        </Link>
+                                    </ol>
+                                    <ol>
+                                        <Link
+                                            to={"/chating/messages"}
+                                            className={
+                                                location.pathname ==
+                                                "/chating/messages"
+                                                    ? "active"
+                                                    : "icon"
+                                            }
+                                        >
+                                            <BsFillChatDotsFill />
+                                        </Link>
+                                    </ol>
+                                    <ol>
+                                        <Link
+                                            to={"/chating/notification"}
+                                            className={
+                                                location.pathname ==
+                                                "/chating/notification"
+                                                    ? "active"
+                                                    : "icon"
+                                            }
+                                        >
+                                            <MdOutlineNotificationsActive />
+                                        </Link>
+                                    </ol>
+                                    <ol>
+                                        <Link
+                                            to={"/chating/settings"}
+                                            className={
+                                                location.pathname ==
+                                                "/chating/settings"
+                                                    ? "active"
+                                                    : "icon"
+                                            }
+                                        >
+                                            <FiSettings />
+                                        </Link>
+                                    </ol>
+                                    <ol>
+                                        <FiLogOut
+                                            onClick={handelClick}
+                                            className="icon"
+                                        />
+                                    </ol>
+                                </ul>
+                            </div>
                         </div>
                     </div>
                 </Grid>

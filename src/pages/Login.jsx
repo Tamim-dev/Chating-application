@@ -14,7 +14,7 @@ import {
 import LoadingButton from "@mui/lab/LoadingButton";
 import { VscEyeClosed, VscEye } from "react-icons/vsc";
 import { toast } from "react-toastify";
-import { useDispatch,useSelector } from 'react-redux'
+import { useDispatch, useSelector } from "react-redux";
 import { userData } from "../components/slices/users/userSlice";
 
 let initialValue = {
@@ -24,22 +24,19 @@ let initialValue = {
     Loading: false,
 };
 
-
-
 const Login = () => {
     const auth = getAuth();
     const provider = new GoogleAuthProvider();
     let [values, setValues] = useState(initialValue);
     let navigate = useNavigate();
-    const dispatch = useDispatch()
-    let loginUser = useSelector((state)=>state.loggedUser.loginUser)
+    const dispatch = useDispatch();
+    let loginUser = useSelector((state) => state.loggedUser.loginUser);
 
-useEffect(()=>{
-    if(loginUser != null){
-        navigate("/chating/home")
-    }
-},[])
-
+    useEffect(() => {
+        if (loginUser != null) {
+            navigate("/chating/home");
+        }
+    }, []);
 
     const notify = (mas) =>
         toast.success(mas, {
@@ -97,19 +94,23 @@ useEffect(()=>{
 
         signInWithEmailAndPassword(auth, email, password)
             .then((user) => {
-                if (user.user.emailVerified) {
-                    dispatch(userData(user.user))
-                    localStorage.setItem("user",JSON.stringify(user.user))
-                    notify("Login successfull");
-                    navigate("/chating/home");
-                } else {
-                    notifytoo("Please verify for email");
-                    setValues({
-                        email: "",
-                        password: "",
-                        Loading: false,
-                    });
-                }
+                // if (user.user.emailVerified) {
+                //     dispatch(userData(user.user));
+                //     localStorage.setItem("user", JSON.stringify(user.user));
+                //     notify("Login successfull");
+                //     navigate("/chating/home");
+                // } else {
+                //     notifytoo("Please verify for email");
+                //     setValues({
+                //         email: "",
+                //         password: "",
+                //         Loading: false,
+                //     });
+                // }
+                dispatch(userData(user.user));
+                localStorage.setItem("user", JSON.stringify(user.user));
+                notify("Login successfull");
+                navigate("/chating/home");
             })
             .catch((error) => {
                 if (error.code.includes("auth/invalid-email")) {
@@ -147,8 +148,11 @@ useEffect(()=>{
     };
 
     let handleGoogleLogin = () => {
-        signInWithPopup(auth, provider).then(() => {
-            navigate("/")
+        signInWithPopup(auth, provider).then((user) => {
+            dispatch(userData(user.user));
+            localStorage.setItem("user", JSON.stringify(user.user));
+            notify("Login successfull");
+            navigate("/chating/home");
         });
     };
 
