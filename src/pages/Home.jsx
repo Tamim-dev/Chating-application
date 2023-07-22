@@ -14,6 +14,11 @@ const Home = () => {
     let navigate = useNavigate();
     let loginUser = useSelector((state) => state.loggedUser.loginUser);
 
+    useEffect(() => {
+        if (loginUser == null) {
+            navigate("/login");
+        }
+    }, []);
 
     return (
         <Grid container spacing={2}>

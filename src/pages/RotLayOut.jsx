@@ -39,7 +39,7 @@ const RotLayOut = () => {
                                 <img src={profile} />
                             </div>
                             <div className="displayname">
-                                {loginUser.displayName}
+                                
                             </div>
                             <div className="routul">
                                 <ul>
