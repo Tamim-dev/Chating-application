@@ -11,6 +11,7 @@ import {
     signInWithPopup,
     GoogleAuthProvider,
 } from "firebase/auth";
+import { getDatabase, push, ref, set } from "firebase/database";
 import LoadingButton from "@mui/lab/LoadingButton";
 import { VscEyeClosed, VscEye } from "react-icons/vsc";
 import { toast } from "react-toastify";
@@ -26,6 +27,7 @@ let initialValue = {
 
 const Login = () => {
     const auth = getAuth();
+    const db = getDatabase();
     const provider = new GoogleAuthProvider();
     let [values, setValues] = useState(initialValue);
     let navigate = useNavigate();
@@ -34,7 +36,7 @@ const Login = () => {
 
     useEffect(() => {
         if (loginUser != null) {
-            navigate("/chating/home");
+            navigate("/chatting/home");
         }
     }, []);
 
@@ -98,7 +100,7 @@ const Login = () => {
                 //     dispatch(userData(user.user));
                 //     localStorage.setItem("user", JSON.stringify(user.user));
                 //     notify("Login successfull");
-                //     navigate("/chating/home");
+                //     navigate("/chatting/home");
                 // } else {
                 //     notifytoo("Please verify for email");
                 //     setValues({
@@ -110,7 +112,7 @@ const Login = () => {
                 dispatch(userData(user.user));
                 localStorage.setItem("user", JSON.stringify(user.user));
                 notify("Login successfull");
-                navigate("/chating/home");
+                navigate("/chatting/home");
             })
             .catch((error) => {
                 if (error.code.includes("auth/invalid-email")) {
@@ -149,10 +151,16 @@ const Login = () => {
 
     let handleGoogleLogin = () => {
         signInWithPopup(auth, provider).then((user) => {
+            set(ref(db, "users/" + user.user.uid), {
+                username: user.user.displayName,
+                email: user.user.email,
+                profile_picture: user.user.photoURL,
+            });
+            console.log(user);
             dispatch(userData(user.user));
             localStorage.setItem("user", JSON.stringify(user.user));
             notify("Login successfull");
-            navigate("/chating/home");
+            navigate("/chatting/home");
         });
     };
 

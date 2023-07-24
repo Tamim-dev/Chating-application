@@ -38,7 +38,7 @@ const Resgistration = () => {
     
     useEffect(() => {
         if (loginUser != null) {
-            navigate("/chating/home");
+            navigate("/chatting/home");
         }
     }, []);
     

@@ -20,6 +20,16 @@ const RotLayOut = () => {
     const dispatch = useDispatch();
     let loginUser = useSelector((state) => state.loggedUser.loginUser);
 
+    useEffect(() => {
+        if (loginUser == null) {
+            navigate("/login");
+        }
+    }, []);
+
+    if (loginUser == null) {
+        navigate("/login");
+        return
+    }
 
     let handelClick = () => {
         signOut(auth).then(() => {
@@ -36,19 +46,19 @@ const RotLayOut = () => {
                     <div className="navber">
                         <div className="navcontainer">
                             <div className="routimg">
-                                <img src={profile} />
+                                <img src={loginUser.photoURL} />
                             </div>
-                            <div className="displayname">
-                                
-                            </div>
+                                <div className="displayname">
+                                    {loginUser.displayName}
+                                </div>
                             <div className="routul">
                                 <ul>
                                     <ol>
                                         <Link
-                                            to={"/chating/home"}
+                                            to={"/chatting/home"}
                                             className={
                                                 location.pathname ==
-                                                "/chating/home"
+                                                "/chatting/home"
                                                     ? "active"
                                                     : "icon"
                                             }
@@ -58,10 +68,10 @@ const RotLayOut = () => {
                                     </ol>
                                     <ol>
                                         <Link
-                                            to={"/chating/messages"}
+                                            to={"/chatting/messages"}
                                             className={
                                                 location.pathname ==
-                                                "/chating/messages"
+                                                "/chatting/messages"
                                                     ? "active"
                                                     : "icon"
                                             }
@@ -71,10 +81,10 @@ const RotLayOut = () => {
                                     </ol>
                                     <ol>
                                         <Link
-                                            to={"/chating/notification"}
+                                            to={"/chatting/notification"}
                                             className={
                                                 location.pathname ==
-                                                "/chating/notification"
+                                                "/chatting/notification"
                                                     ? "active"
                                                     : "icon"
                                             }
@@ -84,10 +94,10 @@ const RotLayOut = () => {
                                     </ol>
                                     <ol>
                                         <Link
-                                            to={"/chating/settings"}
+                                            to={"/chatting/settings"}
                                             className={
                                                 location.pathname ==
-                                                "/chating/settings"
+                                                "/chatting/settings"
                                                     ? "active"
                                                     : "icon"
                                             }

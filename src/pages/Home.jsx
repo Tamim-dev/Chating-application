@@ -12,13 +12,7 @@ import { useNavigate } from "react-router-dom";
 
 const Home = () => {
     let navigate = useNavigate();
-    let loginUser = useSelector((state) => state.loggedUser.loginUser);
-
-    useEffect(() => {
-        if (loginUser == null) {
-            navigate("/login");
-        }
-    }, []);
+    let userData = useSelector((state) => state.loggedUser.loginUser);
 
     return (
         <Grid container spacing={2}>
