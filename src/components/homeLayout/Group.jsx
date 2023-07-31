@@ -66,7 +66,7 @@ const Group = () => {
             let arr = [];
             snapshot.forEach((item) => {
                 if (item.val().userId == userData.uid) {
-                    arr.push(item.val().groupId);
+                arr.push(item.val().groupId, item.key);
                 }
             });
             setGroupRequest(arr);
@@ -131,12 +131,6 @@ const Group = () => {
         });
 
     };
-
-    // let handelRequestCancel =(item)=>{
-    //     // remove(ref(db, "groupjoinrequest/" + item.key))
-    //     remove(ref(db, "groupjoinrequest/" + item.id));
-    //     console.log(item.groupId);
-    // }
 
     const handleOpen = () => {
         setOpen(true);
@@ -230,7 +224,6 @@ const Group = () => {
                             className="btncolor"
                             size="small"
                             variant="contained"
-                            onClick={() => handelRequestCancel(item)}
                         >
                             Request
                         </Button>

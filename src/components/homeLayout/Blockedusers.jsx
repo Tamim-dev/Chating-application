@@ -40,8 +40,8 @@ const Blockedusers = () => {
             <div className="heading">
                 <h3 className="groupheading">Blocked Users</h3>
             </div>
-            {blockList.map((item) => (
-                <div className="list">
+            {blockList.map((item,index) => (
+                <div key={index} className="list">
                     <div className="profileImg">
                         <Image className="imgprofile" imgsrc={profile} />
                     </div>
