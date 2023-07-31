@@ -4,7 +4,7 @@ import Image from "../layout/Image";
 import profile from "../../assets/profile.png";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
-import {TextField,Alert} from "@mui/material";
+import { TextField, Alert } from "@mui/material";
 import LoadingButton from "@mui/lab/LoadingButton";
 import { useSelector } from "react-redux";
 import {
@@ -33,7 +33,7 @@ const style = {
 let initialValue = {
     groupName: "",
     groupTagline: "",
-    error:"",
+    error: "",
     loading: false,
 };
 
@@ -42,44 +42,62 @@ const Group = () => {
     const [open, setOpen] = useState(false);
     const [groupInfo, setGroupInfo] = useState(initialValue);
     let [groups, setGroups] = useState([]);
+    let [groupRequest, setGroupRequest] = useState([]);
 
     let userData = useSelector((state) => state.loggedUser.loginUser);
 
     useEffect(() => {
+        // ==== groups data ==== //
         onValue(ref(db, "groups/"), (snapshot) => {
             let arr = [];
             snapshot.forEach((item) => {
                 if (userData.uid != item.val().adminId) {
-                    arr.push(item.val());
+                    arr.push({ ...item.val(), groupId: item.key });
                 }
             });
             setGroups(arr);
         });
     }, []);
 
+    useEffect(() => {
+        // ==== groupjoinrequest data ==== //
+
+        onValue(ref(db, "groupjoinrequest/"), (snapshot) => {
+            let arr = [];
+            snapshot.forEach((item) => {
+                if (item.val().userId == userData.uid) {
+                    arr.push(item.val().groupId);
+                }
+            });
+            setGroupRequest(arr);
+        });
+    },[]);
+
+    // ==== input value ==== //
+
     let handlechange = (e) => {
         setGroupInfo({
             ...groupInfo,
             [e.target.name]: e.target.value,
-            error:""
+            error: "",
         });
     };
 
     let handelClick = () => {
         let { groupName, groupTagline } = groupInfo;
-        if(!groupName){
+        if (!groupName) {
             setGroupInfo({
                 ...groupInfo,
-                error:"GroupName"
+                error: "GroupName",
             });
-            return
+            return;
         }
-        if(!groupTagline){
+        if (!groupTagline) {
             setGroupInfo({
                 ...groupInfo,
-                error:"GroupTagline"
+                error: "GroupTagline",
             });
-            return
+            return;
         }
         setGroupInfo({
             ...groupInfo,
@@ -100,6 +118,25 @@ const Group = () => {
             setOpen(false);
         });
     };
+
+    let handelGroupJoin = (item) => {
+
+        set(push(ref(db, "groupjoinrequest")), {
+            adminId: item.adminId,
+            adminName: item.adminName,
+            groupId: item.groupId,
+            groupName: item.groupName,
+            userId: userData.uid,
+            userName: userData.displayName,
+        });
+
+    };
+
+    // let handelRequestCancel =(item)=>{
+    //     // remove(ref(db, "groupjoinrequest/" + item.key))
+    //     remove(ref(db, "groupjoinrequest/" + item.id));
+    //     console.log(item.groupId);
+    // }
 
     const handleOpen = () => {
         setOpen(true);
@@ -175,23 +212,38 @@ const Group = () => {
                     </Box>
                 </Modal>
             </div>
-            {groups.map((item) => (
-                <div className="list">
+            {groups.map((item,index) => (
+                <div key={index} className="list">
                     <div className="profileImg">
                         <Image className="imgprofile" imgsrc={profile} />
                     </div>
                     <div className="profileName">
+                        <p style={{ fontSize: "10px" }}>
+                            Admin: {item.adminName}
+                        </p>
                         <h3>{item.groupName}</h3>
                         <p>{item.groupTagline}</p>
                     </div>
                     <div className="profileBtn">
+                        {groupRequest.indexOf(item.groupId) != -1 ?
                         <Button
                             className="btncolor"
                             size="small"
                             variant="contained"
+                            onClick={() => handelRequestCancel(item)}
+                        >
+                            Request
+                        </Button>
+                    :
+                    <Button
+                            className="btncolor"
+                            size="small"
+                            variant="contained"
+                            onClick={() => handelGroupJoin(item)}
                         >
                             Join
                         </Button>
+                    }
                     </div>
                 </div>
             ))}

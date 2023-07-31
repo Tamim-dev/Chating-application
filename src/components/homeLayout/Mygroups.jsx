@@ -3,14 +3,7 @@ import Button from "@mui/material/Button";
 import Image from "../layout/Image";
 import profile from "../../assets/profile.png";
 import { useSelector } from "react-redux";
-import {
-    getDatabase,
-    ref,
-    onValue,
-    set,
-    push,
-    remove,
-} from "firebase/database";
+import { getDatabase, ref, onValue } from "firebase/database";
 
 const Mygroups = () => {
     const db = getDatabase();
@@ -22,7 +15,7 @@ const Mygroups = () => {
         onValue(ref(db, "groups/"), (snapshot) => {
             let arr = [];
             snapshot.forEach((item) => {
-                if(userData.uid == item.val().adminId){
+                if (userData.uid == item.val().adminId) {
                     arr.push(item.val());
                 }
             });
@@ -38,21 +31,34 @@ const Mygroups = () => {
                     Create Group
                 </Button>
             </div>
-            {groups.map(item=>(
-                <div className="list">
-                <div className="profileImg">
-                    <Image className="imgprofile" imgsrc={profile} />
+            {groups.map((item,index) => (
+                <div key={index} className="list">
+                    <div className="profileImg">
+                        <Image className="imgprofile" imgsrc={profile} />
+                    </div>
+                    <div className="profileName">
+                        <p style={{fontSize:"10px"}}>Admin: {item.adminName}</p>
+                        <h3>{item.groupName}</h3>
+                        <p>{item.groupTagline}</p>
+                    </div>
+                    <div className="friendsBtn">
+                        <Button
+                            className="btncolor"
+                            size="small"
+                            variant="contained"
+                        >
+                            request
+                        </Button>
+                        <Button
+                            className="btncolorsuccess"
+                            size="small"
+                            variant="contained"
+                        >
+                            memder
+                        </Button>
+                    </div>
                 </div>
-                <div className="profileName">
-                    <h3>{item.groupName}</h3>
-                    <p>{item.groupTagline}</p>
-                </div>
-                <div className="profileBtn">
-                    <p className="time">Today, 8:56pm</p>
-                </div>
-            </div>
             ))}
-            
         </div>
     );
 };

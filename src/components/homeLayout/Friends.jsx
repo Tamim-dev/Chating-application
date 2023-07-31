@@ -67,8 +67,8 @@ const Friends = () => {
             <div className="heading">
                 <h3 className="groupheading">Friends</h3>
             </div>
-            {friends.map((item) => (
-                <div className="list">
+            {friends.map((item,index) => (
+                <div key={index} className="list">
                     <div className="profileImg">
                         <Image className="imgprofile" imgsrc={profile} />
                     </div>
