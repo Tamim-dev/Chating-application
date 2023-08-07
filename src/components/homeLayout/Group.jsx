@@ -57,9 +57,7 @@ const Group = () => {
             });
             setGroups(arr);
         });
-    }, []);
 
-    useEffect(() => {
         // ==== groupjoinrequest data ==== //
 
         onValue(ref(db, "groupjoinrequest/"), (snapshot) => {
@@ -71,7 +69,8 @@ const Group = () => {
             });
             setGroupRequest(arr);
         });
-    },[]);
+    }, []);
+
 
     // ==== input value ==== //
 
@@ -103,6 +102,7 @@ const Group = () => {
             ...groupInfo,
             loading: true,
         });
+        
         set(push(ref(db, "groups")), {
             groupName: groupInfo.groupName,
             groupTagline: groupInfo.groupTagline,
