@@ -43,6 +43,7 @@ const Group = () => {
     const [groupInfo, setGroupInfo] = useState(initialValue);
     let [groups, setGroups] = useState([]);
     let [groupRequest, setGroupRequest] = useState([]);
+    let [groupMembers, setGroupMembers] = useState([]);
 
     let userData = useSelector((state) => state.loggedUser.loginUser);
 
@@ -64,13 +65,24 @@ const Group = () => {
             let arr = [];
             snapshot.forEach((item) => {
                 if (item.val().userId == userData.uid) {
-                arr.push(item.val().groupId, item.key);
+                    arr.push(item.val().groupId);
                 }
             });
             setGroupRequest(arr);
         });
-    }, []);
 
+        // ==== members data ==== //
+
+        onValue(ref(db, "members/"), (snapshot) => {
+            let arr = [];
+            snapshot.forEach((item) => {
+                if (item.val().userId == userData.uid) {
+                    arr.push(item.val().groupId);
+                }
+            });
+            setGroupMembers(arr);
+        });
+    }, []);
 
     // ==== input value ==== //
 
@@ -102,7 +114,7 @@ const Group = () => {
             ...groupInfo,
             loading: true,
         });
-        
+
         set(push(ref(db, "groups")), {
             groupName: groupInfo.groupName,
             groupTagline: groupInfo.groupTagline,
@@ -120,8 +132,7 @@ const Group = () => {
     };
 
     let handelGroupJoin = (item) => {
-
-        set(push(ref(db, "groupjoinrequest")), {
+        set(ref(db, "groupjoinrequest/" +item.groupId ), {
             adminId: item.adminId,
             adminName: item.adminName,
             groupId: item.groupId,
@@ -129,8 +140,11 @@ const Group = () => {
             userId: userData.uid,
             userName: userData.displayName,
         });
-
     };
+
+    let handelGroupJoinRemove =(item)=>{
+        remove(ref(db, "groupjoinrequest/" + item.groupId))
+    }
 
     const handleOpen = () => {
         setOpen(true);
@@ -206,7 +220,7 @@ const Group = () => {
                     </Box>
                 </Modal>
             </div>
-            {groups.map((item,index) => (
+            {groups.map((item, index) => (
                 <div key={index} className="list">
                     <div className="profileImg">
                         <Image className="imgprofile" imgsrc={profile} />
@@ -219,24 +233,33 @@ const Group = () => {
                         <p>{item.groupTagline}</p>
                     </div>
                     <div className="profileBtn">
-                        {groupRequest.indexOf(item.groupId) != -1 ?
-                        <Button
-                            className="btncolor"
-                            size="small"
-                            variant="contained"
-                        >
-                            Request
-                        </Button>
-                    :
-                    <Button
-                            className="btncolor"
-                            size="small"
-                            variant="contained"
-                            onClick={() => handelGroupJoin(item)}
-                        >
-                            Join
-                        </Button>
-                    }
+                        {groupRequest.indexOf(item.groupId) != -1 ? (
+                            <Button
+                                onClick={()=>handelGroupJoinRemove(item)}
+                                className="btncolor"
+                                size="small"
+                                variant="contained"
+                            >
+                                Request
+                            </Button>
+                        ) : groupMembers.indexOf(item.groupId) != -1 ? (
+                            <Button
+                                className="btncolorsuccess"
+                                size="small"
+                                variant="contained"
+                            >
+                                Joined
+                            </Button>
+                        ) : (
+                            <Button
+                                className="btncolor"
+                                size="small"
+                                variant="contained"
+                                onClick={() => handelGroupJoin(item)}
+                            >
+                                Join
+                            </Button>
+                        )}
                     </div>
                 </div>
             ))}
