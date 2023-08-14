@@ -66,7 +66,7 @@ const Userlist = () => {
     let handelFriendrequest = (item) => {
         set(ref(db, "friendrequest/" + item.id), {
             senderid: auth.currentUser.uid,
-            sendername: auth.currentUser.displayName,
+            sendername: auth.currentUser.displayName, 
             receiverid: item.id,
             receivername: item.username,
         });

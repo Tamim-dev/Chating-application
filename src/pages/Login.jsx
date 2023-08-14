@@ -156,12 +156,11 @@ const Login = () => {
                 email: user.user.email,
                 profile_picture: user.user.photoURL,
             });
-            console.log(user);
             dispatch(userData(user.user));
             localStorage.setItem("user", JSON.stringify(user.user));
             notify("Login successfull");
             navigate("/chatting/home");
-        });
+        })
     };
 
     return (

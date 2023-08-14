@@ -140,7 +140,6 @@ const Resgistration = () => {
             })
             .catch((error) => {
                 const errorCode = error.code;
-                console.log(errorCode);
                 if (errorCode.includes("auth/invalid-email")) {
                     notify("Invalid email");
                     setValues({
@@ -214,6 +213,11 @@ const Resgistration = () => {
                             label="Password"
                             variant="outlined"
                         />
+                        {values.error.includes("password") && (
+                            <Alert className="alerterror" severity="error">
+                                {values.error}
+                            </Alert>
+                        )}
                         <div
                             onClick={() =>
                                 setValues({ ...values, eye: !values.eye })
@@ -222,11 +226,7 @@ const Resgistration = () => {
                         >
                             {values.eye ? <VscEye /> : <VscEyeClosed />}
                         </div>
-                        {values.error.includes("password") && (
-                            <Alert className="alerterror" severity="error">
-                                {values.error}
-                            </Alert>
-                        )}
+                        
                     </div>
                     {values.Loading ? (
                         <LoadingButton
