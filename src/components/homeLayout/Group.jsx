@@ -132,7 +132,7 @@ const Group = () => {
     };
 
     let handelGroupJoin = (item) => {
-        set(ref(db, "groupjoinrequest/" +item.groupId ), {
+        set(push(ref(db, "groupjoinrequest/")), {
             adminId: item.adminId,
             adminName: item.adminName,
             groupId: item.groupId,
@@ -142,9 +142,20 @@ const Group = () => {
         });
     };
 
-    let handelGroupJoinRemove =(item)=>{
-        remove(ref(db, "groupjoinrequest/" + item.groupId))
-    }
+    let handelGroupJoinRemove = (mes) => {
+        let cencel = "";
+        onValue(ref(db, "groupjoinrequest/"), (snapshot) => {
+            snapshot.forEach((item) => {
+                if (
+                    item.val().userId == userData.uid &&
+                    mes.groupId == item.val().groupId
+                ) {
+                    cencel = item.key;
+                }
+            });
+        });
+        remove(ref(db, "groupjoinrequest/" + cencel));
+    };
 
     const handleOpen = () => {
         setOpen(true);
@@ -235,7 +246,7 @@ const Group = () => {
                     <div className="profileBtn">
                         {groupRequest.indexOf(item.groupId) != -1 ? (
                             <Button
-                                onClick={()=>handelGroupJoinRemove(item)}
+                                onClick={() => handelGroupJoinRemove(item)}
                                 className="btncolor"
                                 size="small"
                                 variant="contained"

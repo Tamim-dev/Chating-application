@@ -133,9 +133,6 @@ const Mygroups = () => {
         <div className="box">
             <div className="heading">
                 <h3 className="groupheading">My Groups</h3>
-                <Button className="btncolor" size="small" variant="contained">
-                    Create Group
-                </Button>
             </div>
             {groups.map((item, index) => (
                 <div key={index} className="list">
