@@ -64,7 +64,7 @@ const Userlist = () => {
 
 
     let handelFriendrequest = (item) => {
-        set(ref(db, "friendrequest/" + item.id), {
+        set(push(ref(db, "friendrequest/" )), {
             senderid: auth.currentUser.uid,
             sendername: auth.currentUser.displayName, 
             receiverid: item.id,
@@ -72,8 +72,19 @@ const Userlist = () => {
         });
     };
 
-    let handelcencel = (item) => {
-        remove(ref(db, "friendrequest/" + item.id));
+    let handelcencel = (items) => {
+        let cencel = "";
+        onValue(ref(db, "friendrequest/"), (snapshot) => {
+            snapshot.forEach((item) => {
+                if (
+                    item.val().senderid == userData.uid &&
+                    items.id == item.val().receiverid
+                ) {
+                    cencel = item.key;
+                }
+            });
+        });
+        remove(ref(db, "friendrequest/" + cencel));
     };
 
     return (
