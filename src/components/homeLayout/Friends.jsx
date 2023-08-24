@@ -10,11 +10,12 @@ import {
     push,
     remove,
 } from "firebase/database";
-import { useSelector } from "react-redux";
+import { useSelector,useDispatch } from "react-redux";
+import {activeChat} from "../slices/activeChat/activeChatSlice"
 
-const Friends = () => {
+const Friends = ({button}) => {
     const db = getDatabase();
-
+    let dispatch =useDispatch()
     let userData = useSelector((state) => state.loggedUser.loginUser);
     let [friends, setFriends] = useState([]);
 
@@ -33,33 +34,46 @@ const Friends = () => {
         });
     }, []);
 
-    let handelBlcok = (item)=>{
-        if(userData.uid == item.senderid){
-            set(push(ref(db, "block")),{
-                blockId : item.receiverid,
+    let handelBlcok = (item) => {
+        if (userData.uid == item.senderid) {
+            set(push(ref(db, "block")), {
+                blockId: item.receiverid,
                 blockName: item.receivername,
-                blockById : item.senderid,
-                blockByName : item.sendername,
-            }).then(()=>{
+                blockById: item.senderid,
+                blockByName: item.sendername,
+            }).then(() => {
                 remove(ref(db, "friends/" + item.id));
-            })
-            
-        }else{
-            set(push(ref(db, "block")),{
-                blockId : item.senderid,
+            });
+        } else {
+            set(push(ref(db, "block")), {
+                blockId: item.senderid,
                 blockName: item.sendername,
-                blockById : item.receiverid,
-                blockByName : item.receivername,
-        }).then(()=>{
-            remove(ref(db, "friends/" + item.id));
-        })
-        
+                blockById: item.receiverid,
+                blockByName: item.receivername,
+            }).then(() => {
+                remove(ref(db, "friends/" + item.id));
+            });
         }
-        
-    }
+    };
 
-    let handelUnfriend= (item)=>{
+    let handelUnfriend = (item) => {
         remove(ref(db, "friends/" + item.id));
+    };
+
+    let handelMagBtn=(item)=>{
+        if(userData.uid == item.receiverid){
+            dispatch(activeChat({
+                type: "singlemsg",
+                name: item.sendername,
+                id:item.senderid
+            }))
+        }else{
+            dispatch(activeChat({
+                type: "singlemsg",
+                name: item.receivername,
+                id:item.receiverid
+            }))
+        }
     }
 
     return (
@@ -67,7 +81,7 @@ const Friends = () => {
             <div className="heading">
                 <h3 className="groupheading">Friends</h3>
             </div>
-            {friends.map((item,index) => (
+            {friends.map((item, index) => (
                 <div key={index} className="list">
                     <div className="profileImg">
                         <Image className="imgprofile" imgsrc={profile} />
@@ -81,22 +95,35 @@ const Friends = () => {
                         <p>Hi Guys, Wassup!</p>
                     </div>
                     <div className="friendsBtn">
-                        <Button
-                            onClick={()=>handelUnfriend(item)}
-                            className="btncolor"
-                            size="small"
-                            variant="contained"
-                        >
-                            Unfriend
-                        </Button>
-                        <Button
-                            onClick={()=>handelBlcok(item)}
-                            className="btncolorerror"
-                            size="small"
-                            variant="contained"
-                        >
-                            Block
-                        </Button>
+                        {button == "mag" ? (
+                            <Button
+                                onClick={()=>handelMagBtn(item)}
+                                className="btncolor"
+                                size="small"
+                                variant="contained"
+                            >
+                            Messages
+                            </Button>
+                        ) : (
+                            <>
+                                <Button
+                                    onClick={() => handelUnfriend(item)}
+                                    className="btncolor"
+                                    size="small"
+                                    variant="contained"
+                                >
+                                    Unfriend
+                                </Button>
+                                <Button
+                                    onClick={() => handelBlcok(item)}
+                                    className="btncolorerror"
+                                    size="small"
+                                    variant="contained"
+                                >
+                                    Block
+                                </Button>
+                            </>
+                        )}
                     </div>
                 </div>
             ))}

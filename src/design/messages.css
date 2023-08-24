@@ -172,3 +172,9 @@
     display: flex;
     column-gap: 15px;
   }
+
+  .chatbtn{
+    margin-top: 5px !important;
+    background: #5F35F5 !important;
+    font-size: 24px !important;
+  }

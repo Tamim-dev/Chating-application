@@ -8,7 +8,7 @@ const Messages = () => {
   return (
     <Grid container spacing={2}>
             <Grid item xs={4}>
-            <Friends/>
+            <Friends button="mag"/>
             <Mesgroups/>
             </Grid>
             <Grid item xs={8}>

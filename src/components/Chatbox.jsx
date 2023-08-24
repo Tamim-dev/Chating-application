@@ -6,15 +6,21 @@ import profile from "../assets/profile.png";
 import ModalImage from "react-modal-image";
 import { Button } from "@mui/material";
 import {RiSendPlaneFill} from "react-icons/ri"
+import { useSelector } from "react-redux";
 
 const Chatbox = () => {
+
+    let chatData = useSelector((state)=>state.activeChat.activeChat)
+    if(chatData == null){
+        return
+    }
     return (
         <div className="boxs">
             <div className="chatprofile">
                 <Image width="60" className="chatprofileimg" imgsrc={profile} />
                 <div className="circlebox"></div>
                 <div className="chatname">
-                    <h3>Swathi</h3>
+                    <h3>{chatData.name}</h3>
                     <p>Online</p>
                 </div>
             </div>
@@ -65,7 +71,7 @@ const Chatbox = () => {
             </div>
             <div className="chatinputbox">
             <input className="chatinput"/>
-            <Button variant="contained" ><RiSendPlaneFill/></Button>
+            <Button className="chatbtn" variant="contained" ><RiSendPlaneFill/></Button>
             </div>
         </div>
     );

@@ -51,23 +51,9 @@ const Mesgroups = () => {
         onValue(ref(db, "groups/"), (snapshot) => {
             let arr = [];
             snapshot.forEach((item) => {
-                if (userData.uid != item.val().adminId) {
-                    arr.push({ ...item.val(), groupId: item.key });
-                }
+                arr.push({ ...item.val(), groupId: item.key });
             });
             setGroups(arr);
-        });
-
-        // ==== groupjoinrequest data ==== //
-
-        onValue(ref(db, "groupjoinrequest/"), (snapshot) => {
-            let arr = [];
-            snapshot.forEach((item) => {
-                if (item.val().userId == userData.uid) {
-                    arr.push(item.val().groupId);
-                }
-            });
-            setGroupRequest(arr);
         });
 
         // ==== members data ==== //
@@ -75,108 +61,79 @@ const Mesgroups = () => {
         onValue(ref(db, "members/"), (snapshot) => {
             let arr = [];
             snapshot.forEach((item) => {
-                if (item.val().userId == userData.uid) {
-                    arr.push(item.val().groupId);
-                }
+                arr.push(item.val());
             });
             setGroupMembers(arr);
         });
     }, []);
 
-    // ==== input value ==== //
-
-    let handlechange = (e) => {
-        setGroupInfo({
-            ...groupInfo,
-            [e.target.name]: e.target.value,
-            error: "",
-        });
-    };
-
-    
-
-    // let handelGroupJoin = (item) => {
-    //     set(push(ref(db, "groupjoinrequest/")), {
-    //         adminId: item.adminId,
-    //         adminName: item.adminName,
-    //         groupId: item.groupId,
-    //         groupName: item.groupName,
-    //         userId: userData.uid,
-    //         userName: userData.displayName,
-    //     });
-    // };
-
-    let handelGroupJoinRemove = (mes) => {
-        let cencel = "";
-        onValue(ref(db, "groupjoinrequest/"), (snapshot) => {
-            snapshot.forEach((item) => {
-                if (
-                    item.val().userId == userData.uid &&
-                    mes.groupId == item.val().groupId
-                ) {
-                    cencel = item.key;
-                }
-            });
-        });
-        remove(ref(db, "groupjoinrequest/" + cencel));
-    };
-
-    const handleOpen = () => {
-        setOpen(true);
-    };
-    const handleClose = () => {
-        setOpen(false);
-    };
-  return (
-    <div className="box">
+    let handelMagBtn =(item)=>{
+        console.log(item);
+    }
+    return (
+        <div className="box">
             <div className="heading">
                 <h3 className="groupheading">Groups</h3>
             </div>
-            {groups.map((item, index) => (
-                <div key={index} className="list">
-                    <div className="profileImg">
-                        <Image className="imgprofile" imgsrc={profile} />
-                    </div>
-                    <div className="profileName">
-                        <p style={{ fontSize: "10px" }}>
-                            Admin: {item.adminName}
-                        </p>
-                        <h3>{item.groupName}</h3>
-                        <p>{item.groupTagline}</p>
-                    </div>
-                    <div className="profileBtn">
-                        {groupRequest.indexOf(item.groupId) != -1 ? (
-                            <Button
-                                onClick={() => handelGroupJoinRemove(item)}
-                                className="btncolor"
-                                size="small"
-                                variant="contained"
-                            >
-                                Request
-                            </Button>
-                        ) : groupMembers.indexOf(item.groupId) != -1 ? (
-                            <Button
-                                className="btncolorsuccess"
-                                size="small"
-                                variant="contained"
-                            >
-                                Joined
-                            </Button>
-                        ) : (
+            {groups.map((item, index) =>
+                userData.uid == item.adminId ? (
+                    <div key={index} className="list">
+                        <div className="profileImg">
+                            <Image className="imgprofile" imgsrc={profile} />
+                        </div>
+                        <div className="profileName">
+                            <p style={{ fontSize: "10px" }}>
+                                Admin: {item.adminName}
+                            </p>
+                            <h3>{item.groupName}</h3>
+                            <p>{item.groupTagline}</p>
+                        </div>
+                        <div className="friendsBtn">
                             <Button
                                 className="btncolor"
                                 size="small"
                                 variant="contained"
-                                onClick={() => handelGroupJoin(item)}
+                                onClick={()=>handelMagBtn(item)}
                             >
-                                Join
+                                Messages
                             </Button>
-                        )}
+                        </div>
                     </div>
-                </div>
-            ))}
+                ) : (
+                    groupMembers.map(
+                        (mes) =>
+                            mes.userId == userData.uid &&
+                            item.groupId == mes.groupId && (
+                                <div key={index} className="list">
+                                    <div className="profileImg">
+                                        <Image
+                                            className="imgprofile"
+                                            imgsrc={profile}
+                                        />
+                                    </div>
+                                    <div className="profileName">
+                                        <p style={{ fontSize: "10px" }}>
+                                            Admin: {mes.adminName}
+                                        </p>
+                                        <h3>{mes.groupName}</h3>
+                                        <p>{mes.groupTagline}</p>
+                                    </div>
+                                    <div className="friendsBtn">
+                                        <Button
+                                            className="btncolor"
+                                            size="small"
+                                            variant="contained"
+                                        >
+                                            Messages
+                                        </Button>
+                                    </div>
+                                </div>
+                            )
+                    )
+                )
+            )}
         </div>
-  );
+    );
 };
 
 export default Mesgroups;
