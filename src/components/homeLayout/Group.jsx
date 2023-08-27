@@ -132,11 +132,13 @@ const Group = () => {
     };
 
     let handelGroupJoin = (item) => {
+        console.log(item.groupTagline);
         set(push(ref(db, "groupjoinrequest/")), {
             adminId: item.adminId,
             adminName: item.adminName,
             groupId: item.groupId,
             groupName: item.groupName,
+            groupTagline :item.groupTagline,
             userId: userData.uid,
             userName: userData.displayName,
         });

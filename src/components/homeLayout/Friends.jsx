@@ -31,6 +31,29 @@ const Friends = ({button}) => {
                 }
             });
             setFriends(arr);
+            if(userData.uid == arr[0].receiverid){
+                dispatch(activeChat({
+                    type: "singlemsg",
+                    name: arr[0].sendername,
+                    id:arr[0].senderid
+                }))
+                localStorage.setItem("activeChat" ,JSON.stringify({
+                    type: "singlemsg",
+                    name: arr[0].sendername,
+                    id:arr[0].senderid
+                }))
+            }else{
+                dispatch(activeChat({
+                    type: "singlemsg",
+                    name: arr[0].receivername,
+                    id:arr[0].receiverid
+                }))
+                localStorage.setItem("activeChat" ,JSON.stringify({
+                    type: "singlemsg",
+                    name: arr[0].receivername,
+                    id:arr[0].receiverid
+                }))
+            }
         });
     }, []);
 
@@ -67,8 +90,18 @@ const Friends = ({button}) => {
                 name: item.sendername,
                 id:item.senderid
             }))
+            localStorage.setItem("activeChat" ,JSON.stringify({
+                type: "singlemsg",
+                name: item.sendername,
+                id:item.senderid
+            }))
         }else{
             dispatch(activeChat({
+                type: "singlemsg",
+                name: item.receivername,
+                id:item.receiverid
+            }))
+            localStorage.setItem("activeChat" ,JSON.stringify({
                 type: "singlemsg",
                 name: item.receivername,
                 id:item.receiverid

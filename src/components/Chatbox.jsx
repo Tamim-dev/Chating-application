@@ -11,9 +11,7 @@ import { useSelector } from "react-redux";
 const Chatbox = () => {
 
     let chatData = useSelector((state)=>state.activeChat.activeChat)
-    if(chatData == null){
-        return
-    }
+    
     return (
         <div className="boxs">
             <div className="chatprofile">
