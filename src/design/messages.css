@@ -1,6 +1,6 @@
 /* width */
 .chattext::-webkit-scrollbar {
-    width: 3px;
+    width: 0px;
   }
   
   /* Track */
@@ -75,6 +75,8 @@
     display: inline-block;
     border-radius: 10px;
     margin-top: 2px;
+    max-width: 80%;
+    word-wrap: break-word;
 }
 .sendchattextmes{
     padding: 13px 52px;
@@ -83,6 +85,8 @@
     margin-top: 2px;
     color: white;
     display: inline-block;
+    max-width: 80%;
+    word-wrap: break-word;
 }
 
 
@@ -90,6 +94,7 @@
     display: flex;
     flex-direction: column;
     align-items: flex-end;
+    
 }
 .chatinput{
 
@@ -97,7 +102,7 @@
 
 /* speech bubble 14 */
 
-.sb14:before {
+/* .sb14:before {
     content: "";
     width: 0px;
     height: 0px;
@@ -109,26 +114,26 @@
     left: -16px;
     top: 21px;
     transform: rotateX(180deg);
-}
+} */
 
 .box3 {
-    margin-left: 15px;
+    /* margin-left: 15px; */
     border-radius: 15px;
     background: #F1F1F1;
-    padding: 13px 52px;
-    text-align: center;
+    padding: 13px 42px;
+    /* text-align: center; */
     position: relative;
 }
 .sendbox3 {
-    margin-right: 16px;
+    /* margin-right: 16px; */
     border-radius: 15px;
     background: #5F35F5;
-    padding: 13px 52px;
-    text-align: center;
+    padding: 13px 42px;
+    /* text-align: center; */
     position: relative;
 }
 
-.sendsb14:before {
+/* .sendsb14:before {
     content: "";
     width: 0px;
     height: 0px;
@@ -140,7 +145,7 @@
     right: -16px;
     top: 21px;
     transform: rotateX(180deg);
-  }
+  } */
   
   .chattime{
     font-size: 10px;

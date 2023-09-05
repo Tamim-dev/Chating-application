@@ -21,6 +21,7 @@ const Chatbox = () => {
     const db = getDatabase();
     let [meg, setMeg] = useState("");
     let [meglist, setMegList] = useState([]);
+    let [groupmeglist, setGroupMegList] = useState([]);
     let chatData = useSelector((state) => state.activeChat.activeChat);
     let userData = useSelector((state) => state.loggedUser.loginUser);
 
@@ -39,7 +40,56 @@ const Chatbox = () => {
             });
             setMegList(arr);
         });
-    }, []);
+
+        onValue(ref(db, "groupmsg/"), (snapshot) => {
+            let arr = [];
+            snapshot.forEach((item) => {
+                if (
+                    (item.val().sendmegid == chatData.id &&
+                        item.val().getmegid == userData.uid) ||
+                    (item.val().sendmegid == userData.uid &&
+                        item.val().getmegid == chatData.id)
+                ) {
+                    arr.push(item.val());
+                }
+            });
+            setGroupMegList(arr);
+        });
+    }, [chatData.id]);
+
+    let handelKyUp = (e) => {
+        if (e.key == "Enter") {
+            if (meg != "") {
+                if (chatData.type == "singlemsg") {
+                    set(push(ref(db, "singlmsg")), {
+                        getmegid: chatData.id,
+                        getmegname: chatData.name,
+                        sendmegid: userData.uid,
+                        sendmegname: userData.displayName,
+                        meg: meg,
+                        date: `${new Date().getFullYear()}-${
+                            new Date().getMonth() + 1
+                        }-${new Date().getDate()} ${new Date().getHours()}:${new Date().getMinutes()}`,
+                    }).then(() => {
+                        setMeg("");
+                    });
+                } else {
+                    set(push(ref(db, "groupmsg")), {
+                        getmegid: chatData.id,
+                        getmegname: chatData.name,
+                        sendmegid: userData.uid,
+                        sendmegname: userData.displayName,
+                        meg: meg,
+                        date: `${new Date().getFullYear()}-${
+                            new Date().getMonth() + 1
+                        }-${new Date().getDate()} ${new Date().getHours()}:${new Date().getMinutes()}`,
+                    }).then(() => {
+                        setMeg("");
+                    });
+                }
+            }
+        }
+    };
 
     let handelmeg = () => {
         if (meg != "") {
@@ -53,9 +103,9 @@ const Chatbox = () => {
                     date: `${new Date().getFullYear()}-${
                         new Date().getMonth() + 1
                     }-${new Date().getDate()} ${new Date().getHours()}:${new Date().getMinutes()}`,
-                }).then(()=>{
-                    setMeg("")
-                })
+                }).then(() => {
+                    setMeg("");
+                });
             } else {
                 set(push(ref(db, "groupmsg")), {
                     getmegid: chatData.id,
@@ -66,9 +116,9 @@ const Chatbox = () => {
                     date: `${new Date().getFullYear()}-${
                         new Date().getMonth() + 1
                     }-${new Date().getDate()} ${new Date().getHours()}:${new Date().getMinutes()}`,
-                }).then(()=>{
-                    setMeg("")
-                })
+                }).then(() => {
+                    setMeg("");
+                });
             }
         }
     };
@@ -85,29 +135,70 @@ const Chatbox = () => {
             </div>
 
             <div className="chattext">
-                {meglist.map((item) =>
-                    item.sendmegid == userData.uid &&
-                    item.getmegid == chatData.id ? (
-                        <div className="sendmess">
-                            <p className="sendchattextmes sendbox3 sendsb14">
-                                {item.meg}
-                            </p>
-                            <p className="chattime">{moment(
-                                item.date,
-                                "YYYYMMDD hh:mm"
-                            ).fromNow()}</p>
-                        </div>
-                    ) : (
-                        <div>
-                            <p className="chattextmes box3 sb14">{item.meg}</p>
-                            <p className="chattime">
-                                {moment(
-                                    item.date,
-                                    "YYYYMMDD hh:mm"
-                                ).fromNow()}
-                            </p>
-                        </div>
+                {chatData.type == "singlemsg" ? (
+                    meglist.map((item) =>
+                        item.sendmegid == userData.uid &&
+                        item.getmegid == chatData.id ? (
+                            <div className="sendmess">
+                                <p className="sendchattextmes sendbox3 sendsb14">
+                                    {item.meg}
+                                </p>
+                                <p className="chattime">
+                                    {moment(
+                                        item.date,
+                                        "YYYYMMDD hh:mm"
+                                    ).fromNow()}
+                                </p>
+                            </div>
+                        ) : (
+                            item.sendmegid == chatData.id &&
+                            item.getmegid == userData.uid && (
+                                <div>
+                                    <p className="chattextmes box3 sb14">
+                                        {item.meg}
+                                    </p>
+                                    <p className="chattime">
+                                        {moment(
+                                            item.date,
+                                            "YYYYMMDD hh:mm"
+                                        ).fromNow()}
+                                    </p>
+                                </div>
+                            )
+                        )
                     )
+                ) : (
+                    groupmeglist.map(item=>(
+                        item.sendmegid == userData.uid &&
+                        item.getmegid == chatData.id ? (
+                            <div className="sendmess">
+                                <p className="sendchattextmes sendbox3 sendsb14">
+                                    {item.meg}
+                                </p>
+                                <p className="chattime">
+                                    {moment(
+                                        item.date,
+                                        "YYYYMMDD hh:mm"
+                                    ).fromNow()}
+                                </p>
+                            </div>
+                        ) : (
+                            item.sendmegid == chatData.id &&
+                            item.getmegid == userData.uid && (
+                                <div>
+                                    <p className="chattextmes box3 sb14">
+                                        {item.meg}
+                                    </p>
+                                    <p className="chattime">
+                                        {moment(
+                                            item.date,
+                                            "YYYYMMDD hh:mm"
+                                        ).fromNow()}
+                                    </p>
+                                </div>
+                            )
+                        )
+                    ))
                 )}
                 {/*
                 <div>
@@ -148,6 +239,7 @@ const Chatbox = () => {
                 <input
                     className="chatinput"
                     onChange={(e) => setMeg(e.target.value)}
+                    onKeyUp={handelKyUp}
                     value={meg}
                 />
                 <Button
