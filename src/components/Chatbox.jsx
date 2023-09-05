@@ -1,17 +1,53 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import messages from "../design/messages.css";
 import Image from "./layout/Image";
 import resgisrationimg from "../assets/registrationimg.png";
 import profile from "../assets/profile.png";
 import ModalImage from "react-modal-image";
 import { Button } from "@mui/material";
-import {RiSendPlaneFill} from "react-icons/ri"
+import { RiSendPlaneFill } from "react-icons/ri";
 import { useSelector } from "react-redux";
+import {
+    getDatabase,
+    ref,
+    onValue,
+    set,
+    push,
+    remove,
+} from "firebase/database";
 
 const Chatbox = () => {
+    const db = getDatabase();
+    let [meg, setMeg] = useState("");
+    let chatData = useSelector((state) => state.activeChat.activeChat);
+    let userData = useSelector((state) => state.loggedUser.loginUser);
 
-    let chatData = useSelector((state)=>state.activeChat.activeChat)
-    
+    useEffect(() => {
+        onValue(ref(db, "singlmsg/"), (snapshot) => {
+            let arr = [];
+            snapshot.forEach((item) => {
+                arr.push(item.val());
+            });
+            setGroups(arr);
+        });
+    }, []);
+
+    let handelmeg = () => {
+        if (meg != "") {
+            if (chatData.type == "singlemsg") {
+                set(push(ref(db, "singlmsg")), {
+                    getmegid: chatData.id,
+                    getmegname: chatData.name,
+                    sendmegid: userData.uid,
+                    sendmegname: userData.displayName,
+                    meg: meg,
+                });
+            } else {
+                console.log("group");
+            }
+        }
+    };
+
     return (
         <div className="boxs">
             <div className="chatprofile">
@@ -34,6 +70,7 @@ const Chatbox = () => {
                     </p>
                     <p className="chattime">Today, 2:01pm</p>
                 </div>
+                {/*
                 <div>
                     <ModalImage
                         className="sendimg"
@@ -50,6 +87,7 @@ const Chatbox = () => {
                     />
                     <p className="chattime">Today, 2:01pm</p>
                 </div>
+                
                 <div>
                     <audio style={{ marginTop: "2px" }} controls></audio>
                     <p className="chattime">Today, 2:01pm</p>
@@ -65,11 +103,20 @@ const Chatbox = () => {
                 <div className="sendmess">
                     <video width="360" height="240" controls></video>
                     <p className="chattime">Today, 2:01pm</p>
-                </div>
+                </div>*/}
             </div>
             <div className="chatinputbox">
-            <input className="chatinput"/>
-            <Button className="chatbtn" variant="contained" ><RiSendPlaneFill/></Button>
+                <input
+                    className="chatinput"
+                    onChange={(e) => setMeg(e.target.value)}
+                />
+                <Button
+                    className="chatbtn"
+                    variant="contained"
+                    onClick={handelmeg}
+                >
+                    <RiSendPlaneFill />
+                </Button>
             </div>
         </div>
     );

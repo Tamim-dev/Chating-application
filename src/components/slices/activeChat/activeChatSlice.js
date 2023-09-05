@@ -2,9 +2,9 @@ import { createSlice } from '@reduxjs/toolkit'
 
 
 export const activeChatSlice = createSlice({
-  name: 'chat',
+  name: 'activeChat',
   initialState: {
-    activeChat: null
+    activeChat: localStorage.getItem("activeChat")? JSON.parse(localStorage.getItem("activeChat")):null 
   },
   reducers: {
     activeChat: (state,actions) => {
