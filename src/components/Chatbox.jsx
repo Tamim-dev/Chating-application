@@ -15,6 +15,7 @@ import {
     push,
     remove,
 } from "firebase/database";
+import moment from "moment/moment";
 
 const Chatbox = () => {
     const db = getDatabase();
@@ -41,6 +42,9 @@ const Chatbox = () => {
                     sendmegid: userData.uid,
                     sendmegname: userData.displayName,
                     meg: meg,
+                    date: `${new Date().getFullYear()}-${
+                        new Date().getMonth() + 1
+                    }-${new Date().getDate()} ${new Date().getHours()}:${new Date().getMinutes()}`,
                 });
             } else {
                 console.log("group");
@@ -62,7 +66,9 @@ const Chatbox = () => {
             <div className="chattext">
                 <div>
                     <p className="chattextmes box3 sb14">Hey There !</p>
-                    <p className="chattime">Today, 2:01pm</p>
+                    <p className="chattime">
+                        {moment("2023-9-5 20:02", "YYYYMMDD hh:mm").fromNow()}
+                    </p>
                 </div>
                 <div className="sendmess">
                     <p className="sendchattextmes sendbox3 sendsb14">
