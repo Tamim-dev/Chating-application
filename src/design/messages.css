@@ -1,6 +1,6 @@
 /* width */
 .chattext::-webkit-scrollbar {
-    width: 0px;
+    width: 5px;
   }
   
   /* Track */
@@ -11,13 +11,13 @@
    
   /* Handle */
   .chattext::-webkit-scrollbar-thumb {
-    background:#5F35F5; 
+    background:#000000a5; 
     border-radius: 10px;
   }
   
   /* Handle on hover */
   .chattext::-webkit-scrollbar-thumb:hover {
-    background: #461be2; 
+    background: #000000db; 
   }
 
 .boxs {
@@ -96,9 +96,6 @@
     align-items: flex-end;
     
 }
-.chatinput{
-
-}
 
 /* speech bubble 14 */
 
@@ -154,7 +151,7 @@
   }
   .sendimg{
     margin-top: 2px;
-    width: 250px;
+    width: 300px;
     height: 250px;
     border-radius: 10px;
     object-fit: cover;
@@ -162,7 +159,7 @@
 
 
   .chatinput{
-    width: 90%;
+    width: 100%;
     background: #F1F1F1;
     padding: 15px 100px 15px 15px;
     border: 1px solid #F1F1F1;
@@ -173,9 +170,10 @@
   }
   
   .chatinputbox{
+    position: relative;
     border-top: 1.5px solid rgba(0, 0, 0,.35) ;
     display: flex;
-    column-gap: 15px;
+    column-gap: 5px;
   }
 
   .chatbtn{

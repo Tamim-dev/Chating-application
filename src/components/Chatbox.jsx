@@ -16,14 +16,25 @@ import {
     remove,
 } from "firebase/database";
 import moment from "moment/moment";
+import {
+    getStorage,
+    ref as imgref,
+    uploadBytesResumable,
+    getDownloadURL,
+} from "firebase/storage";
+import { BiImage } from "react-icons/bi";
+import Stack from "@mui/material/Stack";
+import CircularProgress from "@mui/material/CircularProgress";
 
 const Chatbox = () => {
     const db = getDatabase();
+    const storage = getStorage();
     let [meg, setMeg] = useState("");
     let [meglist, setMegList] = useState([]);
     let [groupmeglist, setGroupMegList] = useState([]);
     let chatData = useSelector((state) => state.activeChat.activeChat);
     let userData = useSelector((state) => state.loggedUser.loginUser);
+    const [progress, setProgress] = React.useState(0);
 
     useEffect(() => {
         onValue(ref(db, "singlmsg/"), (snapshot) => {
@@ -44,14 +55,7 @@ const Chatbox = () => {
         onValue(ref(db, "groupmsg/"), (snapshot) => {
             let arr = [];
             snapshot.forEach((item) => {
-                if (
-                    (item.val().sendmegid == chatData.id &&
-                        item.val().getmegid == userData.uid) ||
-                    (item.val().sendmegid == userData.uid &&
-                        item.val().getmegid == chatData.id)
-                ) {
-                    arr.push(item.val());
-                }
+                arr.push(item.val());
             });
             setGroupMegList(arr);
         });
@@ -89,6 +93,60 @@ const Chatbox = () => {
                 }
             }
         }
+    };
+
+    let handelFile = (e) => {
+        // console.log(e.target.files[0]);
+        const storageRef = imgref(storage, `${e.target.files[0].name}`);
+        const uploadTask = uploadBytesResumable(storageRef, e.target.files[0]);
+        uploadTask.on(
+            "state_changed",
+            (snapshot) => {
+                const progress =
+                    (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                setProgress(progress);
+                switch (snapshot.state) {
+                    case "paused":
+                        break;
+                    case "running":
+                        break;
+                }
+            },
+            (error) => {},
+            () => {
+                getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+                    setProgress(0);
+
+                    if (chatData.type == "singlemsg") {
+                        set(push(ref(db, "singlmsg")), {
+                            getmegid: chatData.id,
+                            getmegname: chatData.name,
+                            sendmegid: userData.uid,
+                            sendmegname: userData.displayName,
+                            img: downloadURL,
+                            date: `${new Date().getFullYear()}-${
+                                new Date().getMonth() + 1
+                            }-${new Date().getDate()} ${new Date().getHours()}:${new Date().getMinutes()}`,
+                        }).then(() => {
+                            setMeg("");
+                        });
+                    } else {
+                        set(push(ref(db, "groupmsg")), {
+                            getmegid: chatData.id,
+                            getmegname: chatData.name,
+                            sendmegid: userData.uid,
+                            sendmegname: userData.displayName,
+                            img: downloadURL,
+                            date: `${new Date().getFullYear()}-${
+                                new Date().getMonth() + 1
+                            }-${new Date().getDate()} ${new Date().getHours()}:${new Date().getMinutes()}`,
+                        }).then(() => {
+                            setMeg("");
+                        });
+                    }
+                });
+            }
+        );
     };
 
     let handelmeg = () => {
@@ -135,71 +193,112 @@ const Chatbox = () => {
             </div>
 
             <div className="chattext">
-                {chatData.type == "singlemsg" ? (
-                    meglist.map((item) =>
-                        item.sendmegid == userData.uid &&
-                        item.getmegid == chatData.id ? (
-                            <div className="sendmess">
-                                <p className="sendchattextmes sendbox3 sendsb14">
-                                    {item.meg}
-                                </p>
-                                <p className="chattime">
-                                    {moment(
-                                        item.date,
-                                        "YYYYMMDD hh:mm"
-                                    ).fromNow()}
-                                </p>
-                            </div>
-                        ) : (
-                            item.sendmegid == chatData.id &&
-                            item.getmegid == userData.uid && (
-                                <div>
-                                    <p className="chattextmes box3 sb14">
-                                        {item.meg}
-                                    </p>
-                                    <p className="chattime">
-                                        {moment(
-                                            item.date,
-                                            "YYYYMMDD hh:mm"
-                                        ).fromNow()}
-                                    </p>
-                                </div>
-                            )
-                        )
-                    )
-                ) : (
-                    groupmeglist.map(item=>(
-                        item.sendmegid == userData.uid &&
-                        item.getmegid == chatData.id ? (
-                            <div className="sendmess">
-                                <p className="sendchattextmes sendbox3 sendsb14">
-                                    {item.meg}
-                                </p>
-                                <p className="chattime">
-                                    {moment(
-                                        item.date,
-                                        "YYYYMMDD hh:mm"
-                                    ).fromNow()}
-                                </p>
-                            </div>
-                        ) : (
-                            item.sendmegid == chatData.id &&
-                            item.getmegid == userData.uid && (
-                                <div>
-                                    <p className="chattextmes box3 sb14">
-                                        {item.meg}
-                                    </p>
-                                    <p className="chattime">
-                                        {moment(
-                                            item.date,
-                                            "YYYYMMDD hh:mm"
-                                        ).fromNow()}
-                                    </p>
-                                </div>
-                            )
-                        )
-                    ))
-                )}
+                {chatData.type == "singlemsg"
+                    ? meglist.map((item) =>
+                          item.sendmegid == userData.uid &&
+                          item.getmegid == chatData.id ? (
+                              <div className="sendmess">
+                                  {item.meg ? (
+                                      <p className="sendchattextmes sendbox3 sendsb14">
+                                          {item.meg}
+                                      </p>
+                                  ) : (
+                                      <div>
+                                          <ModalImage
+                                              className="sendimg"
+                                              small={item.img}
+                                              large={item.img}
+                                          />
+                                      </div>
+                                  )}
+                                  <p className="chattime">
+                                      {moment(
+                                          item.date,
+                                          "YYYYMMDD hh:mm"
+                                      ).fromNow()}
+                                  </p>
+                              </div>
+                          ) : (
+                              item.sendmegid == chatData.id &&
+                              item.getmegid == userData.uid && (
+                                  <div>
+                                      {item.meg ? (
+                                          <p className="chattextmes box3 sb14">
+                                              {item.meg}
+                                          </p>
+                                      ) : (
+                                          <div>
+                                              <ModalImage
+                                                  className="sendimg"
+                                                  small={item.img}
+                                                  large={item.img}
+                                              />
+                                          </div>
+                                      )}
+                                      <p className="chattime">
+                                          {moment(
+                                              item.date,
+                                              "YYYYMMDD hh:mm"
+                                          ).fromNow()}
+                                      </p>
+                                  </div>
+                              )
+                          )
+                      )
+                    : groupmeglist.map((item) =>
+                          item.sendmegid == userData.uid &&
+                          item.getmegid == chatData.id ? (
+                              <div className="sendmess">
+                                  {item.meg ? (
+                                      <p className="sendchattextmes sendbox3 sendsb14">
+                                          {item.meg}
+                                      </p>
+                                  ) : (
+                                      <div>
+                                          <ModalImage
+                                              className="sendimg"
+                                              small={item.img}
+                                              large={item.img}
+                                          />
+                                      </div>
+                                  )}
+                                  <p className="chattime">
+                                      {moment(
+                                          item.date,
+                                          "YYYYMMDD hh:mm"
+                                      ).fromNow()}
+                                  </p>
+                              </div>
+                          ) : (
+                              item.getmegid == chatData.id && (
+                                  <div>
+                                      {item.meg ? (
+                                          <p className="chattextmes box3 sb14">
+                                              {item.meg}
+                                          </p>
+                                      ) : (
+                                          <div>
+                                              <ModalImage
+                                                  className="sendimg"
+                                                  small={item.img}
+                                                  large={item.img}
+                                              />
+                                          </div>
+                                      )}
+                                      <p className="chattime">
+                                          <span style={{ color: "#262626" }}>
+                                              {item.sendmegname}
+                                          </span>{" "}
+                                          by{" "}
+                                          {moment(
+                                              item.date,
+                                              "YYYYMMDD hh:mm"
+                                          ).fromNow()}
+                                      </p>
+                                  </div>
+                              )
+                          )
+                      )}
                 {/*
                 <div>
                     <ModalImage
@@ -242,6 +341,18 @@ const Chatbox = () => {
                     onKeyUp={handelKyUp}
                     value={meg}
                 />
+                <label>
+                    <input type="file" hidden onChange={handelFile} />
+                    <BiImage
+                        style={{
+                            position: "absolute",
+                            top: "18px",
+                            right: "90px",
+                            fontSize: "28px",
+                            cursor: "pointer",
+                        }}
+                    />
+                </label>
                 <Button
                     className="chatbtn"
                     variant="contained"
@@ -250,6 +361,7 @@ const Chatbox = () => {
                     <RiSendPlaneFill />
                 </Button>
             </div>
+            <CircularProgress variant="determinate" value={progress} />
         </div>
     );
 };
