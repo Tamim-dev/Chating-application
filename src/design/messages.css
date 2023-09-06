@@ -157,6 +157,12 @@
     object-fit: cover;
   }
 
+  .progressbar{
+    position: absolute;
+    top: 45%;
+    left: 45%;
+  }
+
 
   .chatinput{
     width: 100%;

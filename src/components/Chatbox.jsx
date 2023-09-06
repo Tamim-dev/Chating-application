@@ -23,8 +23,10 @@ import {
     getDownloadURL,
 } from "firebase/storage";
 import { BiImage } from "react-icons/bi";
+import { BsEmojiSmileFill } from "react-icons/bs";
 import Stack from "@mui/material/Stack";
 import CircularProgress from "@mui/material/CircularProgress";
+import EmojiPicker from 'emoji-picker-react';
 
 const Chatbox = () => {
     const db = getDatabase();
@@ -341,8 +343,18 @@ const Chatbox = () => {
                     onKeyUp={handelKyUp}
                     value={meg}
                 />
+                <BsEmojiSmileFill
+                    style={{
+                        position: "absolute",
+                        top: "21px",
+                        right: "125px",
+                        fontSize: "22px",
+                        cursor: "pointer",
+                    }}
+                />
                 <label>
                     <input type="file" hidden onChange={handelFile} />
+                    {/*<EmojiPicker />*/}
                     <BiImage
                         style={{
                             position: "absolute",
@@ -361,7 +373,7 @@ const Chatbox = () => {
                     <RiSendPlaneFill />
                 </Button>
             </div>
-            <CircularProgress variant="determinate" value={progress} />
+            <CircularProgress className="progressbar" variant="determinate" value={progress} />
         </div>
     );
 };
