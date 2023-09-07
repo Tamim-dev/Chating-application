@@ -24,9 +24,10 @@ import {
 } from "firebase/storage";
 import { BiImage } from "react-icons/bi";
 import { BsEmojiSmileFill } from "react-icons/bs";
-import Stack from "@mui/material/Stack";
+import { MdOutlineCancel } from "react-icons/md";
 import CircularProgress from "@mui/material/CircularProgress";
-import EmojiPicker from 'emoji-picker-react';
+import EmojiPicker from "emoji-picker-react";
+import { AudioRecorder } from "react-audio-voice-recorder";
 
 const Chatbox = () => {
     const db = getDatabase();
@@ -34,9 +35,17 @@ const Chatbox = () => {
     let [meg, setMeg] = useState("");
     let [meglist, setMegList] = useState([]);
     let [groupmeglist, setGroupMegList] = useState([]);
+    let [showemoji, setShowEmoji] = useState(false);
+    let [audiourl, setAudiourl] = useState("");
     let chatData = useSelector((state) => state.activeChat.activeChat);
     let userData = useSelector((state) => state.loggedUser.loginUser);
     const [progress, setProgress] = React.useState(0);
+
+    const addAudioElement = (blob) => {
+        const url = URL.createObjectURL(blob);
+        setAudiourl(blob);
+        console.log(blob.type);
+    };
 
     useEffect(() => {
         onValue(ref(db, "singlmsg/"), (snapshot) => {
@@ -63,6 +72,10 @@ const Chatbox = () => {
         });
     }, [chatData.id]);
 
+    let handleMeg = (e) => {
+        setMeg(e.target.value);
+    };
+
     let handelKyUp = (e) => {
         if (e.key == "Enter") {
             if (meg != "") {
@@ -78,6 +91,7 @@ const Chatbox = () => {
                         }-${new Date().getDate()} ${new Date().getHours()}:${new Date().getMinutes()}`,
                     }).then(() => {
                         setMeg("");
+                        setShowEmoji(false);
                     });
                 } else {
                     set(push(ref(db, "groupmsg")), {
@@ -91,6 +105,7 @@ const Chatbox = () => {
                         }-${new Date().getDate()} ${new Date().getHours()}:${new Date().getMinutes()}`,
                     }).then(() => {
                         setMeg("");
+                        setShowEmoji(false);
                     });
                 }
             }
@@ -131,6 +146,7 @@ const Chatbox = () => {
                             }-${new Date().getDate()} ${new Date().getHours()}:${new Date().getMinutes()}`,
                         }).then(() => {
                             setMeg("");
+                            setShowEmoji(false);
                         });
                     } else {
                         set(push(ref(db, "groupmsg")), {
@@ -144,6 +160,7 @@ const Chatbox = () => {
                             }-${new Date().getDate()} ${new Date().getHours()}:${new Date().getMinutes()}`,
                         }).then(() => {
                             setMeg("");
+                            setShowEmoji(false);
                         });
                     }
                 });
@@ -165,6 +182,7 @@ const Chatbox = () => {
                     }-${new Date().getDate()} ${new Date().getHours()}:${new Date().getMinutes()}`,
                 }).then(() => {
                     setMeg("");
+                    setShowEmoji(false);
                 });
             } else {
                 set(push(ref(db, "groupmsg")), {
@@ -178,9 +196,14 @@ const Chatbox = () => {
                     }-${new Date().getDate()} ${new Date().getHours()}:${new Date().getMinutes()}`,
                 }).then(() => {
                     setMeg("");
+                    setShowEmoji(false);
                 });
             }
         }
+    };
+
+    let handelEmoji = (emo) => {
+        setMeg(meg + emo.emoji);
     };
 
     return (
@@ -339,11 +362,12 @@ const Chatbox = () => {
             <div className="chatinputbox">
                 <input
                     className="chatinput"
-                    onChange={(e) => setMeg(e.target.value)}
+                    onChange={handleMeg}
                     onKeyUp={handelKyUp}
                     value={meg}
                 />
                 <BsEmojiSmileFill
+                    onClick={() => setShowEmoji(!showemoji)}
                     style={{
                         position: "absolute",
                         top: "21px",
@@ -352,14 +376,14 @@ const Chatbox = () => {
                         cursor: "pointer",
                     }}
                 />
+                {showemoji && <EmojiPicker onEmojiClick={handelEmoji} />}
                 <label>
                     <input type="file" hidden onChange={handelFile} />
-                    {/*<EmojiPicker />*/}
                     <BiImage
                         style={{
                             position: "absolute",
                             top: "18px",
-                            right: "90px",
+                            right: "83px",
                             fontSize: "28px",
                             cursor: "pointer",
                         }}
@@ -372,8 +396,34 @@ const Chatbox = () => {
                 >
                     <RiSendPlaneFill />
                 </Button>
+                <AudioRecorder
+                    className="audiorecorder"
+                    onRecordingComplete={addAudioElement}
+                    audioTrackConstraints={{
+                        noiseSuppression: true,
+                        echoCancellation: true,
+                    }}
+                    downloadOnSavePress={false}
+                    downloadFileExtension="webm"
+                />
+                {audiourl && (
+                    <div className="audiourl">
+                        <audio controls></audio>
+                        <Button
+                            variant="text"
+                            size="medium"
+                            onClick={() => setAudiourl("")}
+                        >
+                            <MdOutlineCancel className="audioicon"/>
+                        </Button>
+                    </div>
+                )}
             </div>
-            <CircularProgress className="progressbar" variant="determinate" value={progress} />
+            <CircularProgress
+                className="progressbar"
+                variant="determinate"
+                value={progress}
+            />
         </div>
     );
 };

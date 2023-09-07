@@ -20,6 +20,7 @@
     "material-ui-popup-state": "^5.0.9",
     "moment": "^2.29.4",
     "react": "^18.2.0",
+    "react-audio-voice-recorder": "^2.1.2",
     "react-dom": "^18.2.0",
     "react-icons": "^4.9.0",
     "react-modal-image": "^2.6.0",

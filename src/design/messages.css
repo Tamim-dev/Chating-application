@@ -1,24 +1,24 @@
 /* width */
 .chattext::-webkit-scrollbar {
     width: 5px;
-  }
-  
-  /* Track */
-  .chattext::-webkit-scrollbar-track {
-    box-shadow: inset 0 0 1px rgb(255, 255, 255); 
+}
+
+/* Track */
+.chattext::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 1px rgb(255, 255, 255);
     border-radius: 10px;
-  }
-   
-  /* Handle */
-  .chattext::-webkit-scrollbar-thumb {
-    background:#000000a5; 
+}
+
+/* Handle */
+.chattext::-webkit-scrollbar-thumb {
+    background: #000000a5;
     border-radius: 10px;
-  }
-  
-  /* Handle on hover */
-  .chattext::-webkit-scrollbar-thumb:hover {
-    background: #000000db; 
-  }
+}
+
+/* Handle on hover */
+.chattext::-webkit-scrollbar-thumb:hover {
+    background: #000000db;
+}
 
 .boxs {
     padding: 15px 26px 15px 26px;
@@ -52,25 +52,25 @@
     /* box-sizing: border-box; */
 }
 
-.chatprofileimg{
+.chatprofileimg {
     margin-bottom: 15px;
 }
 
 .chatprofile {
     display: flex;
     position: relative;
-    border-bottom: 1.5px solid rgba(0, 0, 0,.25);
+    border-bottom: 1.5px solid rgba(0, 0, 0, 0.25);
     column-gap: 20px;
 }
 
-.chattext{
+.chattext {
     height: 70vh;
     position: relative;
     overflow-y: scroll;
 }
 
-.chattextmes{
-    background: #F1F1F1;
+.chattextmes {
+    background: #f1f1f1;
     padding: 13px 52px;
     display: inline-block;
     border-radius: 10px;
@@ -78,7 +78,7 @@
     max-width: 80%;
     word-wrap: break-word;
 }
-.sendchattextmes{
+.sendchattextmes {
     padding: 13px 52px;
     display: inline-block;
     border-radius: 10px;
@@ -89,12 +89,10 @@
     word-wrap: break-word;
 }
 
-
-.sendmess{
+.sendmess {
     display: flex;
     flex-direction: column;
     align-items: flex-end;
-    
 }
 
 /* speech bubble 14 */
@@ -116,7 +114,7 @@
 .box3 {
     /* margin-left: 15px; */
     border-radius: 15px;
-    background: #F1F1F1;
+    background: #f1f1f1;
     padding: 13px 42px;
     /* text-align: center; */
     position: relative;
@@ -124,7 +122,7 @@
 .sendbox3 {
     /* margin-right: 16px; */
     border-radius: 15px;
-    background: #5F35F5;
+    background: #5f35f5;
     padding: 13px 42px;
     /* text-align: center; */
     position: relative;
@@ -143,47 +141,87 @@
     top: 21px;
     transform: rotateX(180deg);
   } */
-  
-  .chattime{
+
+.chattime {
     font-size: 10px;
-    color:rgba(0, 0, 0,.35);
+    color: rgba(0, 0, 0, 0.35);
     margin: 0px 15px;
-  }
-  .sendimg{
+}
+.sendimg {
     margin-top: 2px;
     width: 300px;
     height: 250px;
     border-radius: 10px;
     object-fit: cover;
-  }
+}
 
-  .progressbar{
+.progressbar {
     position: absolute;
     top: 45%;
     left: 45%;
-  }
+}
 
-
-  .chatinput{
+.chatinput {
     width: 100%;
-    background: #F1F1F1;
-    padding: 15px 100px 15px 15px;
-    border: 1px solid #F1F1F1;
+    background: #f1f1f1;
+    padding: 15px 110px 15px 15px;
+    border: 1px solid #f1f1f1;
     border-radius: 10px;
     box-sizing: border-box;
     font-size: 20px;
     margin-top: 5px;
-  }
-  
-  .chatinputbox{
+}
+
+.chatinputbox {
     position: relative;
-    border-top: 1.5px solid rgba(0, 0, 0,.35) ;
+    border-top: 1.5px solid rgba(0, 0, 0, 0.35);
     display: flex;
     column-gap: 5px;
-  }
+}
 
-  .chatbtn{
+.chatbtn {
     margin-top: 5px !important;
-    background: #5F35F5 !important;
+    background: #5f35f5 !important;
     font-size: 24px !important;
-  }
+}
+
+.emoji {
+    position: absolute !important;
+}
+
+.EmojiPickerReact {
+    width: 350px !important;
+    height: 400px !important;
+    position: absolute !important;
+    bottom: 61px;
+    right: 76px;
+}
+
+.audio-recorder {
+    position: absolute;
+    top: 13px;
+    right: 153px;
+    background: transparent !important;
+    box-shadow: 0 0px 0px transparent !important;
+    font-size: 32px !important;
+}
+
+.audiourl {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    bottom: 61px;
+}
+
+.audioicon {
+    font-size: 32px !important;
+}
+
+
+
+audio::-webkit-media-controls-play-button,
+audio::-webkit-media-controls-panel {
+    background-color: #f1f1f1;
+}
