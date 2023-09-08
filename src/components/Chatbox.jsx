@@ -74,6 +74,7 @@ const Chatbox = () => {
 
     let handleMeg = (e) => {
         setMeg(e.target.value);
+        console.log(meg);
     };
 
     let handelKyUp = (e) => {
@@ -204,6 +205,7 @@ const Chatbox = () => {
 
     let handelEmoji = (emo) => {
         setMeg(meg + emo.emoji);
+        
     };
 
     return (
@@ -362,9 +364,9 @@ const Chatbox = () => {
             <div className="chatinputbox">
                 <input
                     className="chatinput"
+                    value={meg}
                     onChange={handleMeg}
                     onKeyUp={handelKyUp}
-                    value={meg}
                 />
                 <BsEmojiSmileFill
                     onClick={() => setShowEmoji(!showemoji)}
@@ -414,7 +416,7 @@ const Chatbox = () => {
                             size="medium"
                             onClick={() => setAudiourl("")}
                         >
-                            <MdOutlineCancel className="audioicon"/>
+                            <MdOutlineCancel className="audioicon" />
                         </Button>
                     </div>
                 )}
