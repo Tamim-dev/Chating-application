@@ -74,7 +74,6 @@ const Chatbox = () => {
 
     let handleMeg = (e) => {
         setMeg(e.target.value);
-        console.log(meg);
     };
 
     let handelKyUp = (e) => {
@@ -145,10 +144,7 @@ const Chatbox = () => {
                             date: `${new Date().getFullYear()}-${
                                 new Date().getMonth() + 1
                             }-${new Date().getDate()} ${new Date().getHours()}:${new Date().getMinutes()}`,
-                        }).then(() => {
-                            setMeg("");
-                            setShowEmoji(false);
-                        });
+                        })
                     } else {
                         set(push(ref(db, "groupmsg")), {
                             getmegid: chatData.id,
@@ -159,10 +155,7 @@ const Chatbox = () => {
                             date: `${new Date().getFullYear()}-${
                                 new Date().getMonth() + 1
                             }-${new Date().getDate()} ${new Date().getHours()}:${new Date().getMinutes()}`,
-                        }).then(() => {
-                            setMeg("");
-                            setShowEmoji(false);
-                        });
+                        })
                     }
                 });
             }
@@ -205,7 +198,6 @@ const Chatbox = () => {
 
     let handelEmoji = (emo) => {
         setMeg(meg + emo.emoji);
-        
     };
 
     return (
