@@ -12,6 +12,7 @@ import { useNavigate } from "react-router-dom";
 import Button from "@mui/material/Button";
 import { useDispatch, useSelector } from "react-redux";
 import { userData } from "../components/slices/users/userSlice";
+import { activeChat } from "../components/slices/activeChat/activeChatSlice";
 
 const RotLayOut = () => {
     const auth = getAuth();
@@ -34,7 +35,9 @@ const RotLayOut = () => {
     let handelClick = () => {
         signOut(auth).then(() => {
             localStorage.removeItem("user");
+            localStorage.removeItem("activeChat");
             dispatch(userData(null));
+            dispatch(activeChat(null));
             navigate("/login");
         });
     };
