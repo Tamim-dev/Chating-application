@@ -20,6 +20,10 @@ import {
     ref,
     remove,
 } from "firebase/database";
+import {MdOutlineDownloadDone} from "react-icons/md"
+import {AiOutlineUsergroupAdd } from "react-icons/ai"
+import {RxCross2} from "react-icons/rx"
+import {IoIosPeople} from "react-icons/io"
 
 
 const style = {
@@ -153,7 +157,7 @@ const Mygroups = () => {
                             variant="contained"
                             onClick={() => handleOpen(item)}
                         >
-                            request
+                            <AiOutlineUsergroupAdd/>
                         </Button>
                         <Button
                             onClick={() => handleOpen2(item)}
@@ -161,7 +165,7 @@ const Mygroups = () => {
                             size="small"
                             variant="contained"
                         >
-                            member
+                            <IoIosPeople/>
                         </Button>
                     </div>
                 </div>
@@ -213,7 +217,7 @@ const Mygroups = () => {
                                         variant="contained"
                                         onClick={() => handelAccept(item)}
                                     >
-                                        Accept
+                                        <MdOutlineDownloadDone/>
                                     </Button>
                                     <Button
                                         className="btncolorerror"
@@ -221,7 +225,7 @@ const Mygroups = () => {
                                         variant="contained"
                                         onClick={() => handelReject(item)}
                                     >
-                                        reject
+                                        <RxCross2/>
                                     </Button>
                                 </div>
                                 <Divider variant="inset" component="li" />
@@ -277,7 +281,7 @@ const Mygroups = () => {
                                         variant="contained"
                                         onClick={() => handelMembersReject(item)}
                                     >
-                                        reject
+                                        <RxCross2/>
                                     </Button>
                                 </div>
                                 <Divider variant="inset" component="li" />

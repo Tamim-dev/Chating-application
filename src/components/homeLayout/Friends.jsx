@@ -12,6 +12,9 @@ import {
 } from "firebase/database";
 import { useSelector,useDispatch } from "react-redux";
 import {activeChat} from "../slices/activeChat/activeChatSlice"
+import {ImBlocked} from "react-icons/im"
+import {AiOutlineUserDelete}from "react-icons/ai"
+import {LuMessagesSquare}from "react-icons/lu"
 
 const Friends = ({button}) => {
     const db = getDatabase();
@@ -135,17 +138,17 @@ const Friends = ({button}) => {
                                 size="small"
                                 variant="contained"
                             >
-                            Messages
+                            <LuMessagesSquare/>
                             </Button>
                         ) : (
                             <>
                                 <Button
                                     onClick={() => handelUnfriend(item)}
-                                    className="btncolor"
+                                    className="btncolorunfriend"
                                     size="small"
                                     variant="contained"
                                 >
-                                    Unfriend
+                                    <AiOutlineUserDelete/>
                                 </Button>
                                 <Button
                                     onClick={() => handelBlcok(item)}
@@ -153,7 +156,7 @@ const Friends = ({button}) => {
                                     size="small"
                                     variant="contained"
                                 >
-                                    Block
+                                    <ImBlocked/>
                                 </Button>
                             </>
                         )}

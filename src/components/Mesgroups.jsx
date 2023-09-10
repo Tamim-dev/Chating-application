@@ -9,6 +9,7 @@ import {
     ref,
     onValue,
 } from "firebase/database";
+import {LuMessagesSquare}from "react-icons/lu"
 
 
 const Mesgroups = () => {
@@ -90,7 +91,7 @@ const Mesgroups = () => {
                                 variant="contained"
                                 onClick={()=>handelMagBtn(item)}
                             >
-                                Messages
+                            <LuMessagesSquare/>
                             </Button>
                         </div>
                     </div>
@@ -120,7 +121,7 @@ const Mesgroups = () => {
                                             variant="contained"
                                             onClick={()=>handelMagBtn(item)}
                                         >
-                                            Messages
+                                        <LuMessagesSquare/>
                                         </Button>
                                     </div>
                                 </div>

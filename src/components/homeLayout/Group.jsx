@@ -15,6 +15,9 @@ import {
     push,
     remove,
 } from "firebase/database";
+import {AiOutlineUsergroupAdd ,AiOutlineUsergroupDelete} from "react-icons/ai"
+import {IoIosPeople} from "react-icons/io"
+import {MdOutlineDownloadDone} from "react-icons/md"
 
 const style = {
     position: "absolute",
@@ -170,7 +173,7 @@ const Group = () => {
                 <h3 className="groupheading">Groups List</h3>
                 <Button
                     onClick={handleOpen}
-                    className="btncolor"
+                    className="btncreategroup"
                     size="small"
                     variant="contained"
                 >
@@ -194,7 +197,7 @@ const Group = () => {
                             variant="outlined"
                         />
                         {groupInfo.error?.includes("GroupName") && (
-                            <Alert className="alerterror" severity="error">
+                            <Alert className="alerterrorgroup" severity="error">
                                 Enter your Group Name
                             </Alert>
                         )}
@@ -208,7 +211,7 @@ const Group = () => {
                             variant="outlined"
                         />
                         {groupInfo.error?.includes("GroupTagline") && (
-                            <Alert className="alerterror" severity="error">
+                            <Alert className="alerterrorgroup" severity="error">
                                 Enter your Group Tagline
                             </Alert>
                         )}
@@ -226,7 +229,7 @@ const Group = () => {
                                 onClick={handelClick}
                                 variant="contained"
                             >
-                                Create
+                                <MdOutlineDownloadDone/>
                             </Button>
                         )}
                     </Box>
@@ -248,11 +251,11 @@ const Group = () => {
                         {groupRequest.indexOf(item.groupId) != -1 ? (
                             <Button
                                 onClick={() => handelGroupJoinRemove(item)}
-                                className="btncolor"
+                                className="btncolorunfriend"
                                 size="small"
                                 variant="contained"
                             >
-                                Request
+                                <AiOutlineUsergroupDelete/>
                             </Button>
                         ) : groupMembers.indexOf(item.groupId) != -1 ? (
                             <Button
@@ -260,7 +263,7 @@ const Group = () => {
                                 size="small"
                                 variant="contained"
                             >
-                                Joined
+                                <IoIosPeople/>
                             </Button>
                         ) : (
                             <Button
@@ -269,7 +272,7 @@ const Group = () => {
                                 variant="contained"
                                 onClick={() => handelGroupJoin(item)}
                             >
-                                Join
+                                <AiOutlineUsergroupAdd/>
                             </Button>
                         )}
                     </div>

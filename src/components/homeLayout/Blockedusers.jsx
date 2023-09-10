@@ -11,6 +11,7 @@ import {
     remove,
 } from "firebase/database";
 import { useSelector } from "react-redux";
+import {CgUnblock} from "react-icons/cg"
 
 const Blockedusers = () => {
     const db = getDatabase();
@@ -56,11 +57,11 @@ const Blockedusers = () => {
                     <div className="profileBtn">
                         <Button
                         onClick={()=>hadelUnBlock(item)}
-                            className="btncolor"
+                            className="btncolorerror"
                             size="small"
                             variant="contained"
                         >
-                            unblock
+                            <CgUnblock/>
                         </Button>
                     </div>
                 </div>

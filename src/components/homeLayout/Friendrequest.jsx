@@ -11,6 +11,8 @@ import {
     remove,
 } from "firebase/database";
 import { useSelector } from "react-redux";
+import {MdOutlineDownloadDone} from "react-icons/md"
+import {RxCross2} from "react-icons/rx"
 
 const Friendrequest = () => {
     const db = getDatabase();
@@ -65,7 +67,7 @@ const Friendrequest = () => {
                             size="small"
                             variant="contained"
                         >
-                            Accept
+                            <MdOutlineDownloadDone/>
                         </Button>
                         <Button
                             onClick={() => handelReject(item)}
@@ -73,7 +75,7 @@ const Friendrequest = () => {
                             size="small"
                             variant="contained"
                         >
-                            reject
+                            <RxCross2/>
                         </Button>
                     </div>
                 </div>

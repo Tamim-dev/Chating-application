@@ -12,6 +12,10 @@ import {
 } from "firebase/database";
 import { getAuth } from "firebase/auth";
 import { useSelector } from "react-redux";
+import {BsPersonFillAdd} from "react-icons/bs"
+import {MdPersonRemoveAlt1,MdPending} from "react-icons/md"
+import {FaUserFriends} from "react-icons/fa"
+import {ImBlocked} from "react-icons/im"
 
 const Userlist = () => {
     let [userList, setUserList] = useState([]);
@@ -110,21 +114,21 @@ const Userlist = () => {
                         ) ? (
                             <Button
                                 onClick={() => handelcencel(item)}
-                                className="btncolor"
+                                className="btncolorerror"
                                 size="small"
                                 variant="contained"
                             >
-                                cencel
+                                <MdPersonRemoveAlt1/>
                             </Button>
                         ) : friendRequest.includes(
                               auth.currentUser.uid + item.id
                           ) ? (
                             <Button
-                                className="btncolor"
+                                className="btncolorunfriend"
                                 size="small"
                                 variant="contained"
                             >
-                                pending
+                                <MdPending/>
                             </Button>
                         ) : friends.includes(
                               auth.currentUser.uid + item.id
@@ -134,7 +138,7 @@ const Userlist = () => {
                                 size="small"
                                 variant="contained"
                             >
-                                Friend
+                                <FaUserFriends/>
                             </Button>
                         ) : block.includes(
                             auth.currentUser.uid + item.id
@@ -144,7 +148,7 @@ const Userlist = () => {
                               size="small"
                               variant="contained"
                           >
-                              Block
+                              <ImBlocked/>
                           </Button>
                         ) : (
                             <Button
@@ -153,7 +157,7 @@ const Userlist = () => {
                                 size="small"
                                 variant="contained"
                             >
-                                +
+                                <BsPersonFillAdd/>
                             </Button>
                         )}
                     </div>
