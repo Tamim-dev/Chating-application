@@ -77,7 +77,9 @@ const Chatbox = () => {
         });
     }, []);
 
-    
+    if (chatData == null) {
+        return;
+    }
 
     useEffect(() => {
         onValue(ref(db, "singlmsg/"), (snapshot) => {
@@ -132,7 +134,7 @@ const Chatbox = () => {
                         setMeg("");
                         setShowEmoji(false);
                     });
-                } else if(chatData.type == "singlemsg"){
+                } else if (chatData.type == "singlemsg") {
                     set(push(ref(db, "groupmsg")), {
                         getmegid: chatData.id,
                         getmegname: chatData.name,
@@ -146,7 +148,7 @@ const Chatbox = () => {
                         setMeg("");
                         setShowEmoji(false);
                     });
-                }else{
+                } else {
                     set(push(ref(db, "mymsg")), {
                         getmegid: chatData.id,
                         getmegname: chatData.name,
@@ -209,7 +211,7 @@ const Chatbox = () => {
                                 new Date().getMonth() + 1
                             }-${new Date().getDate()} ${new Date().getHours()}:${new Date().getMinutes()}`,
                         });
-                    }else{
+                    } else {
                         set(push(ref(db, "mymsg")), {
                             getmegid: chatData.id,
                             getmegname: chatData.name,
