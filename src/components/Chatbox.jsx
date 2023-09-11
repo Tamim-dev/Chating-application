@@ -24,7 +24,7 @@ import {
 } from "firebase/storage";
 import { BiImage } from "react-icons/bi";
 import { BsEmojiSmileFill } from "react-icons/bs";
-import { MdOutlineCancel } from "react-icons/md";
+import { MdOutlineCancel, MdOutlineDownloadDone } from "react-icons/md";
 import CircularProgress from "@mui/material/CircularProgress";
 import EmojiPicker from "emoji-picker-react";
 import { AudioRecorder } from "react-audio-voice-recorder";
@@ -144,7 +144,7 @@ const Chatbox = () => {
                             date: `${new Date().getFullYear()}-${
                                 new Date().getMonth() + 1
                             }-${new Date().getDate()} ${new Date().getHours()}:${new Date().getMinutes()}`,
-                        })
+                        });
                     } else {
                         set(push(ref(db, "groupmsg")), {
                             getmegid: chatData.id,
@@ -155,7 +155,7 @@ const Chatbox = () => {
                             date: `${new Date().getFullYear()}-${
                                 new Date().getMonth() + 1
                             }-${new Date().getDate()} ${new Date().getHours()}:${new Date().getMinutes()}`,
-                        })
+                        });
                     }
                 });
             }
@@ -402,11 +402,15 @@ const Chatbox = () => {
                 />
                 {audiourl && (
                     <div className="audiourl">
+                        <Button variant="text" size="medium" color="success">
+                            <MdOutlineDownloadDone className="audioicon" />
+                        </Button>
                         <audio controls></audio>
                         <Button
                             variant="text"
                             size="medium"
                             onClick={() => setAudiourl("")}
+                            color="error"
                         >
                             <MdOutlineCancel className="audioicon" />
                         </Button>
