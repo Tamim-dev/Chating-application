@@ -10,20 +10,20 @@ import {
     push,
     remove,
 } from "firebase/database";
-import { useSelector,useDispatch } from "react-redux";
-import {activeChat} from "../slices/activeChat/activeChatSlice"
-import {ImBlocked} from "react-icons/im"
-import {AiOutlineUserDelete}from "react-icons/ai"
-import {LuMessagesSquare}from "react-icons/lu"
+import { useSelector, useDispatch } from "react-redux";
+import { activeChat } from "../slices/activeChat/activeChatSlice";
+import { ImBlocked } from "react-icons/im";
+import { AiOutlineUserDelete } from "react-icons/ai";
+import { LuMessagesSquare } from "react-icons/lu";
 
-const Friends = ({button}) => {
+const Friends = ({ button }) => {
     const db = getDatabase();
-    let dispatch =useDispatch()
+    let dispatch = useDispatch();
     let userData = useSelector((state) => state.loggedUser.loginUser);
+    let chatData = useSelector((state) => state.activeChat.activeChat);
     let [friends, setFriends] = useState([]);
 
     useEffect(() => {
-    
         onValue(ref(db, "friends/"), (snapshot) => {
             let arr = [];
             snapshot.forEach((item) => {
@@ -35,28 +35,38 @@ const Friends = ({button}) => {
                 }
             });
             setFriends(arr);
-            if(userData.uid == arr[0].receiverid){
-                dispatch(activeChat({
-                    type: "singlemsg",
-                    name: arr[0].sendername,
-                    id:arr[0].senderid
-                }))
-                localStorage.setItem("activeChat" ,JSON.stringify({
-                    type: "singlemsg",
-                    name: arr[0].sendername,
-                    id:arr[0].senderid
-                }))
-            }else{
-                dispatch(activeChat({
-                    type: "singlemsg",
-                    name: arr[0].receivername,
-                    id:arr[0].receiverid
-                }))
-                localStorage.setItem("activeChat" ,JSON.stringify({
-                    type: "singlemsg",
-                    name: arr[0].receivername,
-                    id:arr[0].receiverid
-                }))
+            if (userData.uid == arr[0].receiverid) {
+                dispatch(
+                    activeChat({
+                        type: "singlemsg",
+                        name: arr[0].sendername,
+                        id: arr[0].senderid,
+                    })
+                );
+                localStorage.setItem(
+                    "activeChat",
+                    JSON.stringify({
+                        type: "singlemsg",
+                        name: arr[0].sendername,
+                        id: arr[0].senderid,
+                    })
+                );
+            } else {
+                dispatch(
+                    activeChat({
+                        type: "singlemsg",
+                        name: arr[0].receivername,
+                        id: arr[0].receiverid,
+                    })
+                );
+                localStorage.setItem(
+                    "activeChat",
+                    JSON.stringify({
+                        type: "singlemsg",
+                        name: arr[0].receivername,
+                        id: arr[0].receiverid,
+                    })
+                );
             }
         });
     }, []);
@@ -87,83 +97,97 @@ const Friends = ({button}) => {
         remove(ref(db, "friends/" + item.id));
     };
 
-    let handelMagBtn=(item)=>{
-        if(userData.uid == item.receiverid){
-            dispatch(activeChat({
-                type: "singlemsg",
-                name: item.sendername,
-                id:item.senderid
-            }))
-            localStorage.setItem("activeChat" ,JSON.stringify({
-                type: "singlemsg",
-                name: item.sendername,
-                id:item.senderid
-            }))
-        }else{
-            dispatch(activeChat({
-                type: "singlemsg",
-                name: item.receivername,
-                id:item.receiverid
-            }))
-            localStorage.setItem("activeChat" ,JSON.stringify({
-                type: "singlemsg",
-                name: item.receivername,
-                id:item.receiverid
-            }))
+    let handelMagBtn = (item) => {
+        if (userData.uid == item.receiverid) {
+            dispatch(
+                activeChat({
+                    type: "singlemsg",
+                    name: item.sendername,
+                    id: item.senderid,
+                })
+            );
+            localStorage.setItem(
+                "activeChat",
+                JSON.stringify({
+                    type: "singlemsg",
+                    name: item.sendername,
+                    id: item.senderid,
+                })
+            );
+        } else {
+            dispatch(
+                activeChat({
+                    type: "singlemsg",
+                    name: item.receivername,
+                    id: item.receiverid,
+                })
+            );
+            localStorage.setItem(
+                "activeChat",
+                JSON.stringify({
+                    type: "singlemsg",
+                    name: item.receivername,
+                    id: item.receiverid,
+                })
+            );
         }
-    }
+    };
 
     return (
         <div className="box">
             <div className="heading">
                 <h3 className="groupheading">Friends</h3>
             </div>
-            {friends.map((item, index) => (
-                <div key={index} className="list">
-                    <div className="profileImg">
-                        <Image className="imgprofile" imgsrc={profile} />
-                    </div>
-                    <div className="profileName">
-                        {item.receiverid == userData.uid ? (
-                            <h3>{item.sendername}</h3>
-                        ) : (
-                            <h3>{item.receivername}</h3>
-                        )}
-                        <p>Hi Guys, Wassup!</p>
-                    </div>
-                    <div className="friendsBtn">
-                        {button == "mag" ? (
-                            <Button
-                                onClick={()=>handelMagBtn(item)}
-                                className="btncolor"
-                                size="small"
-                                variant="contained"
-                            >
-                            <LuMessagesSquare/>
-                            </Button>
-                        ) : (
-                            <>
+            {chatData != null ? (
+                friends.map((item, index) => (
+                    <div key={index} className="list">
+                        <div className="profileImg">
+                            <Image className="imgprofile" imgsrc={profile} />
+                        </div>
+                        <div className="profileName">
+                            {item.receiverid == userData.uid ? (
+                                <h3>{item.sendername}</h3>
+                            ) : (
+                                <h3>{item.receivername}</h3>
+                            )}
+                            <p>Hi Guys, Wassup!</p>
+                        </div>
+                        <div className="friendsBtn">
+                            {button == "mag" ? (
                                 <Button
-                                    onClick={() => handelUnfriend(item)}
-                                    className="btncolorunfriend"
+                                    onClick={() => handelMagBtn(item)}
+                                    className="btncolor"
                                     size="small"
                                     variant="contained"
                                 >
-                                    <AiOutlineUserDelete/>
+                                    <LuMessagesSquare />
                                 </Button>
-                                <Button
-                                    onClick={() => handelBlcok(item)}
-                                    className="btncolorerror"
-                                    size="small"
-                                    variant="contained"
-                                >
-                                    <ImBlocked/>
-                                </Button>
-                            </>
-                        )}
+                            ) : (
+                                <>
+                                    <Button
+                                        onClick={() => handelUnfriend(item)}
+                                        className="btncolorunfriend"
+                                        size="small"
+                                        variant="contained"
+                                    >
+                                        <AiOutlineUserDelete />
+                                    </Button>
+                                    <Button
+                                        onClick={() => handelBlcok(item)}
+                                        className="btncolorerror"
+                                        size="small"
+                                        variant="contained"
+                                    >
+                                        <ImBlocked />
+                                    </Button>
+                                </>
+                            )}
+                        </div>
                     </div>
-                </div>
-            ))}
+                ))
+            ) : (
+                <p className="nogroup">No friend available</p>
+            )}
         </div>
     );
 };

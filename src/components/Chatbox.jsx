@@ -27,8 +27,7 @@ import { MdOutlineCancel, MdOutlineDownloadDone } from "react-icons/md";
 import CircularProgress from "@mui/material/CircularProgress";
 import EmojiPicker from "emoji-picker-react";
 import { AudioRecorder } from "react-audio-voice-recorder";
-import { useSelector, useDispatch } from "react-redux";
-import { activeChat } from "./slices/activeChat/activeChatSlice";
+import { useSelector } from "react-redux";
 
 const Chatbox = () => {
     const db = getDatabase();
@@ -42,7 +41,6 @@ const Chatbox = () => {
     let chatData = useSelector((state) => state.activeChat.activeChat);
     let userData = useSelector((state) => state.loggedUser.loginUser);
     const [progress, setProgress] = React.useState(0);
-    let dispatch = useDispatch();
 
     const addAudioElement = (blob) => {
         const url = URL.createObjectURL(blob);
@@ -50,35 +48,8 @@ const Chatbox = () => {
         console.log(blob.type);
     };
 
-    useEffect(() => {
-        onValue(ref(db, "users/"), (snapshot) => {
-            let arr = [];
-            snapshot.forEach((item) => {
-                if (item.key == userData.uid) {
-                    arr.push({ ...item.val(), id: item.key });
-                }
-            });
-
-            dispatch(
-                activeChat({
-                    type: "mymsg",
-                    name: arr[0].username,
-                    id: arr[0].id,
-                })
-            );
-            localStorage.setItem(
-                "activeChat",
-                JSON.stringify({
-                    type: "mymsg",
-                    name: arr[0].username,
-                    id: arr[0].id,
-                })
-            );
-        });
-    }, []);
-
-    if (chatData == null) {
-        return;
+    if(chatData == null){
+        return
     }
 
     useEffect(() => {
@@ -199,7 +170,7 @@ const Chatbox = () => {
                             date: `${new Date().getFullYear()}-${
                                 new Date().getMonth() + 1
                             }-${new Date().getDate()} ${new Date().getHours()}:${new Date().getMinutes()}`,
-                        })
+                        });
                     } else {
                         set(push(ref(db, "groupmsg")), {
                             getmegid: chatData.id,
@@ -210,7 +181,7 @@ const Chatbox = () => {
                             date: `${new Date().getFullYear()}-${
                                 new Date().getMonth() + 1
                             }-${new Date().getDate()} ${new Date().getHours()}:${new Date().getMinutes()}`,
-                        })
+                        });
                     }
                 });
             }
