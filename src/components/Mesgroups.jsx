@@ -24,7 +24,6 @@ const Mesgroups = () => {
                 arr.push({ ...item.val(), groupId: item.key });
             });
             setGroups(arr);
-            console.log(arr);
         });
 
         // ==== members data ==== //

@@ -34,22 +34,22 @@ const Chatbox = () => {
     const storage = getStorage();
     let [meg, setMeg] = useState("");
     let [meglist, setMegList] = useState([]);
-    let [mylist, setMyList] = useState([]);
     let [groupmeglist, setGroupMegList] = useState([]);
     let [showemoji, setShowEmoji] = useState(false);
     let [audiourl, setAudiourl] = useState("");
+    let [audiourlup, setAudiourlup] = useState("");
     let chatData = useSelector((state) => state.activeChat.activeChat);
     let userData = useSelector((state) => state.loggedUser.loginUser);
-    const [progress, setProgress] = React.useState(0);
+    const [progress, setProgress] = useState(0);
 
     const addAudioElement = (blob) => {
         const url = URL.createObjectURL(blob);
-        setAudiourl(blob);
-        console.log(blob.type);
+        setAudiourl(url);
+        setAudiourlup(blob);
     };
 
-    if(chatData == null){
-        return
+    if (chatData == null) {
+        return;
     }
 
     useEffect(() => {
@@ -75,13 +75,6 @@ const Chatbox = () => {
             });
             setGroupMegList(arr);
         });
-        onValue(ref(db, "mymsg/"), (snapshot) => {
-            let arr = [];
-            snapshot.forEach((item) => {
-                arr.push(item.val());
-            });
-            setMyList(arr);
-        });
     }, [chatData.id]);
 
     let handleMeg = (e) => {
@@ -105,22 +98,8 @@ const Chatbox = () => {
                         setMeg("");
                         setShowEmoji(false);
                     });
-                } else if (chatData.type == "singlemsg") {
-                    set(push(ref(db, "groupmsg")), {
-                        getmegid: chatData.id,
-                        getmegname: chatData.name,
-                        sendmegid: userData.uid,
-                        sendmegname: userData.displayName,
-                        meg: meg,
-                        date: `${new Date().getFullYear()}-${
-                            new Date().getMonth() + 1
-                        }-${new Date().getDate()} ${new Date().getHours()}:${new Date().getMinutes()}`,
-                    }).then(() => {
-                        setMeg("");
-                        setShowEmoji(false);
-                    });
                 } else {
-                    set(push(ref(db, "mymsg")), {
+                    set(push(ref(db, "groupmsg")), {
                         getmegid: chatData.id,
                         getmegname: chatData.name,
                         sendmegid: userData.uid,
@@ -139,7 +118,7 @@ const Chatbox = () => {
     };
 
     let handelFile = (e) => {
-        // console.log(e.target.files[0]);
+        console.log(e.target.files[0].type);
         const storageRef = imgref(storage, `${e.target.files[0].name}`);
         const uploadTask = uploadBytesResumable(storageRef, e.target.files[0]);
         uploadTask.on(
@@ -159,29 +138,54 @@ const Chatbox = () => {
             () => {
                 getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
                     setProgress(0);
-
-                    if (chatData.type == "singlemsg") {
-                        set(push(ref(db, "singlmsg")), {
-                            getmegid: chatData.id,
-                            getmegname: chatData.name,
-                            sendmegid: userData.uid,
-                            sendmegname: userData.displayName,
-                            img: downloadURL,
-                            date: `${new Date().getFullYear()}-${
-                                new Date().getMonth() + 1
-                            }-${new Date().getDate()} ${new Date().getHours()}:${new Date().getMinutes()}`,
-                        });
+                    if (e.target.files[0].type == "image/jpeg") {
+                        if (chatData.type == "singlemsg") {
+                            set(push(ref(db, "singlmsg")), {
+                                getmegid: chatData.id,
+                                getmegname: chatData.name,
+                                sendmegid: userData.uid,
+                                sendmegname: userData.displayName,
+                                img: downloadURL,
+                                date: `${new Date().getFullYear()}-${
+                                    new Date().getMonth() + 1
+                                }-${new Date().getDate()} ${new Date().getHours()}:${new Date().getMinutes()}`,
+                            });
+                        } else {
+                            set(push(ref(db, "groupmsg")), {
+                                getmegid: chatData.id,
+                                getmegname: chatData.name,
+                                sendmegid: userData.uid,
+                                sendmegname: userData.displayName,
+                                img: downloadURL,
+                                date: `${new Date().getFullYear()}-${
+                                    new Date().getMonth() + 1
+                                }-${new Date().getDate()} ${new Date().getHours()}:${new Date().getMinutes()}`,
+                            });
+                        }
                     } else {
-                        set(push(ref(db, "groupmsg")), {
-                            getmegid: chatData.id,
-                            getmegname: chatData.name,
-                            sendmegid: userData.uid,
-                            sendmegname: userData.displayName,
-                            img: downloadURL,
-                            date: `${new Date().getFullYear()}-${
-                                new Date().getMonth() + 1
-                            }-${new Date().getDate()} ${new Date().getHours()}:${new Date().getMinutes()}`,
-                        });
+                        if (chatData.type == "singlemsg") {
+                            set(push(ref(db, "singlmsg")), {
+                                getmegid: chatData.id,
+                                getmegname: chatData.name,
+                                sendmegid: userData.uid,
+                                sendmegname: userData.displayName,
+                                video: downloadURL,
+                                date: `${new Date().getFullYear()}-${
+                                    new Date().getMonth() + 1
+                                }-${new Date().getDate()} ${new Date().getHours()}:${new Date().getMinutes()}`,
+                            });
+                        } else {
+                            set(push(ref(db, "groupmsg")), {
+                                getmegid: chatData.id,
+                                getmegname: chatData.name,
+                                sendmegid: userData.uid,
+                                sendmegname: userData.displayName,
+                                video: downloadURL,
+                                date: `${new Date().getFullYear()}-${
+                                    new Date().getMonth() + 1
+                                }-${new Date().getDate()} ${new Date().getHours()}:${new Date().getMinutes()}`,
+                            });
+                        }
                     }
                 });
             }
@@ -204,22 +208,8 @@ const Chatbox = () => {
                     setMeg("");
                     setShowEmoji(false);
                 });
-            } else if (chatData.type == "groupmsg") {
-                set(push(ref(db, "groupmsg")), {
-                    getmegid: chatData.id,
-                    getmegname: chatData.name,
-                    sendmegid: userData.uid,
-                    sendmegname: userData.displayName,
-                    meg: meg,
-                    date: `${new Date().getFullYear()}-${
-                        new Date().getMonth() + 1
-                    }-${new Date().getDate()} ${new Date().getHours()}:${new Date().getMinutes()}`,
-                }).then(() => {
-                    setMeg("");
-                    setShowEmoji(false);
-                });
             } else {
-                set(push(ref(db, "mymsg")), {
+                set(push(ref(db, "groupmsg")), {
                     getmegid: chatData.id,
                     getmegname: chatData.name,
                     sendmegid: userData.uid,
@@ -240,6 +230,50 @@ const Chatbox = () => {
         setMeg(meg + emo.emoji);
     };
 
+    let handelAudio = () => {
+        const storageRef = imgref(storage, audiourl);
+        const uploadTask = uploadBytesResumable(storageRef, audiourlup);
+        uploadTask.on(
+            "state_changed",
+            (snapshot) => {
+                const progress =
+                    (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                setProgress(progress);
+            },
+            (error) => {},
+            () => {
+                getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+                    setProgress(0);
+
+                    if (chatData.type == "singlemsg") {
+                        set(push(ref(db, "singlmsg")), {
+                            getmegid: chatData.id,
+                            getmegname: chatData.name,
+                            sendmegid: userData.uid,
+                            sendmegname: userData.displayName,
+                            audio: downloadURL,
+                            date: `${new Date().getFullYear()}-${
+                                new Date().getMonth() + 1
+                            }-${new Date().getDate()} ${new Date().getHours()}:${new Date().getMinutes()}`,
+                        });
+                    } else {
+                        set(push(ref(db, "groupmsg")), {
+                            getmegid: chatData.id,
+                            getmegname: chatData.name,
+                            sendmegid: userData.uid,
+                            sendmegname: userData.displayName,
+                            audio: downloadURL,
+                            date: `${new Date().getFullYear()}-${
+                                new Date().getMonth() + 1
+                            }-${new Date().getDate()} ${new Date().getHours()}:${new Date().getMinutes()}`,
+                        });
+                    }
+                });
+            }
+        );
+        setAudiourl("");
+    };
+
     return (
         <div className="boxs">
             <div className="chatprofile">
@@ -253,21 +287,38 @@ const Chatbox = () => {
 
             <div className="chattext">
                 {chatData.type == "singlemsg"
-                    ? meglist.map((item) =>
+                    ? meglist.map((item, index) =>
                           item.sendmegid == userData.uid &&
                           item.getmegid == chatData.id ? (
-                              <div className="sendmess">
+                              <div key={index} className="sendmess">
                                   {item.meg ? (
                                       <p className="sendchattextmes sendbox3 sendsb14">
                                           {item.meg}
                                       </p>
-                                  ) : (
+                                  ) : item.img ? (
                                       <div>
                                           <ModalImage
                                               className="sendimg"
                                               small={item.img}
                                               large={item.img}
                                           />
+                                      </div>
+                                  ) : item.audio ? (
+                                      <div>
+                                          <audio
+                                              src={item.audio}
+                                              style={{ marginTop: "2px" }}
+                                              controls
+                                          ></audio>
+                                      </div>
+                                  ) : (
+                                      <div className="sendmess">
+                                          <video
+                                              src={item.video}
+                                              width="360"
+                                              height="240"
+                                              controls
+                                          ></video>
                                       </div>
                                   )}
                                   <p className="chattime">
@@ -285,13 +336,30 @@ const Chatbox = () => {
                                           <p className="chattextmes box3 sb14">
                                               {item.meg}
                                           </p>
-                                      ) : (
+                                      ) : item.img ? (
                                           <div>
                                               <ModalImage
                                                   className="sendimg"
                                                   small={item.img}
                                                   large={item.img}
                                               />
+                                          </div>
+                                      ) : item.audio ? (
+                                          <div>
+                                              <audio
+                                                  src={item.audio}
+                                                  style={{ marginTop: "2px" }}
+                                                  controls
+                                              ></audio>
+                                          </div>
+                                      ) : (
+                                          <div>
+                                              <video
+                                                  src={item.video}
+                                                  width="360"
+                                                  height="240"
+                                                  controls
+                                              ></video>
                                           </div>
                                       )}
                                       <p className="chattime">
@@ -304,22 +372,38 @@ const Chatbox = () => {
                               )
                           )
                       )
-                    : chatData.type == "groupmsg"
-                    ? groupmeglist.map((item) =>
+                    : groupmeglist.map((item, index) =>
                           item.sendmegid == userData.uid &&
                           item.getmegid == chatData.id ? (
-                              <div className="sendmess">
+                              <div key={index} className="sendmess">
                                   {item.meg ? (
                                       <p className="sendchattextmes sendbox3 sendsb14">
                                           {item.meg}
                                       </p>
-                                  ) : (
+                                  ) : item.img ? (
                                       <div>
                                           <ModalImage
                                               className="sendimg"
                                               small={item.img}
                                               large={item.img}
                                           />
+                                      </div>
+                                  ) : item.audio ? (
+                                      <div>
+                                          <audio
+                                              src={item.audio}
+                                              style={{ marginTop: "2px" }}
+                                              controls
+                                          ></audio>
+                                      </div>
+                                  ) : (
+                                      <div className="sendmess">
+                                          <video
+                                              src={item.video}
+                                              width="360"
+                                              height="240"
+                                              controls
+                                          ></video>
                                       </div>
                                   )}
                                   <p className="chattime">
@@ -336,13 +420,30 @@ const Chatbox = () => {
                                           <p className="chattextmes box3 sb14">
                                               {item.meg}
                                           </p>
-                                      ) : (
+                                      ) : item.img ? (
                                           <div>
                                               <ModalImage
                                                   className="sendimg"
                                                   small={item.img}
                                                   large={item.img}
                                               />
+                                          </div>
+                                      ) : item.audio ? (
+                                          <div>
+                                              <audio
+                                                  src={item.audio}
+                                                  style={{ marginTop: "2px" }}
+                                                  controls
+                                              ></audio>
+                                          </div>
+                                      ) : (
+                                          <div>
+                                              <video
+                                                  src={item.video}
+                                                  width="360"
+                                                  height="240"
+                                                  controls
+                                              ></video>
                                           </div>
                                       )}
                                       <p className="chattime">
@@ -358,30 +459,7 @@ const Chatbox = () => {
                                   </div>
                               )
                           )
-                      )
-                    : mylist.map((item) => (
-                          <div className="sendmess">
-                              {item.meg ? (
-                                  <p className="sendchattextmes sendbox3 sendsb14">
-                                      {item.meg}
-                                  </p>
-                              ) : (
-                                  <div>
-                                      <ModalImage
-                                          className="sendimg"
-                                          small={item.img}
-                                          large={item.img}
-                                      />
-                                  </div>
-                              )}
-                              <p className="chattime">
-                                  {moment(
-                                      item.date,
-                                      "YYYYMMDD hh:mm"
-                                  ).fromNow()}
-                              </p>
-                          </div>
-                      ))}
+                      )}
                 {/*
                 <div>
                     <ModalImage
@@ -466,10 +544,15 @@ const Chatbox = () => {
                 />
                 {audiourl && (
                     <div className="audiourl">
-                        <Button variant="text" size="medium" color="success">
+                        <Button
+                            variant="text"
+                            size="medium"
+                            color="success"
+                            onClick={handelAudio}
+                        >
                             <MdOutlineDownloadDone className="audioicon" />
                         </Button>
-                        <audio controls></audio>
+                        <audio src={audiourl} controls></audio>
                         <Button
                             variant="text"
                             size="medium"
