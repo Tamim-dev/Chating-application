@@ -6,7 +6,6 @@ import profile from "../assets/profile.png";
 import ModalImage from "react-modal-image";
 import { Button } from "@mui/material";
 import { RiSendPlaneFill } from "react-icons/ri";
-import { useSelector } from "react-redux";
 import {
     getDatabase,
     ref,
@@ -28,24 +27,59 @@ import { MdOutlineCancel, MdOutlineDownloadDone } from "react-icons/md";
 import CircularProgress from "@mui/material/CircularProgress";
 import EmojiPicker from "emoji-picker-react";
 import { AudioRecorder } from "react-audio-voice-recorder";
+import { useSelector, useDispatch } from "react-redux";
+import { activeChat } from "./slices/activeChat/activeChatSlice";
 
 const Chatbox = () => {
     const db = getDatabase();
     const storage = getStorage();
     let [meg, setMeg] = useState("");
     let [meglist, setMegList] = useState([]);
+    let [mylist, setMyList] = useState([]);
     let [groupmeglist, setGroupMegList] = useState([]);
     let [showemoji, setShowEmoji] = useState(false);
     let [audiourl, setAudiourl] = useState("");
     let chatData = useSelector((state) => state.activeChat.activeChat);
     let userData = useSelector((state) => state.loggedUser.loginUser);
     const [progress, setProgress] = React.useState(0);
+    let dispatch = useDispatch();
 
     const addAudioElement = (blob) => {
         const url = URL.createObjectURL(blob);
         setAudiourl(blob);
         console.log(blob.type);
     };
+
+    useEffect(() => {
+        onValue(ref(db, "users/"), (snapshot) => {
+            let arr = [];
+            snapshot.forEach((item) => {
+                if (item.key == userData.uid) {
+                    arr.push({ ...item.val(), id: item.key });
+                }
+            });
+
+            dispatch(
+                activeChat({
+                    type: "mymsg",
+                    name: arr[0].username,
+                    id: arr[0].id,
+                })
+            );
+            localStorage.setItem(
+                "activeChat",
+                JSON.stringify({
+                    type: "mymsg",
+                    name: arr[0].username,
+                    id: arr[0].id,
+                })
+            );
+        });
+    }, []);
+
+    if (chatData == null) {
+        return;
+    }
 
     useEffect(() => {
         onValue(ref(db, "singlmsg/"), (snapshot) => {
@@ -70,6 +104,13 @@ const Chatbox = () => {
             });
             setGroupMegList(arr);
         });
+        onValue(ref(db, "mymsg/"), (snapshot) => {
+            let arr = [];
+            snapshot.forEach((item) => {
+                arr.push(item.val());
+            });
+            setMyList(arr);
+        });
     }, [chatData.id]);
 
     let handleMeg = (e) => {
@@ -93,8 +134,22 @@ const Chatbox = () => {
                         setMeg("");
                         setShowEmoji(false);
                     });
-                } else {
+                } else if (chatData.type == "singlemsg") {
                     set(push(ref(db, "groupmsg")), {
+                        getmegid: chatData.id,
+                        getmegname: chatData.name,
+                        sendmegid: userData.uid,
+                        sendmegname: userData.displayName,
+                        meg: meg,
+                        date: `${new Date().getFullYear()}-${
+                            new Date().getMonth() + 1
+                        }-${new Date().getDate()} ${new Date().getHours()}:${new Date().getMinutes()}`,
+                    }).then(() => {
+                        setMeg("");
+                        setShowEmoji(false);
+                    });
+                } else {
+                    set(push(ref(db, "mymsg")), {
                         getmegid: chatData.id,
                         getmegname: chatData.name,
                         sendmegid: userData.uid,
@@ -144,7 +199,7 @@ const Chatbox = () => {
                             date: `${new Date().getFullYear()}-${
                                 new Date().getMonth() + 1
                             }-${new Date().getDate()} ${new Date().getHours()}:${new Date().getMinutes()}`,
-                        });
+                        })
                     } else {
                         set(push(ref(db, "groupmsg")), {
                             getmegid: chatData.id,
@@ -155,7 +210,7 @@ const Chatbox = () => {
                             date: `${new Date().getFullYear()}-${
                                 new Date().getMonth() + 1
                             }-${new Date().getDate()} ${new Date().getHours()}:${new Date().getMinutes()}`,
-                        });
+                        })
                     }
                 });
             }
@@ -178,8 +233,22 @@ const Chatbox = () => {
                     setMeg("");
                     setShowEmoji(false);
                 });
-            } else {
+            } else if (chatData.type == "groupmsg") {
                 set(push(ref(db, "groupmsg")), {
+                    getmegid: chatData.id,
+                    getmegname: chatData.name,
+                    sendmegid: userData.uid,
+                    sendmegname: userData.displayName,
+                    meg: meg,
+                    date: `${new Date().getFullYear()}-${
+                        new Date().getMonth() + 1
+                    }-${new Date().getDate()} ${new Date().getHours()}:${new Date().getMinutes()}`,
+                }).then(() => {
+                    setMeg("");
+                    setShowEmoji(false);
+                });
+            } else {
+                set(push(ref(db, "mymsg")), {
                     getmegid: chatData.id,
                     getmegname: chatData.name,
                     sendmegid: userData.uid,
@@ -264,7 +333,8 @@ const Chatbox = () => {
                               )
                           )
                       )
-                    : groupmeglist.map((item) =>
+                    : chatData.type == "groupmsg"
+                    ? groupmeglist.map((item) =>
                           item.sendmegid == userData.uid &&
                           item.getmegid == chatData.id ? (
                               <div className="sendmess">
@@ -317,7 +387,30 @@ const Chatbox = () => {
                                   </div>
                               )
                           )
-                      )}
+                      )
+                    : mylist.map((item) => (
+                          <div className="sendmess">
+                              {item.meg ? (
+                                  <p className="sendchattextmes sendbox3 sendsb14">
+                                      {item.meg}
+                                  </p>
+                              ) : (
+                                  <div>
+                                      <ModalImage
+                                          className="sendimg"
+                                          small={item.img}
+                                          large={item.img}
+                                      />
+                                  </div>
+                              )}
+                              <p className="chattime">
+                                  {moment(
+                                      item.date,
+                                      "YYYYMMDD hh:mm"
+                                  ).fromNow()}
+                              </p>
+                          </div>
+                      ))}
                 {/*
                 <div>
                     <ModalImage

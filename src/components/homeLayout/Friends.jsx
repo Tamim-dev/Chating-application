@@ -23,6 +23,7 @@ const Friends = ({button}) => {
     let [friends, setFriends] = useState([]);
 
     useEffect(() => {
+    
         onValue(ref(db, "friends/"), (snapshot) => {
             let arr = [];
             snapshot.forEach((item) => {

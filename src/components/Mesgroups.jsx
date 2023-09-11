@@ -38,7 +38,7 @@ const Mesgroups = () => {
                 arr.push(item.val());
             });
             setGroupMembers(arr);
-        });
+        })
     }, []);
 
     let handelMagBtn=(item)=>{
