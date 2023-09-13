@@ -5,6 +5,7 @@ import {
     createRoutesFromElements,
     Link,
 } from "react-router-dom";
+import React,{useState} from "react";
 import Resgistration from "./pages/Resgistration";
 import Login from "./pages/Login";
 import Home from "./pages/Home";
@@ -32,6 +33,7 @@ const router = createBrowserRouter(
     )
 );
 function App() {
+   
     return (
         <>
             <RouterProvider router={router} />

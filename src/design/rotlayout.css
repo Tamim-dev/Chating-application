@@ -79,3 +79,15 @@
     border-radius: 10px 0 0 10px;
 }
 
+.img-preview{
+    width: 100px !important;
+    height: 100px !important;
+    border-radius: 50% !important;
+    overflow: hidden;
+}
+
+/* .cropper-crop-box{
+    width: 100px !important;
+    height: 100px !important;
+    border-radius: 50% !important;
+} */
