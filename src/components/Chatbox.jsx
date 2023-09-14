@@ -28,6 +28,7 @@ import CircularProgress from "@mui/material/CircularProgress";
 import EmojiPicker from "emoji-picker-react";
 import { AudioRecorder } from "react-audio-voice-recorder";
 import { useSelector } from "react-redux";
+import ScrollableFeed from "react-scrollable-feed";
 
 const Chatbox = () => {
     const db = getDatabase();
@@ -64,13 +65,8 @@ const Chatbox = () => {
                     </div>
                 </div>
                 <div className="chatinputbox">
-                    <input
-                        className="chatinput"
-                    />
-                    <Button
-                        className="chatbtn"
-                        variant="contained"
-                    >
+                    <input className="chatinput" />
+                    <Button className="chatbtn" variant="contained">
                         <RiSendPlaneFill />
                     </Button>
                 </div>
@@ -312,54 +308,14 @@ const Chatbox = () => {
             </div>
 
             <div className="chattext">
-                {chatData.type == "singlemsg"
-                    ? meglist.map((item, index) =>
-                          item.sendmegid == userData.uid &&
-                          item.getmegid == chatData.id ? (
-                              <div key={index} className="sendmess">
-                                  {item.meg ? (
-                                      <p className="sendchattextmes sendbox3 sendsb14">
-                                          {item.meg}
-                                      </p>
-                                  ) : item.img ? (
-                                      <div>
-                                          <ModalImage
-                                              className="sendimg"
-                                              small={item.img}
-                                              large={item.img}
-                                          />
-                                      </div>
-                                  ) : item.audio ? (
-                                      <div>
-                                          <audio
-                                              src={item.audio}
-                                              style={{ marginTop: "2px" }}
-                                              controls
-                                          ></audio>
-                                      </div>
-                                  ) : (
-                                      <div className="sendmess">
-                                          <video
-                                              src={item.video}
-                                              width="360"
-                                              height="240"
-                                              controls
-                                          ></video>
-                                      </div>
-                                  )}
-                                  <p className="chattime">
-                                      {moment(
-                                          item.date,
-                                          "YYYYMMDD hh:mm"
-                                      ).fromNow()}
-                                  </p>
-                              </div>
-                          ) : (
-                              item.sendmegid == chatData.id &&
-                              item.getmegid == userData.uid && (
-                                  <div>
+                <ScrollableFeed>
+                    {chatData.type == "singlemsg"
+                        ? meglist.map((item, index) =>
+                              item.sendmegid == userData.uid &&
+                              item.getmegid == chatData.id ? (
+                                  <div key={index} className="sendmess">
                                       {item.meg ? (
-                                          <p className="chattextmes box3 sb14">
+                                          <p className="sendchattextmes sendbox3 sendsb14">
                                               {item.meg}
                                           </p>
                                       ) : item.img ? (
@@ -379,7 +335,7 @@ const Chatbox = () => {
                                               ></audio>
                                           </div>
                                       ) : (
-                                          <div>
+                                          <div className="sendmess">
                                               <video
                                                   src={item.video}
                                                   width="360"
@@ -395,55 +351,58 @@ const Chatbox = () => {
                                           ).fromNow()}
                                       </p>
                                   </div>
+                              ) : (
+                                  item.sendmegid == chatData.id &&
+                                  item.getmegid == userData.uid && (
+                                      <div>
+                                          {item.meg ? (
+                                              <p className="chattextmes box3 sb14">
+                                                  {item.meg}
+                                              </p>
+                                          ) : item.img ? (
+                                              <div>
+                                                  <ModalImage
+                                                      className="sendimg"
+                                                      small={item.img}
+                                                      large={item.img}
+                                                  />
+                                              </div>
+                                          ) : item.audio ? (
+                                              <div>
+                                                  <audio
+                                                      src={item.audio}
+                                                      style={{
+                                                          marginTop: "2px",
+                                                      }}
+                                                      controls
+                                                  ></audio>
+                                              </div>
+                                          ) : (
+                                              <div>
+                                                  <video
+                                                      src={item.video}
+                                                      width="360"
+                                                      height="240"
+                                                      controls
+                                                  ></video>
+                                              </div>
+                                          )}
+                                          <p className="chattime">
+                                              {moment(
+                                                  item.date,
+                                                  "YYYYMMDD hh:mm"
+                                              ).fromNow()}
+                                          </p>
+                                      </div>
+                                  )
                               )
                           )
-                      )
-                    : groupmeglist.map((item, index) =>
-                          item.sendmegid == userData.uid &&
-                          item.getmegid == chatData.id ? (
-                              <div key={index} className="sendmess">
-                                  {item.meg ? (
-                                      <p className="sendchattextmes sendbox3 sendsb14">
-                                          {item.meg}
-                                      </p>
-                                  ) : item.img ? (
-                                      <div>
-                                          <ModalImage
-                                              className="sendimg"
-                                              small={item.img}
-                                              large={item.img}
-                                          />
-                                      </div>
-                                  ) : item.audio ? (
-                                      <div>
-                                          <audio
-                                              src={item.audio}
-                                              style={{ marginTop: "2px" }}
-                                              controls
-                                          ></audio>
-                                      </div>
-                                  ) : (
-                                      <div className="sendmess">
-                                          <video
-                                              src={item.video}
-                                              width="360"
-                                              height="240"
-                                              controls
-                                          ></video>
-                                      </div>
-                                  )}
-                                  <p className="chattime">
-                                      {moment(
-                                          item.date,
-                                          "YYYYMMDD hh:mm"
-                                      ).fromNow()}
-                                  </p>
-                              </div>
-                          ) : (
-                              item.getmegid == chatData.id && (
-                                  <div>
+                        : groupmeglist.map((item, index) =>
+                              item.sendmegid == userData.uid &&
+                              item.getmegid == chatData.id ? (
+                                  <div key={index} className="sendmess">
                                       {item.meg ? (
-                                          <p className="chattextmes box3 sb14">
+                                          <p className="sendchattextmes sendbox3 sendsb14">
                                               {item.meg}
                                           </p>
                                       ) : item.img ? (
@@ -463,7 +422,7 @@ const Chatbox = () => {
                                               ></audio>
                                           </div>
                                       ) : (
-                                          <div>
+                                          <div className="sendmess">
                                               <video
                                                   src={item.video}
                                                   width="360"
@@ -473,19 +432,64 @@ const Chatbox = () => {
                                           </div>
                                       )}
                                       <p className="chattime">
-                                          <span style={{ color: "#262626" }}>
-                                              {item.sendmegname}
-                                          </span>{" "}
-                                          by{" "}
                                           {moment(
                                               item.date,
                                               "YYYYMMDD hh:mm"
                                           ).fromNow()}
                                       </p>
                                   </div>
+                              ) : (
+                                  item.getmegid == chatData.id && (
+                                      <div>
+                                          {item.meg ? (
+                                              <p className="chattextmes box3 sb14">
+                                                  {item.meg}
+                                              </p>
+                                          ) : item.img ? (
+                                              <div>
+                                                  <ModalImage
+                                                      className="sendimg"
+                                                      small={item.img}
+                                                      large={item.img}
+                                                  />
+                                              </div>
+                                          ) : item.audio ? (
+                                              <div>
+                                                  <audio
+                                                      src={item.audio}
+                                                      style={{
+                                                          marginTop: "2px",
+                                                      }}
+                                                      controls
+                                                  ></audio>
+                                              </div>
+                                          ) : (
+                                              <div>
+                                                  <video
+                                                      src={item.video}
+                                                      width="360"
+                                                      height="240"
+                                                      controls
+                                                  ></video>
+                                              </div>
+                                          )}
+                                          <p className="chattime">
+                                              <span
+                                                  style={{ color: "#262626" }}
+                                              >
+                                                  {item.sendmegname}
+                                              </span>{" "}
+                                              by{" "}
+                                              {moment(
+                                                  item.date,
+                                                  "YYYYMMDD hh:mm"
+                                              ).fromNow()}
+                                          </p>
+                                      </div>
+                                  )
                               )
-                          )
-                      )}
+                          )}
+                </ScrollableFeed>
                 {/*
                 <div>
                     <ModalImage
