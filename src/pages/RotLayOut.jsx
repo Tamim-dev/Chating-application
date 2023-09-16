@@ -18,7 +18,8 @@ import "cropperjs/dist/cropper.css";
 import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
-import { getStorage, ref, uploadString } from "firebase/storage";
+import { getStorage, ref, uploadString,getDownloadURL } from "firebase/storage";
+import { getDatabase, ref as imgref, set } from "firebase/database";
 
 const style = {
     position: "absolute",
@@ -34,12 +35,13 @@ const style = {
 
 const RotLayOut = () => {
     const auth = getAuth();
+    const db = getDatabase();
     let navigate = useNavigate();
     let location = useLocation();
     const dispatch = useDispatch();
     let loginUser = useSelector((state) => state.loggedUser.loginUser);
     const storage = getStorage();
-  const storageRef = ref(storage, 'some-child');
+    const storageRef = ref(storage, "some-child");
     const [image, setImage] = useState(loginUser.photoURL);
     const [cropData, setCropData] = useState("#");
     const cropperRef = createRef();
@@ -70,9 +72,27 @@ const RotLayOut = () => {
             const message4 = cropperRef.current?.cropper
                 .getCroppedCanvas()
                 .toDataURL();
-            uploadString(storageRef, message4, 'data_url').then((snapshot) => {
-              console.log('Uploaded a data_url string!');
-              console.log(snapshot);
+            uploadString(storageRef, message4, "data_url").then((snapshot) => {
+                console.log("Uploaded a data_url string!");
+                getDownloadURL(snapshot.ref).then((downloadURL) => {
+                    console.log(downloadURL);
+                    set(imgref(db, "users/" + loginUser.uid), {
+                        username: loginUser.displayName,
+                        email: loginUser.email,
+                        profile_picture: downloadURL,
+                    })
+                        .then(() => {
+                            localStorage.setItem(
+                                "user",
+                                JSON.stringify({ ...loginUser, photoURL: downloadURL })
+                            );
+                            dispatch(userData({ ...loginUser, photoURL: downloadURL }));
+                        })
+                        .then(() => {
+                            setOpen(false);
+                            setImage("");
+                        });
+                });
             });
         }
     };
@@ -215,7 +235,7 @@ const RotLayOut = () => {
                             background={true}
                             responsive={true}
                             autoCropArea={1}
-                            checkOrientation={true} 
+                            checkOrientation={true}
                             guides={true}
                         />
                         <Button onClick={handleCropData}>Upload</Button>
