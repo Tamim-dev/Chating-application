@@ -12,10 +12,10 @@ import {
 } from "firebase/database";
 import { getAuth } from "firebase/auth";
 import { useSelector } from "react-redux";
-import {BsPersonFillAdd} from "react-icons/bs"
-import {MdPersonRemoveAlt1,MdPending} from "react-icons/md"
-import {FaUserFriends} from "react-icons/fa"
-import {ImBlocked} from "react-icons/im"
+import { BsPersonFillAdd } from "react-icons/bs";
+import { MdPersonRemoveAlt1, MdPending } from "react-icons/md";
+import { FaUserFriends } from "react-icons/fa";
+import { ImBlocked } from "react-icons/im";
 
 const Userlist = () => {
     let [userList, setUserList] = useState([]);
@@ -28,7 +28,6 @@ const Userlist = () => {
     let userData = useSelector((state) => state.loggedUser.loginUser);
 
     useEffect(() => {
-
         onValue(ref(db, "friendrequest/"), (snapshot) => {
             let arr = [];
             snapshot.forEach((item) => {
@@ -63,14 +62,12 @@ const Userlist = () => {
             });
             setblock(arr);
         });
-
     }, []);
 
-
     let handelFriendrequest = (item) => {
-        set(push(ref(db, "friendrequest/" )), {
+        set(push(ref(db, "friendrequest/")), {
             senderid: auth.currentUser.uid,
-            sendername: auth.currentUser.displayName, 
+            sendername: auth.currentUser.displayName,
             receiverid: item.id,
             receivername: item.username,
         });
@@ -114,49 +111,52 @@ const Userlist = () => {
                         ) ? (
                             <Button
                                 onClick={() => handelcencel(item)}
-                                className="btncolorerror"
+                                className="btncolorerror tooltip"
                                 size="small"
                                 variant="contained"
-                            >
-                                <MdPersonRemoveAlt1/>
+                            > 
+                            <span class="tooltiptext">cencel</span>
+                                <MdPersonRemoveAlt1 />
                             </Button>
                         ) : friendRequest.includes(
                               auth.currentUser.uid + item.id
                           ) ? (
                             <Button
-                                className="btncolorunfriend"
+                                className="btncolorunfriend tooltip"
                                 size="small"
                                 variant="contained"
                             >
-                                <MdPending/>
+                            <span class="tooltiptext">Pending</span>
+                                <MdPending />
                             </Button>
-                        ) : friends.includes(
-                              auth.currentUser.uid + item.id
-                          ) || friends.includes (item.id + auth.currentUser.uid) ? (
+                        ) : friends.includes(auth.currentUser.uid + item.id) ||
+                          friends.includes(item.id + auth.currentUser.uid) ? (
                             <Button
-                                className="btncolorsuccess"
+                                className="btncolorsuccess tooltip"
                                 size="small"
                                 variant="contained"
                             >
-                                <FaUserFriends/>
+                            <span class="tooltiptext">Friend</span>
+                                <FaUserFriends />
                             </Button>
-                        ) : block.includes(
-                            auth.currentUser.uid + item.id
-                        ) || block.includes (item.id + auth.currentUser.uid) ? (
-                          <Button
-                              className="btncolorerror"
-                              size="small"
-                              variant="contained"
-                          >
-                              <ImBlocked/>
-                          </Button>
+                        ) : block.includes(auth.currentUser.uid + item.id) ||
+                          block.includes(item.id + auth.currentUser.uid) ? (
+                            <Button
+                                className="btncolorerror tooltip"
+                                size="small"
+                                variant="contained"
+                            >
+                            <span class="tooltiptext">Blocked</span>
+                                <ImBlocked />
+                            </Button>
                         ) : (
                             <Button
                                 onClick={() => handelFriendrequest(item)}
-                                className="btncolor"
+                                className="btncolor tooltip"
                                 size="small"
                                 variant="contained"
                             >
+                            <span class="tooltiptext">Add Friend</span>
                                 <BsPersonFillAdd/>
                             </Button>
                         )}
