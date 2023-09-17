@@ -57,10 +57,11 @@ const Blockedusers = () => {
                     <div className="profileBtn">
                         <Button
                         onClick={()=>hadelUnBlock(item)}
-                            className="btncolorerror"
+                            className="btncolorerror tooltip"
                             size="small"
                             variant="contained"
                         >
+                        <span class="tooltiptext">Unblock</span>
                             <CgUnblock/>
                         </Button>
                     </div>

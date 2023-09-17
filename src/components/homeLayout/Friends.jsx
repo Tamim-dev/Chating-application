@@ -156,28 +156,31 @@ const Friends = ({ button }) => {
                             {button == "mag" ? (
                                 <Button
                                     onClick={() => handelMagBtn(item)}
-                                    className="btncolor"
+                                    className="btncolor tooltip"
                                     size="small"
                                     variant="contained"
                                 >
+                                <span class="tooltiptext">message</span>
                                     <LuMessagesSquare />
                                 </Button>
                             ) : (
                                 <>
                                     <Button
                                         onClick={() => handelUnfriend(item)}
-                                        className="btncolorunfriend"
+                                        className="btncolorunfriend tooltip"
                                         size="small"
                                         variant="contained"
                                     >
+                                    <span class="tooltiptext">Unfriend</span>
                                         <AiOutlineUserDelete />
                                     </Button>
                                     <Button
                                         onClick={() => handelBlcok(item)}
-                                        className="btncolorerror"
+                                        className="btncolorerror tooltip"
                                         size="small"
                                         variant="contained"
                                     >
+                                    <span class="tooltiptext">Block</span>
                                         <ImBlocked />
                                     </Button>
                                 </>

@@ -152,19 +152,21 @@ const Mygroups = () => {
                     </div>
                     <div className="friendsBtn">
                         <Button
-                            className="btncolor"
+                            className="btncolor tooltip"
                             size="small"
                             variant="contained"
                             onClick={() => handleOpen(item)}
                         >
+                        <span class="tooltiptext">request</span>
                             <AiOutlineUsergroupAdd/>
                         </Button>
                         <Button
                             onClick={() => handleOpen2(item)}
-                            className="btncolorsuccess"
+                            className="btncolorsuccess tooltip"
                             size="small"
                             variant="contained"
                         >
+                        <span class="tooltiptext">members</span>
                             <IoIosPeople/>
                         </Button>
                     </div>

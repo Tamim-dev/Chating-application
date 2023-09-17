@@ -251,27 +251,30 @@ const Group = () => {
                         {groupRequest.indexOf(item.groupId) != -1 ? (
                             <Button
                                 onClick={() => handelGroupJoinRemove(item)}
-                                className="btncolorunfriend"
+                                className="btncolorunfriend tooltip"
                                 size="small"
                                 variant="contained"
                             >
+                            <span class="tooltiptext">cencel</span>
                                 <AiOutlineUsergroupDelete/>
                             </Button>
                         ) : groupMembers.indexOf(item.groupId) != -1 ? (
                             <Button
-                                className="btncolorsuccess"
+                                className="btncolorsuccess tooltip"
                                 size="small"
                                 variant="contained"
                             >
+                            <span class="tooltiptext">joined</span>
                                 <IoIosPeople/>
                             </Button>
                         ) : (
                             <Button
-                                className="btncolor"
+                                className="btncolor tooltip"
                                 size="small"
                                 variant="contained"
                                 onClick={() => handelGroupJoin(item)}
                             >
+                            <span class="tooltiptext">join</span>
                                 <AiOutlineUsergroupAdd/>
                             </Button>
                         )}

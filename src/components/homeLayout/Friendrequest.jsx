@@ -63,18 +63,20 @@ const Friendrequest = () => {
                     <div className="btnflex">
                         <Button
                             onClick={() => handelAccept(item)}
-                            className="btncolor"
+                            className="btncolor tooltip"
                             size="small"
                             variant="contained"
                         >
+                        <span class="tooltiptext">accept</span>
                             <MdOutlineDownloadDone/>
                         </Button>
                         <Button
                             onClick={() => handelReject(item)}
-                            className="btncolorerror"
+                            className="btncolorerror tooltip"
                             size="small"
                             variant="contained"
                         >
+                        <span class="tooltiptext">delete</span>
                             <RxCross2/>
                         </Button>
                     </div>

@@ -96,11 +96,12 @@ const Mesgroups = () => {
                             </div>
                             <div className="friendsBtn">
                                 <Button
-                                    className="btncolor"
+                                    className="btncolor tooltip"
                                     size="small"
                                     variant="contained"
                                     onClick={() => handelMagBtn(item)}
                                 >
+                                <span class="tooltiptext">message</span>
                                     <LuMessagesSquare />
                                 </Button>
                             </div>
@@ -126,13 +127,14 @@ const Mesgroups = () => {
                                         </div>
                                         <div className="friendsBtn">
                                             <Button
-                                                className="btncolor"
+                                                className="btncolor tooltip"
                                                 size="small"
                                                 variant="contained"
                                                 onClick={() =>
                                                     handelMagBtn(item)
                                                 }
                                             >
+                                            <span class="tooltiptext">message</span>
                                                 <LuMessagesSquare />
                                             </Button>
                                         </div>

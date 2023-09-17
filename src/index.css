@@ -24,9 +24,11 @@
   font-size: 10px;
   right: 65px;
   border: 1px solid #00000064;
-  /* transition: 1s; */
+  opacity: 0;
+  transition: opacity .8s;
 }
 
 .tooltip:hover .tooltiptext {
   visibility: visible;
+  opacity: 1;
 }
