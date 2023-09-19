@@ -24,6 +24,7 @@ const Mesgroups = () => {
                 arr.push({ ...item.val(), groupId: item.key });
             });
             setGroups(arr);
+            console.log(arr, "gr");
         });
 
         // ==== members data ==== //
@@ -34,6 +35,7 @@ const Mesgroups = () => {
                 arr.push(item.val());
             });
             setGroupMembers(arr);
+            console.log(arr, "grm");
         });
     }, []);
 
@@ -77,74 +79,67 @@ const Mesgroups = () => {
             <div className="heading">
                 <h3 className="groupheading">Groups</h3>
             </div>
-            {chatData != null ? (
-                groups.map((item, index) =>
-                    userData.uid == item.adminId ? (
-                        <div key={index} className="list">
-                            <div className="profileImg">
-                                <Image
-                                    className="imgprofile"
-                                    imgsrc={profile}
-                                />
-                            </div>
-                            <div className="profileName">
-                                <p style={{ fontSize: "10px" }}>
-                                    Admin: {item.adminName}
-                                </p>
-                                <h3>{item.groupName}</h3>
-                                <p>{item.groupTagline}</p>
-                            </div>
-                            <div className="friendsBtn">
-                                <Button
-                                    className="btncolor tooltip"
-                                    size="small"
-                                    variant="contained"
-                                    onClick={() => handelMagBtn(item)}
-                                >
-                                <span class="tooltiptext">message</span>
-                                    <LuMessagesSquare />
-                                </Button>
-                            </div>
+            {groups.map((item, index) =>
+                userData.uid == item.adminId ? (
+                    <div key={index} className="list">
+                        <div className="profileImg">
+                            <Image className="imgprofile" imgsrc={profile} />
                         </div>
-                    ) : (
-                        groupMembers.map(
-                            (mes) =>
-                                mes.userId == userData.uid &&
-                                item.groupId == mes.groupId && (
-                                    <div key={index} className="list">
-                                        <div className="profileImg">
-                                            <Image
-                                                className="imgprofile"
-                                                imgsrc={profile}
-                                            />
-                                        </div>
-                                        <div className="profileName">
-                                            <p style={{ fontSize: "10px" }}>
-                                                Admin: {mes.adminName}
-                                            </p>
-                                            <h3>{mes.groupName}</h3>
-                                            <p>{mes.groupTagline}</p>
-                                        </div>
-                                        <div className="friendsBtn">
-                                            <Button
-                                                className="btncolor tooltip"
-                                                size="small"
-                                                variant="contained"
-                                                onClick={() =>
-                                                    handelMagBtn(item)
-                                                }
-                                            >
-                                            <span class="tooltiptext">message</span>
-                                                <LuMessagesSquare />
-                                            </Button>
-                                        </div>
+                        <div className="profileName">
+                            <p style={{ fontSize: "10px" }}>
+                                Admin: {item.adminName}
+                            </p>
+                            <h3>{item.groupName}</h3>
+                            <p>{item.groupTagline}</p>
+                        </div>
+                        <div className="friendsBtn">
+                            <Button
+                                className="btncolor tooltip"
+                                size="small"
+                                variant="contained"
+                                onClick={() => handelMagBtn(item)}
+                            >
+                                <span class="tooltiptext">message</span>
+                                <LuMessagesSquare />
+                            </Button>
+                        </div>
+                    </div>
+                ) : (
+                    groupMembers.map(
+                        (mes) =>
+                            mes.userId == userData.uid &&
+                            item.groupId == mes.groupId && (
+                                <div key={index} className="list">
+                                    <div className="profileImg">
+                                        <Image
+                                            className="imgprofile"
+                                            imgsrc={profile}
+                                        />
                                     </div>
-                                )
-                        )
+                                    <div className="profileName">
+                                        <p style={{ fontSize: "10px" }}>
+                                            Admin: {mes.adminName}
+                                        </p>
+                                        <h3>{mes.groupName}</h3>
+                                        <p>{mes.groupTagline}</p>
+                                    </div>
+                                    <div className="friendsBtn">
+                                        <Button
+                                            className="btncolor tooltip"
+                                            size="small"
+                                            variant="contained"
+                                            onClick={() => handelMagBtn(item)}
+                                        >
+                                            <span class="tooltiptext">
+                                                message
+                                            </span>
+                                            <LuMessagesSquare />
+                                        </Button>
+                                    </div>
+                                </div>
+                            )
                     )
                 )
-            ) : (
-                <p className="nogroup">No group available</p>
             )}
         </div>
     );

@@ -138,7 +138,7 @@ const Friends = ({ button }) => {
             <div className="heading">
                 <h3 className="groupheading">Friends</h3>
             </div>
-            {chatData != null ? (
+            {friends != "" ? (
                 friends.map((item, index) => (
                     <div key={index} className="list">
                         <div className="profileImg">
@@ -160,7 +160,7 @@ const Friends = ({ button }) => {
                                     size="small"
                                     variant="contained"
                                 >
-                                <span class="tooltiptext">message</span>
+                                    <span class="tooltiptext">message</span>
                                     <LuMessagesSquare />
                                 </Button>
                             ) : (
@@ -171,7 +171,9 @@ const Friends = ({ button }) => {
                                         size="small"
                                         variant="contained"
                                     >
-                                    <span class="tooltiptext">Unfriend</span>
+                                        <span class="tooltiptext">
+                                            Unfriend
+                                        </span>
                                         <AiOutlineUserDelete />
                                     </Button>
                                     <Button
@@ -180,7 +182,7 @@ const Friends = ({ button }) => {
                                         size="small"
                                         variant="contained"
                                     >
-                                    <span class="tooltiptext">Block</span>
+                                        <span class="tooltiptext">Block</span>
                                         <ImBlocked />
                                     </Button>
                                 </>
