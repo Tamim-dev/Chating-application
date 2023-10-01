@@ -179,6 +179,7 @@ const Login = () => {
                         <TextField
                             onChange={handleValues}
                             name="email"
+                            type="email"
                             value={values.email}
                             id="standard-basic"
                             label="Email Addres"

@@ -177,6 +177,7 @@ const Resgistration = () => {
                         <TextField
                             onChange={handleValues}
                             name="email"
+                            type="email"
                             value={values.email}
                             id="outlined-basic"
                             label="Email Address"

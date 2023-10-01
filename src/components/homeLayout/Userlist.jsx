@@ -10,7 +10,6 @@ import {
     push,
     remove,
 } from "firebase/database";
-import { getAuth } from "firebase/auth";
 import { useSelector } from "react-redux";
 import { BsPersonFillAdd } from "react-icons/bs";
 import { MdPersonRemoveAlt1, MdPending } from "react-icons/md";
@@ -23,7 +22,6 @@ const Userlist = () => {
     let [friends, setFriends] = useState([]);
     let [block, setblock] = useState([]);
     const db = getDatabase();
-    const auth = getAuth();
 
     let userData = useSelector((state) => state.loggedUser.loginUser);
 
@@ -66,8 +64,8 @@ const Userlist = () => {
 
     let handelFriendrequest = (item) => {
         set(push(ref(db, "friendrequest/")), {
-            senderid: auth.currentUser.uid,
-            sendername: auth.currentUser.displayName,
+            senderid: userData.uid,
+            sendername: userData.displayName,
             receiverid: item.id,
             receivername: item.username,
         });
@@ -107,7 +105,7 @@ const Userlist = () => {
                     </div>
                     <div className="profileBtn">
                         {friendRequest.includes(
-                            item.id + auth.currentUser.uid
+                            item.id + userData.uid
                         ) ? (
                             <Button
                                 onClick={() => handelcencel(item)}
@@ -119,7 +117,7 @@ const Userlist = () => {
                                 <MdPersonRemoveAlt1 />
                             </Button>
                         ) : friendRequest.includes(
-                              auth.currentUser.uid + item.id
+                            userData.uid+ item.id
                           ) ? (
                             <Button
                                 className="btncolorunfriend tooltip"
@@ -129,8 +127,8 @@ const Userlist = () => {
                             <span class="tooltiptext">Pending</span>
                                 <MdPending />
                             </Button>
-                        ) : friends.includes(auth.currentUser.uid + item.id) ||
-                          friends.includes(item.id + auth.currentUser.uid) ? (
+                        ) : friends.includes(userData.uid + item.id) ||
+                          friends.includes(item.id + userData.uid) ? (
                             <Button
                                 className="btncolorsuccess tooltip"
                                 size="small"
@@ -139,8 +137,8 @@ const Userlist = () => {
                             <span class="tooltiptext">Friend</span>
                                 <FaUserFriends />
                             </Button>
-                        ) : block.includes(auth.currentUser.uid + item.id) ||
-                          block.includes(item.id + auth.currentUser.uid) ? (
+                        ) : block.includes(userData.uid + item.id) ||
+                          block.includes(item.id + userData.uid) ? (
                             <Button
                                 className="btncolorerror tooltip"
                                 size="small"

@@ -249,7 +249,7 @@ const Chatbox = () => {
     };
 
     let handelEmoji = (emo) => {
-        setMeg(meg + emo.emoji);
+        setMeg((meg)=> meg+emo.emoji);
     };
 
     let handelAudio = () => {

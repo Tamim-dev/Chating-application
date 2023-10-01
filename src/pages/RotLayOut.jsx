@@ -128,6 +128,7 @@ const RotLayOut = () => {
                                 <img
                                     onClick={handleOpen}
                                     src={loginUser.photoURL}
+                                    style={{width:"80px",height:"80px",objectFit:"cover"}}
                                 />
                             </div>
                             <div className="displayname">
@@ -230,8 +231,8 @@ const RotLayOut = () => {
                             preview=".img-preview"
                             src={image}
                             viewMode={1}
-                            minCropBoxHeight={200}
-                            minCropBoxWidth={200}
+                            minCropBoxHeight={100}
+                            minCropBoxWidth={100}
                             background={true}
                             responsive={true}
                             autoCropArea={1}
