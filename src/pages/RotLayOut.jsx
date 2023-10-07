@@ -6,7 +6,7 @@ import profile from "../assets/profile.jpg";
 import { AiOutlineHome } from "react-icons/ai";
 import { BsFillChatDotsFill } from "react-icons/bs";
 import { MdOutlineNotificationsActive } from "react-icons/md";
-import { FiLogOut, FiSettings } from "react-icons/fi";
+import { FiLogOut, FiSettings,FiEdit } from "react-icons/fi";
 import { getAuth, signOut } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 import Button from "@mui/material/Button";
@@ -41,7 +41,7 @@ const RotLayOut = () => {
     const dispatch = useDispatch();
     let loginUser = useSelector((state) => state.loggedUser.loginUser);
     const storage = getStorage();
-    const storageRef = ref(storage, "some-child");
+    const storageRef = ref(storage, loginUser.uid);
     const [image, setImage] = useState(loginUser.photoURL);
     const [cropData, setCropData] = useState("#");
     const cropperRef = createRef();
@@ -73,7 +73,6 @@ const RotLayOut = () => {
                 .getCroppedCanvas()
                 .toDataURL();
             uploadString(storageRef, message4, "data_url").then((snapshot) => {
-                console.log("Uploaded a data_url string!");
                 getDownloadURL(snapshot.ref).then((downloadURL) => {
                     console.log(downloadURL);
                     set(imgref(db, "users/" + loginUser.uid), {
@@ -128,8 +127,9 @@ const RotLayOut = () => {
                                 <img
                                     onClick={handleOpen}
                                     src={loginUser.photoURL}
-                                    style={{width:"80px",height:"80px",objectFit:"cover"}}
+                                    style={{width:"70px",height:"70px",objectFit:"cover"}}
                                 />
+                                <FiEdit className="routediticon"/>
                             </div>
                             <div className="displayname">
                                 {loginUser.displayName}

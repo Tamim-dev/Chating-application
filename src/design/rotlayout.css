@@ -7,18 +7,29 @@
 }
 
 .routimg {
-    height: 10%;
-    top: 8px;
+    top: 10px;
     position: relative;
 }
 
+.routediticon {
+    position: absolute;
+    bottom: 2px;
+    right: 0px;
+    font-size: 20px;
+    background: #ffffff;
+    padding: 5px;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    box-sizing: border-box;
+}
+
 .displayname{
-    height: 10%;
     font-family: "Poppins", sans-serif;
     font-size: 16px;
     color: #fff;
     font-weight: 500;
-    margin: 20px 0;
+    margin: 20px 0 20px;
 }
 
 .routul{
