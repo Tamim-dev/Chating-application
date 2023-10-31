@@ -255,7 +255,7 @@ const Group = () => {
                                 size="small"
                                 variant="contained"
                             >
-                            <span class="tooltiptext">cencel</span>
+                            <span className="tooltiptext">cencel</span>
                                 <AiOutlineUsergroupDelete/>
                             </Button>
                         ) : groupMembers.indexOf(item.groupId) != -1 ? (
@@ -264,7 +264,7 @@ const Group = () => {
                                 size="small"
                                 variant="contained"
                             >
-                            <span class="tooltiptext">joined</span>
+                            <span className="tooltiptext">joined</span>
                                 <IoIosPeople/>
                             </Button>
                         ) : (
@@ -274,7 +274,7 @@ const Group = () => {
                                 variant="contained"
                                 onClick={() => handelGroupJoin(item)}
                             >
-                            <span class="tooltiptext">join</span>
+                            <span className="tooltiptext">join</span>
                                 <AiOutlineUsergroupAdd/>
                             </Button>
                         )}

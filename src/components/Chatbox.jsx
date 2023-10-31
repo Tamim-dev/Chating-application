@@ -310,10 +310,10 @@ const Chatbox = () => {
             <div className="chattext">
                 <ScrollableFeed>
                     {chatData.type == "singlemsg"
-                        ? meglist.map((item, index) =>
+                        ? meglist.map((item, i) =>
                               item.sendmegid == userData.uid &&
                               item.getmegid == chatData.id ? (
-                                  <div key={index} className="sendmess">
+                                  <div key={i} className="sendmess">
                                       {item.meg ? (
                                           <p className="sendchattextmes sendbox3 sendsb14">
                                               {item.meg}
@@ -354,7 +354,7 @@ const Chatbox = () => {
                               ) : (
                                   item.sendmegid == chatData.id &&
                                   item.getmegid == userData.uid && (
-                                      <div>
+                                      <div key={i}>
                                           {item.meg ? (
                                               <p className="chattextmes box3 sb14">
                                                   {item.meg}
@@ -397,10 +397,10 @@ const Chatbox = () => {
                                   )
                               )
                           )
-                        : groupmeglist.map((item, index) =>
+                        : groupmeglist.map((item, m) =>
                               item.sendmegid == userData.uid &&
                               item.getmegid == chatData.id ? (
-                                  <div key={index} className="sendmess">
+                                  <div key={m} className="sendmess">
                                       {item.meg ? (
                                           <p className="sendchattextmes sendbox3 sendsb14">
                                               {item.meg}
@@ -440,7 +440,7 @@ const Chatbox = () => {
                                   </div>
                               ) : (
                                   item.getmegid == chatData.id && (
-                                      <div>
+                                      <div key={m}>
                                           {item.meg ? (
                                               <p className="chattextmes box3 sb14">
                                                   {item.meg}
@@ -490,40 +490,7 @@ const Chatbox = () => {
                               )
                           )}
                 </ScrollableFeed>
-                {/*
-                <div>
-                    <ModalImage
-                        className="sendimg"
-                        small={resgisrationimg}
-                        large={resgisrationimg}
-                    />
-                    <p className="chattime">Today, 2:01pm</p>
-                </div>
-                <div className="sendmess">
-                    <ModalImage
-                        className="sendimg"
-                        small={resgisrationimg}
-                        large={resgisrationimg}
-                    />
-                    <p className="chattime">Today, 2:01pm</p>
-                </div>
                 
-                <div>
-                    <audio style={{ marginTop: "2px" }} controls></audio>
-                    <p className="chattime">Today, 2:01pm</p>
-                </div>
-                <div className="sendmess">
-                    <audio style={{ marginTop: "2px" }} controls></audio>
-                    <p className="chattime">Today, 2:01pm</p>
-                </div>
-                <div>
-                    <video width="360" height="240" controls></video>
-                    <p className="chattime">Today, 2:01pm</p>
-                </div>
-                <div className="sendmess">
-                    <video width="360" height="240" controls></video>
-                    <p className="chattime">Today, 2:01pm</p>
-                </div>*/}
             </div>
             <div className="chatinputbox">
                 <input

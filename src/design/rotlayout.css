@@ -9,6 +9,7 @@
 .routimg {
     top: 10px;
     position: relative;
+    cursor: pointer;
 }
 
 .routediticon {

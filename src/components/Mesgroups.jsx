@@ -14,7 +14,6 @@ const Mesgroups = () => {
     let [groupMembers, setGroupMembers] = useState([]);
 
     let userData = useSelector((state) => state.loggedUser.loginUser);
-    let chatData = useSelector((state) => state.activeChat.activeChat);
 
     useEffect(() => {
         // ==== groups data ==== //
@@ -24,7 +23,6 @@ const Mesgroups = () => {
                 arr.push({ ...item.val(), groupId: item.key });
             });
             setGroups(arr);
-            console.log(arr, "gr");
         });
 
         // ==== members data ==== //
@@ -35,7 +33,6 @@ const Mesgroups = () => {
                 arr.push(item.val());
             });
             setGroupMembers(arr);
-            console.log(arr, "grm");
         });
     }, []);
 
@@ -99,7 +96,7 @@ const Mesgroups = () => {
                                 variant="contained"
                                 onClick={() => handelMagBtn(item)}
                             >
-                                <span class="tooltiptext">message</span>
+                                <span className="tooltiptext">message</span>
                                 <LuMessagesSquare />
                             </Button>
                         </div>
@@ -130,7 +127,7 @@ const Mesgroups = () => {
                                             variant="contained"
                                             onClick={() => handelMagBtn(item)}
                                         >
-                                            <span class="tooltiptext">
+                                            <span className="tooltiptext">
                                                 message
                                             </span>
                                             <LuMessagesSquare />

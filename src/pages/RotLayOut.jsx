@@ -3,6 +3,7 @@ import { Link, Outlet, useLocation } from "react-router-dom";
 import { Grid } from "@mui/material";
 import rotlayout from "../design/rotlayout.css";
 import profile from "../assets/profile.jpg";
+import LoadingButton from "@mui/lab/LoadingButton";
 import { AiOutlineHome } from "react-icons/ai";
 import { BsFillChatDotsFill } from "react-icons/bs";
 import { MdOutlineNotificationsActive } from "react-icons/md";
@@ -48,6 +49,7 @@ const RotLayOut = () => {
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
     const [open, setOpen] = useState(false);
+    const [loading, setLoading] = useState(false);
 
     const onChange = (e) => {
         e.preventDefault();
@@ -65,6 +67,7 @@ const RotLayOut = () => {
     };
 
     const handleCropData = () => {
+        setLoading(true)
         if (typeof cropperRef.current?.cropper !== "undefined") {
             setCropData(
                 cropperRef.current?.cropper.getCroppedCanvas().toDataURL()
@@ -88,6 +91,7 @@ const RotLayOut = () => {
                             dispatch(userData({ ...loginUser, photoURL: downloadURL }));
                         })
                         .then(() => {
+                            setLoading(false)
                             setOpen(false);
                             setImage("");
                         });
@@ -129,7 +133,7 @@ const RotLayOut = () => {
                                     src={loginUser.photoURL}
                                     style={{width:"70px",height:"70px",objectFit:"cover"}}
                                 />
-                                <FiEdit className="routediticon"/>
+                                <FiEdit onClick={handleOpen} className="routediticon"/>
                             </div>
                             <div className="displayname">
                                 {loginUser.displayName}
@@ -239,7 +243,13 @@ const RotLayOut = () => {
                             checkOrientation={true}
                             guides={true}
                         />
+                        {loading ? <LoadingButton
+                            loading
+                        >
+                            Upload
+                        </LoadingButton> :
                         <Button onClick={handleCropData}>Upload</Button>
+                        }
                     </Typography>
                 </Box>
             </Modal>

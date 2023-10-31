@@ -157,7 +157,7 @@ const Mygroups = () => {
                             variant="contained"
                             onClick={() => handleOpen(item)}
                         >
-                        <span class="tooltiptext">request</span>
+                        <span className="tooltiptext">request</span>
                             <AiOutlineUsergroupAdd/>
                         </Button>
                         <Button
@@ -166,7 +166,7 @@ const Mygroups = () => {
                             size="small"
                             variant="contained"
                         >
-                        <span class="tooltiptext">members</span>
+                        <span className="tooltiptext">members</span>
                             <IoIosPeople/>
                         </Button>
                     </div>

@@ -61,7 +61,7 @@ const Blockedusers = () => {
                             size="small"
                             variant="contained"
                         >
-                        <span class="tooltiptext">Unblock</span>
+                        <span className="tooltiptext">Unblock</span>
                             <CgUnblock/>
                         </Button>
                     </div>

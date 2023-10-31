@@ -160,7 +160,7 @@ const Friends = ({ button }) => {
                                     size="small"
                                     variant="contained"
                                 >
-                                    <span class="tooltiptext">message</span>
+                                    <span className="tooltiptext">message</span>
                                     <LuMessagesSquare />
                                 </Button>
                             ) : (
@@ -171,7 +171,7 @@ const Friends = ({ button }) => {
                                         size="small"
                                         variant="contained"
                                     >
-                                        <span class="tooltiptext">
+                                        <span className="tooltiptext">
                                             Unfriend
                                         </span>
                                         <AiOutlineUserDelete />
@@ -182,7 +182,7 @@ const Friends = ({ button }) => {
                                         size="small"
                                         variant="contained"
                                     >
-                                        <span class="tooltiptext">Block</span>
+                                        <span className="tooltiptext">Block</span>
                                         <ImBlocked />
                                     </Button>
                                 </>

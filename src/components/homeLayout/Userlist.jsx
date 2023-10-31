@@ -113,7 +113,7 @@ const Userlist = () => {
                                 size="small"
                                 variant="contained"
                             > 
-                            <span class="tooltiptext">cencel</span>
+                            <span className="tooltiptext">cencel</span>
                                 <MdPersonRemoveAlt1 />
                             </Button>
                         ) : friendRequest.includes(
@@ -124,7 +124,7 @@ const Userlist = () => {
                                 size="small"
                                 variant="contained"
                             >
-                            <span class="tooltiptext">Pending</span>
+                            <span className="tooltiptext">Pending</span>
                                 <MdPending />
                             </Button>
                         ) : friends.includes(userData.uid + item.id) ||
@@ -134,7 +134,7 @@ const Userlist = () => {
                                 size="small"
                                 variant="contained"
                             >
-                            <span class="tooltiptext">Friend</span>
+                            <span className="tooltiptext">Friend</span>
                                 <FaUserFriends />
                             </Button>
                         ) : block.includes(userData.uid + item.id) ||
@@ -144,7 +144,7 @@ const Userlist = () => {
                                 size="small"
                                 variant="contained"
                             >
-                            <span class="tooltiptext">Blocked</span>
+                            <span className="tooltiptext">Blocked</span>
                                 <ImBlocked />
                             </Button>
                         ) : (
@@ -154,7 +154,7 @@ const Userlist = () => {
                                 size="small"
                                 variant="contained"
                             >
-                            <span class="tooltiptext">Add Friend</span>
+                            <span className="tooltiptext">Add Friend</span>
                                 <BsPersonFillAdd/>
                             </Button>
                         )}

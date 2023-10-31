@@ -18,12 +18,10 @@ const Friendrequest = () => {
     const db = getDatabase();
 
     let [reqList, setReqList] = useState([]);
-    let [empty, setEmpty] = useState();
     let userData = useSelector((state) => state.loggedUser.loginUser);
 
     useEffect(() => {
-        const usersRef = ref(db, "friendrequest/");
-        onValue(usersRef, (snapshot) => {
+        onValue(ref(db, "friendrequest/"), (snapshot) => {
             let arr = [];
             snapshot.forEach((item) => {
                 if (item.val().receiverid == userData.uid) {
@@ -67,7 +65,7 @@ const Friendrequest = () => {
                             size="small"
                             variant="contained"
                         >
-                        <span class="tooltiptext">accept</span>
+                        <span className="tooltiptext">accept</span>
                             <MdOutlineDownloadDone/>
                         </Button>
                         <Button
@@ -76,7 +74,7 @@ const Friendrequest = () => {
                             size="small"
                             variant="contained"
                         >
-                        <span class="tooltiptext">delete</span>
+                        <span className="tooltiptext">delete</span>
                             <RxCross2/>
                         </Button>
                     </div>
