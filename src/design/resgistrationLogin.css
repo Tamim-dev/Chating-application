@@ -81,11 +81,11 @@
     font-size: 20px;
     margin-top: 35px !important;
 }
-.alerterror{
+.alerterror {
     width: 336px;
 }
 
-.forgotpassword{
+.forgotpassword {
     background: #5f35f5;
     height: 100vh;
     display: flex;
@@ -93,7 +93,7 @@
     align-items: center;
 }
 
-.forgotpassword .box{
+.forgotpassword .box {
     background: #fff;
     padding: 45px;
     border-radius: 10px;
@@ -107,15 +107,32 @@
     margin: 45px 0 55px 0;
 }
 
-.forgotpassword .box .forgottitle{
+.forgotpassword .box .forgottitle {
     font-family: "Nunito", sans-serif;
     font-size: 34.4px;
     font-weight: 700;
     color: #11175d;
 }
 
-.forgotpassword .box .alertforgotpassword{
+.forgotpassword .box .alertforgotpassword {
     position: absolute;
     top: 196px;
 }
 
+@media screen and (max-width: 768px) {
+    .regisContainer {
+        width: 100%;
+        text-align: center;
+    }
+    .registrationImgcontainer {
+        display: none;
+    }
+    .textfield {
+        width: 100%;
+        margin-top: 34px;
+        position: relative;
+    }
+    .alreadyAccount{
+        margin-bottom: 40px;
+    }
+}

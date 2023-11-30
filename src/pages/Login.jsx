@@ -165,7 +165,7 @@ const Login = () => {
 
     return (
         <Grid container spacing={0}>
-            <Grid item xs={6}>
+            <Grid style={{width:"100%", margin:"0 auto"}} item xs={6}>
                 <div className="regisContainer">
                     <div>
                         <HadingText title="Login to your account!" />
@@ -262,7 +262,7 @@ const Login = () => {
                     </Alert>
                 </div>
             </Grid>
-            <Grid item xs={6}>
+            <Grid className="registrationImgcontainer" item xs={6}>
                 <Image className="registrationImg" imgsrc={loginimg} />
             </Grid>
         </Grid>
