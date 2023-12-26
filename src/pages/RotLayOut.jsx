@@ -7,7 +7,7 @@ import LoadingButton from "@mui/lab/LoadingButton";
 import { AiOutlineHome } from "react-icons/ai";
 import { BsFillChatDotsFill } from "react-icons/bs";
 import { MdOutlineNotificationsActive } from "react-icons/md";
-import { FiLogOut, FiSettings,FiEdit } from "react-icons/fi";
+import { FiLogOut, FiSettings, FiEdit } from "react-icons/fi";
 import { getAuth, signOut } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 import Button from "@mui/material/Button";
@@ -19,7 +19,12 @@ import "cropperjs/dist/cropper.css";
 import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
-import { getStorage, ref, uploadString,getDownloadURL } from "firebase/storage";
+import {
+    getStorage,
+    ref,
+    uploadString,
+    getDownloadURL,
+} from "firebase/storage";
 import { getDatabase, ref as imgref, set } from "firebase/database";
 
 const style = {
@@ -42,14 +47,25 @@ const RotLayOut = () => {
     const dispatch = useDispatch();
     let loginUser = useSelector((state) => state.loggedUser.loginUser);
     const storage = getStorage();
-    const storageRef = ref(storage, loginUser.uid);
-    const [image, setImage] = useState(loginUser.photoURL);
+    const storageRef = ref(storage, loginUser && loginUser.uid);
+    const [image, setImage] = useState(loginUser && loginUser.photoURL);
     const [cropData, setCropData] = useState("#");
     const cropperRef = createRef();
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
     const [open, setOpen] = useState(false);
     const [loading, setLoading] = useState(false);
+
+    useEffect(() => {
+        if (loginUser == null) {
+            navigate("/login");
+        }
+    }, [navigate]);
+
+    // if (loginUser == null) {
+    //     navigate("/login");
+    //     return;
+    // }
 
     const onChange = (e) => {
         e.preventDefault();
@@ -67,7 +83,7 @@ const RotLayOut = () => {
     };
 
     const handleCropData = () => {
-        setLoading(true)
+        setLoading(true);
         if (typeof cropperRef.current?.cropper !== "undefined") {
             setCropData(
                 cropperRef.current?.cropper.getCroppedCanvas().toDataURL()
@@ -86,12 +102,20 @@ const RotLayOut = () => {
                         .then(() => {
                             localStorage.setItem(
                                 "user",
-                                JSON.stringify({ ...loginUser, photoURL: downloadURL })
+                                JSON.stringify({
+                                    ...loginUser,
+                                    photoURL: downloadURL,
+                                })
                             );
-                            dispatch(userData({ ...loginUser, photoURL: downloadURL }));
+                            dispatch(
+                                userData({
+                                    ...loginUser,
+                                    photoURL: downloadURL,
+                                })
+                            );
                         })
                         .then(() => {
-                            setLoading(false)
+                            setLoading(false);
                             setOpen(false);
                             setImage("");
                         });
@@ -99,17 +123,6 @@ const RotLayOut = () => {
             });
         }
     };
-
-    useEffect(() => {
-        if (loginUser == null) {
-            navigate("/login");
-        }
-    }, []);
-
-    if (loginUser == null) {
-        navigate("/login");
-        return;
-    }
 
     let handelClick = () => {
         signOut(auth).then(() => {
@@ -130,13 +143,20 @@ const RotLayOut = () => {
                             <div className="routimg">
                                 <img
                                     onClick={handleOpen}
-                                    src={loginUser.photoURL}
-                                    style={{width:"70px",height:"70px",objectFit:"cover"}}
+                                    src={loginUser && loginUser.photoURL}
+                                    style={{
+                                        width: "70px",
+                                        height: "70px",
+                                        objectFit: "cover",
+                                    }}
                                 />
-                                <FiEdit onClick={handleOpen} className="routediticon"/>
+                                <FiEdit
+                                    onClick={handleOpen}
+                                    className="routediticon"
+                                />
                             </div>
                             <div className="displayname">
-                                {loginUser.displayName}
+                                {loginUser && loginUser.displayName}
                             </div>
                             <div className="routul">
                                 <ul>
@@ -243,13 +263,11 @@ const RotLayOut = () => {
                             checkOrientation={true}
                             guides={true}
                         />
-                        {loading ? <LoadingButton
-                            loading
-                        >
-                            Upload
-                        </LoadingButton> :
-                        <Button onClick={handleCropData}>Upload</Button>
-                        }
+                        {loading ? (
+                            <LoadingButton loading>Upload</LoadingButton>
+                        ) : (
+                            <Button onClick={handleCropData}>Upload</Button>
+                        )}
                     </Typography>
                 </Box>
             </Modal>

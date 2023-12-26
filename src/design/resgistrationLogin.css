@@ -45,6 +45,7 @@
     font-weight: 600;
     font-size: 20px;
     margin-top: 35px;
+    cursor: pointer;
 }
 
 .alreadyAccount {
@@ -132,7 +133,7 @@
         margin-top: 34px;
         position: relative;
     }
-    .alreadyAccount{
+    .alreadyAccount {
         margin-bottom: 40px;
     }
 }

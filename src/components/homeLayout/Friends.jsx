@@ -35,7 +35,7 @@ const Friends = ({ button }) => {
                 }
             });
             setFriends(arr);
-            if (userData.uid == arr[0].receiverid) {
+            if (userData.uid == arr[0] && arr[0].receiverid) {
                 dispatch(
                     activeChat({
                         type: "singlemsg",
@@ -55,16 +55,16 @@ const Friends = ({ button }) => {
                 dispatch(
                     activeChat({
                         type: "singlemsg",
-                        name: arr[0].receivername,
-                        id: arr[0].receiverid,
+                        name: arr[0] && arr[0].receivername,
+                        id: arr[0] && arr[0].receiverid,
                     })
                 );
                 localStorage.setItem(
                     "activeChat",
                     JSON.stringify({
                         type: "singlemsg",
-                        name: arr[0].receivername,
-                        id: arr[0].receiverid,
+                        name: arr[0] && arr[0].receivername,
+                        id: arr[0] && arr[0].receiverid,
                     })
                 );
             }
@@ -182,7 +182,9 @@ const Friends = ({ button }) => {
                                         size="small"
                                         variant="contained"
                                     >
-                                        <span className="tooltiptext">Block</span>
+                                        <span className="tooltiptext">
+                                            Block
+                                        </span>
                                         <ImBlocked />
                                     </Button>
                                 </>
